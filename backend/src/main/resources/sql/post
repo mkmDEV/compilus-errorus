@@ -4,7 +4,7 @@ CREATE TABLE post
 (
     id           serial  not null primary key,
     message      varchar not null,
-    posting_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    posting_date timestamp DEFAULT CURRENT_TIMESTAMP,
     likes        int default 0,
     dislikes     int default 0,
     image        varchar,

@@ -3,6 +3,8 @@ package com.codecool.compiluserrorus.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -23,15 +25,16 @@ public class Post {
     @Column(name = "message")
     private String message;
 
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "posting_date")
     private Date date;
 
     @Column(name = "likes")
-    private Integer likes;
+    private Integer likes = 0;
 
     @Column(name = "dislikes")
-    private Integer dislikes;
+    private Integer dislikes = 0;
 
     @Column(name = "image")
     private String image;
