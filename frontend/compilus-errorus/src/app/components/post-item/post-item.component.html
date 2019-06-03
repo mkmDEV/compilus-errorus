@@ -1,0 +1,12 @@
+<div class="post-item">
+  <h3>{{ post.username }}</h3>
+  <p class="date"><span>Date:</span> {{ post.date | date : "MMM d, y h:mm a" }}</p>
+  <img *ngIf="post.image != null" src="assets/img/{{post.image}}" alt="img">
+  <p class="message">{{ post.message }}</p>
+  <p class="thumbs">
+    <i class="material-icons thumb-up" (click)="voteUp(book)">thumb_up</i>
+    <span class="likes"> {{ post.likes }} </span>
+    <i class="material-icons thumb-down" (click)="voteDown(book)">thumb_down</i>
+    <span class="dislikes"> {{ post.dislikes }} </span>
+  </p>
+</div>
