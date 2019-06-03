@@ -4,7 +4,7 @@ CREATE TABLE post
 (
     id           serial  not null primary key,
     message      varchar not null,
-    posting_date date NOT NULL DEFAULT CURRENT_DATE,
+    posting_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     likes        int default 0,
     dislikes     int default 0,
     image        varchar,
@@ -13,3 +13,6 @@ CREATE TABLE post
 );
 
 INSERT INTO post (message, image, username) VALUES ('Ave Cesar!', null, 'Julius');
+INSERT INTO post (message, image, username) VALUES ('Ave Cesar!', null, 'Brutus');
+INSERT INTO post (message, image, username) VALUES ('Ave Cesar!', null, 'Marius');
+INSERT INTO post (message, image, username) VALUES ('Ave Cesar!', null, 'Octavius');
