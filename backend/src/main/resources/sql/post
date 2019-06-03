@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS post;
+
+CREATE TABLE post
+(
+    id           serial  not null primary key,
+    message      varchar not null,
+    posting_date date NOT NULL DEFAULT CURRENT_DATE,
+    likes        int default 0,
+    dislikes     int default 0,
+    image        varchar,
+    username     varchar
+
+);
+
+INSERT INTO post (message, image, username) VALUES ('Ave Cesar!', null, 'Julius');
