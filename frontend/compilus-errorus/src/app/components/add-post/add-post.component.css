@@ -1,0 +1,13 @@
+.add-post {
+    width: 70%;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #e6e6f4;
+    border: 1px solid #aaa;
+    box-shadow: 0 0 10px #aaa;
+}
+.add-post textarea {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
