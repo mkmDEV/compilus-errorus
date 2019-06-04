@@ -10,6 +10,7 @@ import { ContainerComponent } from './components/container/container.component';
 import { LeftComponent } from './components/left/left.component';
 import { RightComponent } from './components/right/right.component';
 import { HeaderComponent } from './components/header/header.component';
+import { AddPostComponent } from './components/add-post/add-post.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HeaderComponent } from './components/header/header.component';
     ContainerComponent,
     LeftComponent,
     RightComponent,
-    HeaderComponent
+    HeaderComponent,
+    AddPostComponent
   ],
   imports: [
     BrowserModule,
