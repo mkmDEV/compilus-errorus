@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { PostsService } from '../../services/posts.service';
+import {Component, OnInit} from '@angular/core';
+import {PostsService} from '../../services/posts.service';
 
 @Component({
   selector: 'app-add-post',
@@ -7,14 +7,15 @@ import { PostsService } from '../../services/posts.service';
   styleUrls: ['./add-post.component.css']
 })
 export class AddPostComponent implements OnInit {
-  selectedFile: File
+  selectedFile: File;
 
-  constructor(private postsService:PostsService) { }
+  constructor(private postsService: PostsService) {
+  }
 
   ngOnInit() {
   }
 
-  onFileChanged(event:any) {
+  onFileChanged(event: any) {
     this.selectedFile = event.target.files[0];
   }
 

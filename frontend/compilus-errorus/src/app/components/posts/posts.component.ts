@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Post } from '../../models/Post';
-import { PostsService } from '../../services/posts.service';
+import {Component, OnInit} from '@angular/core';
+import {Post} from '../../models/Post';
+import {PostsService} from '../../services/posts.service';
 
 
 @Component({
@@ -9,15 +9,16 @@ import { PostsService } from '../../services/posts.service';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
-  posts:Post[]
+  posts: Post[];
 
-  constructor(private postsService:PostsService) { }
+  constructor(private postsService: PostsService) {
+  }
 
   ngOnInit() {
     this.postsService.getPosts().subscribe(posts => {
       console.log(posts);
       this.posts = posts;
-    })
+    });
   }
 
 
