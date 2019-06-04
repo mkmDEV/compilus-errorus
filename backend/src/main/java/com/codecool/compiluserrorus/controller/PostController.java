@@ -18,13 +18,26 @@ public class PostController {
 
     @GetMapping
     public List<Post> getPosts() {
-        return postRepository.findAll();
+        return postRepository.getPostByOrderByDateDesc();
     }
 
     @PostMapping
     public Post addPost(@Valid @RequestBody Post post) {
         postRepository.save(post);
         return post;
+    }
+
+    @PutMapping("/{id}")
+    public Post update(@PathVariable("id") Long id, @RequestBody Post post) {
+        Post amendPost = postRepository.findById(id).orElse(null);
+        assert amendPost != null;
+        amendPost.setMessage(post.getMessage());
+        amendPost.setLikes(post.getLikes());
+        amendPost.setDislikes(post.getDislikes());
+        amendPost.setImage(post.getImage());
+
+        postRepository.save(amendPost);
+        return amendPost;
     }
 
 }
