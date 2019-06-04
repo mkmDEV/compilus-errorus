@@ -14,11 +14,13 @@ export class PostsComponent implements OnInit {
   constructor(private postsService:PostsService) { }
 
   ngOnInit() {
+    this.getPosts();
+  }
+
+  getPosts() {
     this.postsService.getPosts().subscribe(posts => {
-      console.log(posts);
       this.posts = posts;
     })
   }
-
 
 }

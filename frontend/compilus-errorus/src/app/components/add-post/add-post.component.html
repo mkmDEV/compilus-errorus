@@ -1,6 +1,18 @@
 <div class="add-post">
-  <textarea placeholder="Add your post here"></textarea>
-  <input type="file" (change)="onFileChanged($event)">
-  <button (click)="onUpload()">Attach image</button>
-  <button>Submit</button>
+    <h4>Add your post</h4>
+    <form class="form" (ngSubmit)="onSubmit()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" [(ngModel)]="username" name="username">
+        <label for="message">Message:</label>
+        <textarea [(ngModel)]="message" id="message" name="message" placeholder="What's on your mind?"></textarea>
+        <div class="image-choice"><i class="material-icons" (click)="onImageChoice($event)">add_photo_alternate</i>
+            <div id="add-photo-div" class="toggle show">
+                <input type="file" (change)="onFileChanged($event)">
+            </div>
+            <input type="submit" value="submit">
+        </div>
+        
+    </form>
+  
+  
 </div>

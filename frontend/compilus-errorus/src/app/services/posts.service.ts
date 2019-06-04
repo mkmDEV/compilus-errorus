@@ -20,10 +20,6 @@ export class PostsService {
   getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(this.postsUrl);
   }
-
-  savePost() {
-
-  }
   
   uploadImage(file:File): Observable<HttpEvent<{}>> {
     let formdata: FormData = new FormData();
@@ -31,5 +27,8 @@ export class PostsService {
     const req = new HttpRequest('POST', 'http://localhost:8080/upload', formdata);
     return this.http.request(req);
   }
-}
 
+  savePost(post:Post): Observable<Post> {
+    return this.http.post<Post>(this.postsUrl, post, httpOptions);
+  }
+}
