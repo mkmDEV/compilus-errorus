@@ -1,26 +1,27 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpEvent, HttpRequest } from '@angular/common/http';
-import { Post } from '../models/Post';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpEvent, HttpRequest} from '@angular/common/http';
+import {Post} from '../models/Post';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
   })
-} 
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostsService {
-  postsUrl:string = 'http://localhost:8080/posts';
+  postsUrl = 'http://localhost:8080/posts';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(this.postsUrl);
   }
-  
+
   uploadImage(file:File): Observable<HttpEvent<{}>> {
     let formdata: FormData = new FormData();
     formdata.append('file', file);

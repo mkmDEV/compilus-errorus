@@ -9,14 +9,13 @@ import { PostsComponent } from '../../components/posts/posts.component';
 })
 export class AddPostComponent implements OnInit {
 
-  selectedFile: File
-  message:string
-  username:string
-  image: string
+  selectedFile: File;
+  message:string;
+  username:string;
+  image: string;
 
-  constructor(
-    private postsService:PostsService
-    ) { }
+  constructor(private postsService:PostsService) {
+  }
 
   ngOnInit() {
   }
