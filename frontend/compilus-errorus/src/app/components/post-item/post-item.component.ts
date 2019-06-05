@@ -31,8 +31,8 @@ export class PostItemComponent implements OnInit {
     this.postService.deletePost(post).subscribe(() => location.reload());
   }
 
-  onEnter() {
-    const message = document.querySelector('.message');
+  onEnter(post: Post) {
+    const message = document.getElementById('' + post.id);
     message.setAttribute('contenteditable', 'false');
     this.post.message = message.textContent;
     this.postService.updatePost(this.post).subscribe(post => location.reload());

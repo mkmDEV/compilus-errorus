@@ -2,7 +2,7 @@
   	<h3><i class="material-icons">face</i> {{ post.username }}</h3>
   	<p class="date"><span>Date:</span> {{ post.date | date : "MMM d, y h:mm a" }}</p>
   	<img *ngIf="post.image != null" src="http://localhost:8080/image-resource/{{post.image}}" alt="img">
-  	<p id="{{post.id}}" class="message" (keydown.enter)="onEnter()">{{ post.message }}</p>
+  	<p id="{{post.id}}" class="message" (keydown.enter)="onEnter(post)">{{ post.message }}</p>
   	<p class="thumbs">
     	<i class="material-icons thumb-up" (click)="voteUp(post)">thumb_up</i>
     	<span class="likes"> {{ post.likes }} </span>
