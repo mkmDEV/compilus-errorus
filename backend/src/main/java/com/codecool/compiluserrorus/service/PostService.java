@@ -26,15 +26,15 @@ public class PostService {
     }
 
     public Post updatePost(Long id, Post post) {
-        Post editedPost = postRepository.findById(id).orElse(null);
-        assert editedPost != null;
-        editedPost.setMessage(post.getMessage());
-        editedPost.setLikes(post.getLikes());
-        editedPost.setDislikes(post.getDislikes());
-        editedPost.setImage(post.getImage());
+        Post amendPost = postRepository.findById(id).orElse(null);
+        assert amendPost != null;
+        amendPost.setMessage(post.getMessage());
+        amendPost.setLikes(post.getLikes());
+        amendPost.setDislikes(post.getDislikes());
+        amendPost.setImage(post.getImage());
 
-        postRepository.save(editedPost);
-        return editedPost;
+        postRepository.save(amendPost);
+        return amendPost;
     }
 
     public void deletePost(Long id) {
