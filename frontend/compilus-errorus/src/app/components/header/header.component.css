@@ -3,4 +3,8 @@ header {
     background-color: #464670;
     color: ghostwhite;
     padding: 10px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }

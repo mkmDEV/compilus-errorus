@@ -1,24 +1,31 @@
 .post-item {
     width: 70%;
     margin: 20px auto;
-    padding: 10px;
+    padding: 15px;
     background-color: #e6e6f4;
     border: 1px solid #aaa;
     box-shadow: 0 0 10px #aaa;
+}
+.post-item .user-image {
+    display: inline-block;
+    width: 50px;
+    height: 55px;
+    border-radius: 50%;
 }
 .date span {
     font-weight: bold;
     font-style: italic;
 }
 .post-item img {
-    width: 350px;
+    max-width: 70%;
     height: auto;
+    margin-bottom: 10px;
 }
 .message {
     font-size: 18px;
 }
 .thumb-up, .thumb-down, .trash, .edit {
-    font-size: 25px;
+    font-size: 35px;
     cursor: pointer;
 }
 .thumb-up {

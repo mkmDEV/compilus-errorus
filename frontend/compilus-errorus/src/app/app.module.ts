@@ -12,6 +12,9 @@ import {LeftComponent} from './components/left/left.component';
 import {RightComponent} from './components/right/right.component';
 import {HeaderComponent} from './components/header/header.component';
 import {AddPostComponent} from './components/add-post/add-post.component';
+import { EventsComponent } from './components/events/events.component';
+import { AdvertComponent } from './components/advert/advert.component';
+import { GroupsComponent } from './components/groups/groups.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +25,10 @@ import {AddPostComponent} from './components/add-post/add-post.component';
         LeftComponent,
         RightComponent,
         HeaderComponent,
-        AddPostComponent
+        AddPostComponent,
+        EventsComponent,
+        AdvertComponent,
+        GroupsComponent
     ],
     imports: [
         BrowserModule,
