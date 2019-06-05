@@ -1,5 +1,7 @@
 package com.codecool.compiluserrorus.controller;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,5 +24,11 @@ public class UploadController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/image-resource/{image}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public FileSystemResource getFile(@PathVariable("image") String fileName) {
+        return new FileSystemResource(UPLOADED_FOLDER + fileName);
     }
 }

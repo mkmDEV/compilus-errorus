@@ -36,7 +36,7 @@ export class AddPostComponent implements OnInit {
   onUpload() {
     if (this.selectedFile != null) {
       this.toggleVisibility();
-      this.postsService.uploadImage(this.selectedFile).subscribe(() => location.reload());
+      this.postsService.uploadImage(this.selectedFile).subscribe({ complete: () => location.reload()});
     }
   }
 
@@ -55,7 +55,7 @@ export class AddPostComponent implements OnInit {
         message: this.message,
         username: this.username
       }
-      this.postsService.savePost(post).subscribe(post => location.reload());
+      this.postsService.savePost(post).subscribe({ complete: () => location.reload()});
     }
   }
 }
