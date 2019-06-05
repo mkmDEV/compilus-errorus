@@ -32,4 +32,12 @@ export class PostsService {
   savePost(post:Post): Observable<Post> {
     return this.http.post<Post>(this.postsUrl, post, httpOptions);
   }
+
+  updatePost(post:Post): Observable<Post> {
+    return this.http.put<Post>(`${this.postsUrl}/${post.id}`, post, httpOptions);
+  }
+
+  deletePost(post:Post) {
+    return this.http.delete(`${this.postsUrl}/${post.id}`);
+  }
 }

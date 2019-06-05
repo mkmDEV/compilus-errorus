@@ -1,7 +1,7 @@
 export class Post {
     id:number
-    message:Date
-    date:string
+    message:string
+    date:Date
     likes:number
     dislikes:number
     image:string

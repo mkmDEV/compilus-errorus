@@ -36,7 +36,7 @@ export class AddPostComponent implements OnInit {
   onUpload() {
     if (this.selectedFile != null) {
       this.toggleVisibility();
-      this.postsService.uploadImage(this.selectedFile).subscribe();
+      this.postsService.uploadImage(this.selectedFile).subscribe(() => location.reload());
     }
   }
 
@@ -48,15 +48,14 @@ export class AddPostComponent implements OnInit {
         username: this.username,
         image: this.selectedFile.name
       }
+      this.postsService.savePost(post).subscribe(post => console.log(post));
+      this.onUpload();
     } else {
       post = {
         message: this.message,
         username: this.username
       }
+      this.postsService.savePost(post).subscribe(post => location.reload());
     }
-    this.postsService.savePost(post).subscribe(post => console.log(post));
-    this.message = null;
-    this.username = null;
-    this.onUpload();
   }
 }
