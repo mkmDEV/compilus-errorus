@@ -1,6 +1,6 @@
 <div class="add-post">
     <h4>Add your post</h4>
-    <form class="form" (ngSubmit)="onSubmit()">
+    <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
         <label for="username">Username:</label>
         <input type="text" id="username" [(ngModel)]="username" name="username">
         <label for="message">Message:</label>
