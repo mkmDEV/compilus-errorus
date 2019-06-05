@@ -1,7 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Post } from '../../models/Post';
-import { PostsService } from '../../services/posts.service';
-import { Key } from 'ts-keycode-enum';
+import {Component, OnInit, Input} from '@angular/core';
+import {Post} from '../../models/Post';
+import {PostsService} from '../../services/posts.service';
 
 @Component({
   selector: 'app-post-item',
@@ -11,7 +10,8 @@ import { Key } from 'ts-keycode-enum';
 export class PostItemComponent implements OnInit {
   @Input() post: Post;
 
-  constructor(private postService: PostsService) { }
+  constructor(private postService: PostsService) {
+  }
 
   ngOnInit() {
   }
@@ -26,22 +26,22 @@ export class PostItemComponent implements OnInit {
     this.postService.updatePost(this.post).subscribe(post => console.log(post));
   }
 
-  onDelete(post:Post) {
-    //delete photo
-    this.postService.deletePost(post).subscribe( () => location.reload());
+  onDelete(post: Post) {
+    // delete photo
+    this.postService.deletePost(post).subscribe(() => location.reload());
   }
 
   onEnter() {
-    let message = document.querySelector(".message");
-    message.setAttribute("contenteditable", "false");
+    const message = document.querySelector('.message');
+    message.setAttribute('contenteditable', 'false');
     this.post.message = message.textContent;
     this.postService.updatePost(this.post).subscribe(post => location.reload());
   }
 
-  onEdit(post:Post) {
-    let message = document.querySelector(".message");
-    message.setAttribute("contenteditable", "true");
-    message.classList.add("amend-message")
+  onEdit(post: Post) {
+    const message = document.getElementById('' + post.id);
+    message.setAttribute('contenteditable', 'true');
+    message.classList.add('amend-message');
   }
 
 }
