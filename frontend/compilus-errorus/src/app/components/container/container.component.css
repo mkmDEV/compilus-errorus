@@ -1,0 +1,13 @@
+.left {
+    background-color: ghostwhite;
+    position: absolute;
+    left: 0;
+    height: calc(100% - 50px);
+    overflow: auto;
+}
+.right {
+    background-color: #e6e6f4;
+    height: 100%;
+    position: fixed;
+    right: 0;
+}
