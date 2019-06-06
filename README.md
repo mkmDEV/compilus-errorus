@@ -1,3 +1,4 @@
-# compilus-errorus
+# Facies Liber
 ## Ancient Roman social network
-Java application with Angular frontend
+### by team Compilus Errorus
+Java web application with Angular frontend
