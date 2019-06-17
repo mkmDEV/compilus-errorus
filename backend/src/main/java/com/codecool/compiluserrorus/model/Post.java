@@ -18,6 +18,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String message;
 
     @CreationTimestamp
@@ -30,6 +31,7 @@ public class Post {
     private String image;
 
     @ManyToOne
+    @Column(nullable = false)
     private Member member;
 
     @Singular
@@ -38,6 +40,7 @@ public class Post {
     private Set<Comment> comments;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
     private PostType postType;
 
 }

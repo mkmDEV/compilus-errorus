@@ -18,10 +18,13 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String email;
 
     @CreationTimestamp
@@ -32,10 +35,15 @@ public class Member {
     @EqualsAndHashCode.Exclude
     private Set<Post> posts;
 
-    /*@Singular
+    @Singular
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @EqualsAndHashCode.Exclude
-    private Set<Comment> comments;*/
+    private Set<Comment> comments;
+
+    @Singular
+    @OneToMany(mappedBy = "creator", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @EqualsAndHashCode.Exclude
+    private Set<Comment> events;
 
     @Singular
     @ElementCollection
