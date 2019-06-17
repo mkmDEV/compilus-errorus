@@ -1,33 +1,33 @@
 package com.codecool.compiluserrorus.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import java.time.LocalDate;
 
-@Entity
-@Table(name = "post")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Builder
+@Table(name = "post")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
-    @Column(name = "message")
+    @Column(name = "message", nullable = false)
     private String message;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "posting_date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "likes")
     private Integer likes = 0;
