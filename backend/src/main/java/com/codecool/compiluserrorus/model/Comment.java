@@ -31,11 +31,9 @@ public class Comment {
     private Integer dislikes = 0;
 
     @ManyToOne
-    @Column(nullable = false)
     private Member member;
 
     @ManyToOne
-    @Column(nullable = false)
     private Post post;
 
 }

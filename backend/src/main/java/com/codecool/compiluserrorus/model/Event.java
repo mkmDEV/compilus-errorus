@@ -32,6 +32,5 @@ public class Event {
     private Set<Member> participants;
 
     @ManyToOne
-    @Column(nullable = false)
     private Member creator;
 }

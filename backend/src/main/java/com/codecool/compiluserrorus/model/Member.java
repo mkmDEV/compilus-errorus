@@ -41,7 +41,7 @@ public class Member {
     private Set<Comment> comments;
 
     @Singular
-    @OneToMany(mappedBy = "creator", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @EqualsAndHashCode.Exclude
     private Set<Comment> events;
 
