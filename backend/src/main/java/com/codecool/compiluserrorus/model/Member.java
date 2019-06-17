@@ -50,4 +50,14 @@ public class Member {
     @EqualsAndHashCode.Exclude
     private Set<Member> friends;
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", regDate=" + regDate +
+                '}';
+    }
 }

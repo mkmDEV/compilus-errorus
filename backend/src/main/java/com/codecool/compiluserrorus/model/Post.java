@@ -1,5 +1,6 @@
 package com.codecool.compiluserrorus.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -30,7 +31,8 @@ public class Post {
 
     private String image;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
     @Singular
@@ -42,4 +44,15 @@ public class Post {
     @Column(nullable = false)
     private PostType postType;
 
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", postingDate=" + postingDate +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

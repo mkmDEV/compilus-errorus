@@ -1,5 +1,6 @@
 package com.codecool.compiluserrorus.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,10 +31,22 @@ public class Comment {
 
     private Integer dislikes = 0;
 
+    @JsonIgnore
     @ManyToOne
     private Member member;
 
+    @JsonIgnore
     @ManyToOne
     private Post post;
 
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", postingDate=" + postingDate +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                '}';
+    }
 }

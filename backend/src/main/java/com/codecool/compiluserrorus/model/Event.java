@@ -1,5 +1,6 @@
 package com.codecool.compiluserrorus.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,6 +32,17 @@ public class Event {
     @EqualsAndHashCode.Exclude
     private Set<Member> participants;
 
+    @JsonIgnore
     @ManyToOne
     private Member creator;
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", eventTitle='" + eventTitle + '\'' +
+                ", description='" + description + '\'' +
+                ", eventDate=" + eventDate +
+                '}';
+    }
 }
