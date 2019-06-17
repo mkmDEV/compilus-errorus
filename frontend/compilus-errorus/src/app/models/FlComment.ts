@@ -1,15 +1,13 @@
 import { Member } from './Member';
-import { FlComment } from './FlComment';
+import { Post } from './Post';
 
-export class Post {
+export class FlComment {
+
     id: number;
     message: string;
     postingDate: Date;
-    romanDate: string;
     likes: number;
     dislikes: number;
-    image: string;
     member: Member;
-    postType: string;
-    comments: FlComment[];
+    post: Post;
 }
