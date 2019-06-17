@@ -1,18 +1,20 @@
 package com.codecool.compiluserrorus.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder
-public class Post {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,17 +29,10 @@ public class Post {
 
     private Integer dislikes = 0;
 
-    private String image;
-
     @ManyToOne
     private User user;
 
-    @Singular
-    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @EqualsAndHashCode.Exclude
-    private Set<Comment> comments;
-
-    @Enumerated(value = EnumType.STRING)
-    private PostType postType;
+    @ManyToOne
+    private Post post;
 
 }
