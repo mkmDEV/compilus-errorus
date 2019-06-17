@@ -18,7 +18,7 @@ public class PostService {
     }
 
     public List<Post> getOrderedPosts() {
-        return postRepository.getPostByOrderByDateDesc();
+        return postRepository.getPostByOrderByPostingDateDesc();
     }
 
     public void addPost(Post post) {

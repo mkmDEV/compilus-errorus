@@ -30,7 +30,7 @@ public class Comment {
     private Integer dislikes = 0;
 
     @ManyToOne
-    private User user;
+    private Member member;
 
     @ManyToOne
     private Post post;

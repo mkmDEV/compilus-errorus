@@ -11,9 +11,4 @@ public class CompilusErrorusApplication {
         SpringApplication.run(CompilusErrorusApplication.class, args);
     }
 
-    @Profile("production")
-    public void init() {
-
-    }
-
 }

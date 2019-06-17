@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Builder
-public class User {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,21 +25,21 @@ public class User {
     private String email;
 
     @CreationTimestamp
-    private LocalDate reg_date;
+    private LocalDate regDate;
 
     @Singular
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @EqualsAndHashCode.Exclude
     private Set<Post> posts;
 
-    @Singular
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    /*@Singular
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @EqualsAndHashCode.Exclude
-    private Set<Comment> comments;
+    private Set<Comment> comments;*/
 
     @Singular
     @ElementCollection
     @EqualsAndHashCode.Exclude
-    private Set<User> friends;
+    private Set<Member> friends;
 
 }

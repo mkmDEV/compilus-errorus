@@ -30,7 +30,7 @@ public class Post {
     private String image;
 
     @ManyToOne
-    private User user;
+    private Member member;
 
     @Singular
     @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
