@@ -1,18 +1,4 @@
-DROP TABLE IF EXISTS post;
-
-CREATE TABLE post
-(
-    id           serial  not null primary key,
-    message      varchar not null,
-    posting_date timestamp DEFAULT CURRENT_TIMESTAMP,
-    likes        int default 0,
-    dislikes     int default 0,
-    image        varchar,
-    username     varchar
-
-);
-
-INSERT INTO post (message, image, username) VALUES ('Ave Cesar!', null, 'Julius');
-INSERT INTO post (message, image, username) VALUES ('Ave Cesar!', null, 'Brutus');
-INSERT INTO post (message, image, username) VALUES ('Ave Cesar!', null, 'Marius');
-INSERT INTO post (message, image, username) VALUES ('Ave Cesar!', null, 'Octavius');
+INSERT INTO public.post (id, message, posting_date, likes, dislikes, image, username) VALUES (4, 'Me with my bae going places', '2019-06-03 14:01:09.149064', 17831, 34, 'mewithbae.jpg', 'Antonius');
+INSERT INTO public.post (id, message, posting_date, likes, dislikes, image, username) VALUES (1, 'Very little is needed to make a happy life; it is all within yourself, in your way of thinking.', '2019-05-30 14:01:09.149000', 45619, 18, 'romanmotivation.jpg', 'Marcus Aurelius');
+INSERT INTO public.post (id, message, posting_date, likes, dislikes, image, username) VALUES (60, 'The latest toga fashion! #togafashion', '2019-06-06 09:30:51.903000', 3, 4, 'toga.jpg', 'Livia');
+INSERT INTO public.post (id, message, posting_date, likes, dislikes, image, username) VALUES (2, 'Requiescat In Pace Caesar!', '2019-03-15 14:01:09.149000', 261547, 87, 'caesar-death.jpg', 'Brutus');
