@@ -21,10 +21,7 @@ public class PostService {
         List<Post> posts = postRepository.getPostByOrderByPostingDateDesc();
 //        List<Post> posts = postRepository.getPostByMemberIdOrderByPostingDateDesc(1);
 
-        for (Post post : posts) {
-            post.modifyData();
-        }
-
+        posts.forEach(Post::setRomanDate);
         return posts;
     }
 

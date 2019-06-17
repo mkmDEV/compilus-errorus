@@ -1,5 +1,6 @@
 package com.codecool.compiluserrorus.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -32,16 +33,19 @@ public class Member {
 
     @Singular
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonBackReference
     @EqualsAndHashCode.Exclude
     private Set<Post> posts;
 
     @Singular
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonBackReference
     @EqualsAndHashCode.Exclude
     private Set<Comment> comments;
 
     @Singular
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonBackReference
     @EqualsAndHashCode.Exclude
     private Set<Comment> events;
 

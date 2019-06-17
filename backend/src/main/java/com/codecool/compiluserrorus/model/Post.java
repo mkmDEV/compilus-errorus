@@ -1,6 +1,7 @@
 package com.codecool.compiluserrorus.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -35,15 +36,13 @@ public class Post {
 
     private String image;
 
-    @Transient
-    private String username;
-
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
     @Singular
     @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonBackReference
     @EqualsAndHashCode.Exclude
     private Set<Comment> comments;
 
@@ -63,8 +62,7 @@ public class Post {
                 '}';
     }
 
-    public void modifyData() {
-        this.username = this.member.getName();
+    public void setRomanDate() {
         LocalDate changedPosting = postingDate.minusYears(1960);
         this.romanDate = changedPosting.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
     }

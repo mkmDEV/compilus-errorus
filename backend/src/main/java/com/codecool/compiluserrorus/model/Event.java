@@ -1,6 +1,6 @@
 package com.codecool.compiluserrorus.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,7 +32,7 @@ public class Event {
     @EqualsAndHashCode.Exclude
     private Set<Member> participants;
 
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToOne
     private Member creator;
 
