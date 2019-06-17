@@ -25,7 +25,6 @@ public class Post {
     private String message;
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "posting_date")
     private LocalDate date;
 
