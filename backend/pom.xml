@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.codecool</groupId>
     <artifactId>compilus-errorus</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>compilus-errorus</name>
     <description>Roman ancient Facebook project</description>
 
