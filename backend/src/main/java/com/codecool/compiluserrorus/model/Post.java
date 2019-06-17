@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 @Data
@@ -25,11 +26,17 @@ public class Post {
     @CreationTimestamp
     private LocalDate postingDate;
 
+    @Transient
+    private String romanDate;
+
     private Integer likes = 0;
 
     private Integer dislikes = 0;
 
     private String image;
+
+    @Transient
+    private String username;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
@@ -54,5 +61,11 @@ public class Post {
                 ", dislikes=" + dislikes +
                 ", image='" + image + '\'' +
                 '}';
+    }
+
+    public void modifyData() {
+        this.username = this.member.getName();
+        LocalDate changedPosting = postingDate.minusYears(1960);
+        this.romanDate = changedPosting.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
     }
 }

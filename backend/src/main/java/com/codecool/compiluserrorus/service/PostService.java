@@ -18,7 +18,14 @@ public class PostService {
     }
 
     public List<Post> getOrderedPosts() {
-        return postRepository.getPostByOrderByPostingDateDesc();
+        List<Post> posts = postRepository.getPostByOrderByPostingDateDesc();
+//        List<Post> posts = postRepository.getPostByMemberIdOrderByPostingDateDesc(1);
+
+        for (Post post : posts) {
+            post.modifyData();
+        }
+
+        return posts;
     }
 
     public void addPost(Post post) {
