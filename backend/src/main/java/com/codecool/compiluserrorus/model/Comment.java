@@ -1,21 +1,21 @@
 package com.codecool.compiluserrorus.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder
-public class Post {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,43 +27,26 @@ public class Post {
     @CreationTimestamp
     private LocalDate postingDate;
 
-    @Transient
-    private String romanDate;
-
     private Integer likes = 0;
 
     private Integer dislikes = 0;
 
-    private String image;
-
     @JsonManagedReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Member member;
 
-    @Singular
-    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JsonBackReference
-    @EqualsAndHashCode.Exclude
-    private Set<Comment> comments;
-
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
-    private PostType postType;
+    @JsonManagedReference
+    @ManyToOne
+    private Post post;
 
     @Override
     public String toString() {
-        return "Post{" +
+        return "Comment{" +
                 "id=" + id +
                 ", message='" + message + '\'' +
                 ", postingDate=" + postingDate +
                 ", likes=" + likes +
                 ", dislikes=" + dislikes +
-                ", image='" + image + '\'' +
                 '}';
-    }
-
-    public void setRomanDate() {
-        LocalDate changedPosting = postingDate.minusYears(1960);
-        this.romanDate = changedPosting.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
     }
 }
