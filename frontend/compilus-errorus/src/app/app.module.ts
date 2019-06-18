@@ -7,8 +7,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {PostsComponent} from './components/posts/posts.component';
 import {PostItemComponent} from './components/posts/post-list/post-item/post-item.component';
-import {ContainerComponent} from './components/container/container.component';
-import {LeftComponent} from './components/left/left.component';
 import {SidebarComponent} from './components/sidebar/sidebar.component';
 import {HeaderComponent} from './components/header/header.component';
 import {AddPostComponent} from './components/posts/add-post/add-post.component';
@@ -34,8 +32,6 @@ import { ProfileComponent } from './components/profile/profile.component';
         AppComponent,
         PostsComponent,
         PostItemComponent,
-        ContainerComponent,
-        LeftComponent,
         SidebarComponent,
         HeaderComponent,
         AddPostComponent,

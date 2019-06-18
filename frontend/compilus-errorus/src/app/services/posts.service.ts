@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders, HttpEvent, HttpRequest} from '@angular/common/http';
-import {Post} from '../models/Post';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpEvent, HttpRequest } from '@angular/common/http';
+import { Post } from '../models/Post';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -34,10 +34,14 @@ export class PostsService {
     }
 
     updatePost(post: Post): Observable<Post> {
-        return this.http.put<Post>(`${this.postsUrl}/${post.id}`, post, httpOptions);
+        return this.http.put<Post>(`${ this.postsUrl }/${ post.id }`, post, httpOptions);
     }
 
     deletePost(post: Post) {
-        return this.http.delete(`${this.postsUrl}/${post.id}`);
+        return this.http.delete(`${ this.postsUrl }/${ post.id }`);
+    }
+
+    getComments(): Observable<Comment[]> {
+        return this.http.get<Comment[]>('http://localhost:8080/comments');
     }
 }
