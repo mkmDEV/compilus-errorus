@@ -39,6 +39,9 @@ public class Comment {
     @ManyToOne
     private Post post;
 
+    @Transient
+    private String romanDate;
+
     @Override
     public String toString() {
         return "Comment{" +
