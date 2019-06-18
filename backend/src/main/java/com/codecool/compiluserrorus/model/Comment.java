@@ -1,6 +1,5 @@
 package com.codecool.compiluserrorus.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,11 +30,9 @@ public class Comment {
 
     private Integer dislikes = 0;
 
-    @JsonManagedReference
     @ManyToOne
     private Member member;
 
-    @JsonManagedReference
     @ManyToOne
     private Post post;
 

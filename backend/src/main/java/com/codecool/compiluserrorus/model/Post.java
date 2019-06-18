@@ -1,13 +1,11 @@
 package com.codecool.compiluserrorus.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 @Data
@@ -36,7 +34,6 @@ public class Post {
 
     private String image;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
@@ -61,5 +58,4 @@ public class Post {
                 ", image='" + image + '\'' +
                 '}';
     }
-
 }
