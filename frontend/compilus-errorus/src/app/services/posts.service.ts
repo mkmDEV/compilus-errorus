@@ -23,7 +23,7 @@ export class PostsService {
     }
 
     uploadImage(file: File): Observable<HttpEvent<{}>> {
-        let formData: FormData = new FormData();
+        const formData: FormData = new FormData();
         formData.append('file', file);
         const req = new HttpRequest('POST', 'http://localhost:8080/upload', formData);
         return this.http.request(req);
@@ -42,6 +42,6 @@ export class PostsService {
     }
 
     getComments(postId: number): Observable<Comment[]> {
-        return this.http.get<Comment[]>('http://localhost:8080/comments');
+        return this.http.get<Comment[]>('http://localhost:8080/comments?postId=' + postId);
     }
 }

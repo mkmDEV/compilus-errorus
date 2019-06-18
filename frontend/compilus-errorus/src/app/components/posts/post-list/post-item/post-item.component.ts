@@ -1,6 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {Post} from '../../../../models/Post';
-import {PostsService} from '../../../../services/posts.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Post } from '../../../../models/Post';
+import { PostsService } from '../../../../services/posts.service';
 
 @Component({
     selector: 'app-post-item',
@@ -9,6 +9,7 @@ import {PostsService} from '../../../../services/posts.service';
 })
 export class PostItemComponent implements OnInit {
     @Input() post: Post;
+    @Output() votedUp = new EventEmitter<Post>();
 
     constructor(private postService: PostsService) {
     }
@@ -16,12 +17,12 @@ export class PostItemComponent implements OnInit {
     ngOnInit() {
     }
 
-    voteUp() {
+    onVoteUp() {
         this.post.likes += 1;
-        this.postService.updatePost(this.post).subscribe(post => console.log(post));
+        this.votedUp.emit(this.post);
     }
 
-    voteDown() {
+    onVoteDown() {
         this.post.dislikes += 1;
         this.postService.updatePost(this.post).subscribe(post => console.log(post));
     }
@@ -35,7 +36,7 @@ export class PostItemComponent implements OnInit {
         const message = document.getElementById('' + post.id);
         message.setAttribute('contenteditable', 'false');
         this.post.message = message.textContent;
-        this.postService.updatePost(this.post).subscribe(post => location.reload());
+        this.postService.updatePost(this.post).subscribe(updatedPost => location.reload());
     }
 
     onEdit(post: Post) {
