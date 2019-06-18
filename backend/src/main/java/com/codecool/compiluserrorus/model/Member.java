@@ -33,19 +33,19 @@ public class Member {
 
     @Singular
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JsonBackReference
+    @JsonBackReference(value = "posts")
     @EqualsAndHashCode.Exclude
     private Set<Post> posts;
 
     @Singular
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JsonBackReference
+    @JsonBackReference(value = "comments")
     @EqualsAndHashCode.Exclude
     private Set<Comment> comments;
 
     @Singular
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JsonBackReference
+    @JsonBackReference(value = "events")
     @EqualsAndHashCode.Exclude
     private Set<Comment> events;
 

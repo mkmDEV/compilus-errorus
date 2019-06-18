@@ -1,6 +1,7 @@
 package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Post;
+import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.repository.PostRepository;
 import com.codecool.compiluserrorus.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, MemberRepository memberRepository1) {
         this.postRepository = postRepository;
+        this.memberRepository = memberRepository1;
     }
 
     public List<Post> getOrderedPosts() {
@@ -25,6 +28,7 @@ public class PostService {
     }
 
     public void addPost(Post post) {
+        post.setMember(memberRepository.findAll().get(0));
         postRepository.save(post);
     }
 
