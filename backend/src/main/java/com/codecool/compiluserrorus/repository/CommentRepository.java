@@ -12,5 +12,5 @@ import java.util.Set;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("SELECT c FROM Comment c WHERE c.post.id = :postId ORDER BY c.postingDate DESC")
-    List<Comment> getCommentsByPostIdOrdredByDate(@Param("postId") Long postId);
+    List<Comment> getCommentsByPostIdOrderByDate(@Param("postId") Long postId);
 }

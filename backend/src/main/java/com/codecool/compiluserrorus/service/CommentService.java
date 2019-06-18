@@ -19,7 +19,7 @@ public class CommentService {
     }
 
     public List<Comment> getCommentsOrderedByDate(Long postId) {
-        List<Comment> comments = commentRepository.getCommentsByPostIdOrdredByDate(postId);
+        List<Comment> comments = commentRepository.getCommentsByPostIdOrderByDate(postId);
         comments.forEach(comment -> comment.setRomanDate(Util.setRomanDate(comment.getPostingDate())));
         return comments;
     }
