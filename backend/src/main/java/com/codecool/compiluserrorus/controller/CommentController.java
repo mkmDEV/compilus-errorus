@@ -1,7 +1,6 @@
 package com.codecool.compiluserrorus.controller;
 
 import com.codecool.compiluserrorus.model.Comment;
-import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,7 +23,8 @@ public class CommentController {
     }
 
     @GetMapping
-    public List<Comment> getComments(Long id) {
-        return commentService.getOrderedComments(id);
+    public List<Comment> getCommentsOrderedByDate(Long postId) {
+        return commentService.getCommentsOrderedByDate(postId);
     }
+
 }

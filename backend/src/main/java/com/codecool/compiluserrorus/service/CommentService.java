@@ -1,7 +1,6 @@
 package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Comment;
-import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.repository.CommentRepository;
 import com.codecool.compiluserrorus.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +11,15 @@ import java.util.List;
 @Service
 public class CommentService {
 
+    private final CommentRepository commentRepository;
+
     @Autowired
-    private CommentRepository commentRepository;
+    public CommentService(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
+    }
 
-    public List<Comment> getOrderedComments(Long id) {
-        List<Comment> comments = commentRepository.getComments(id);
-
+    public List<Comment> getCommentsOrderedByDate(Long postId) {
+        List<Comment> comments = commentRepository.getCommentsByPostIdOrdredByDate(postId);
         comments.forEach(comment -> comment.setRomanDate(Util.setRomanDate(comment.getPostingDate())));
         return comments;
     }

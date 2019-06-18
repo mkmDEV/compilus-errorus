@@ -1,6 +1,5 @@
 package com.codecool.compiluserrorus.repository;
 
-import com.codecool.compiluserrorus.model.Comment;
 import com.codecool.compiluserrorus.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,5 +12,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> getPostByOrderByPostingDateDesc();
 
-//    List<Comment> getComments();
 }
