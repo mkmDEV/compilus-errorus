@@ -26,6 +26,7 @@ import { GroupListComponent } from './components/groups/group-list/group-list.co
 import { GroupItemComponent } from './components/groups/group-list/group-item/group-item.component';
 import { AddGroupComponent } from './components/groups/group-list/add-group/add-group.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
     declarations: [
@@ -50,7 +51,8 @@ import { ProfileComponent } from './components/profile/profile.component';
         GroupListComponent,
         GroupItemComponent,
         AddGroupComponent,
-        ProfileComponent
+        ProfileComponent,
+        HomeComponent
     ],
     imports: [
         BrowserModule,
