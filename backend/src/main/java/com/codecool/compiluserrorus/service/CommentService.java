@@ -15,8 +15,8 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public List<Comment> getOrderedComments(Post post) {
-        List<Comment> comments = commentRepository.findAllByPost(post);
+    public List<Comment> getOrderedComments(Long id) {
+        List<Comment> comments = commentRepository.getComments(id);
 
         comments.forEach(comment -> comment.setRomanDate(Util.setRomanDate(comment.getPostingDate())));
         return comments;

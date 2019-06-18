@@ -41,7 +41,7 @@ export class PostsService {
         return this.http.delete(`${ this.postsUrl }/${ post.id }`);
     }
 
-    getComments(): Observable<Comment[]> {
+    getComments(postId: number): Observable<Comment[]> {
         return this.http.get<Comment[]>('http://localhost:8080/comments');
     }
 }

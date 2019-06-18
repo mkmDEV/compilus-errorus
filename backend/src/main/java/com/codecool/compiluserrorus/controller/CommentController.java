@@ -24,7 +24,7 @@ public class CommentController {
     }
 
     @GetMapping
-    public List<Comment> getComments(Post post) {
-        return commentService.getOrderedComments(post);
+    public List<Comment> getComments(Long id) {
+        return commentService.getOrderedComments(id);
     }
 }

@@ -22,7 +22,7 @@ export class PostsComponent implements OnInit {
         this.postsService.getPosts().subscribe(posts => {
             this.posts = posts;
             console.log(posts);
-            this.postsService.getComments().subscribe(comment => console.log(comment));
+            this.postsService.getComments(3).subscribe(comment => console.log(comment));
         });
     }
 
