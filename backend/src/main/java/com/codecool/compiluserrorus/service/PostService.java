@@ -2,6 +2,7 @@ package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.repository.PostRepository;
+import com.codecool.compiluserrorus.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class PostService {
         List<Post> posts = postRepository.getPostByOrderByPostingDateDesc();
 //        List<Post> posts = postRepository.getPostByMemberIdOrderByPostingDateDesc(1);
 
-        posts.forEach(Post::setRomanDate);
+        posts.forEach(post -> post.setRomanDate(Util.setRomanDate(post.getPostingDate())));
         return posts;
     }
 

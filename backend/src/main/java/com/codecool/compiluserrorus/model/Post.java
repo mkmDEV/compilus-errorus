@@ -62,8 +62,4 @@ public class Post {
                 '}';
     }
 
-    public void setRomanDate() {
-        LocalDate changedPosting = postingDate.minusYears(1960);
-        this.romanDate = changedPosting.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
-    }
 }
