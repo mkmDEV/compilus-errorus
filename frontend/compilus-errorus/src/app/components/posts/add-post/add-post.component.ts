@@ -21,8 +21,8 @@ export class AddPostComponent implements OnInit {
     }
 
     toggleVisibility() {
-        const uploadDiv = document.querySelector("#add-photo-div");
-        uploadDiv.classList.toggle("toggle");
+        const uploadDiv = document.querySelector('#add-photo-div');
+        uploadDiv.classList.toggle('toggle');
     }
 
     onImageChoice(event: any) {
@@ -46,14 +46,16 @@ export class AddPostComponent implements OnInit {
             post = {
                 message: this.message,
                 username: this.username,
-                image: this.selectedFile.name
+                image: this.selectedFile.name,
+                postType: 'USER'
             };
             this.postsService.savePost(post).subscribe(post => console.log(post));
             this.onUpload();
         } else {
             post = {
                 message: this.message,
-                username: this.username
+                username: this.username,
+                postType: 'USER'
             };
             this.postsService.savePost(post).subscribe({complete: () => location.reload()});
         }

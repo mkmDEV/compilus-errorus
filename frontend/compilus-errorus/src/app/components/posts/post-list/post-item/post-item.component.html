@@ -1,5 +1,7 @@
 <div class="post-item">
-  	<h3><img src="http://localhost:8080/image-resource/profile-pic.jpg" alt="user-image" class="user-image"> {{ post.member.name }} </h3>
+  	<h3><img src="http://localhost:8080/image-resource/profile-pic.jpg" alt="user-image" class="user-image">
+        <span>{{ post.member.name }}</span>
+    </h3>
 <!--  	<p class="date"><span>Date:</span> {{ post.date | date : "MMM d, y h:mm a" }}</p>-->
   	<p class="date"><span>Date:</span> {{ post.romanDate }}</p>
   	<img *ngIf="post.image != null" src="http://localhost:8080/image-resource/{{ post.image }}" alt="img">

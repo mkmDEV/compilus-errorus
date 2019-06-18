@@ -20,8 +20,6 @@ public class PostService {
 
     public List<Post> getOrderedPosts() {
         List<Post> posts = postRepository.getPostByOrderByPostingDateDesc();
-//        List<Post> posts = postRepository.getPostByMemberIdOrderByPostingDateDesc(1);
-
         posts.forEach(post -> post.setRomanDate(Util.setRomanDate(post.getPostingDate())));
         return posts;
     }

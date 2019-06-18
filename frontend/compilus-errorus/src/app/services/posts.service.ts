@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpEvent, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpEvent, HttpRequest, HttpParams } from '@angular/common/http';
 import { Post } from '../models/Post';
 
 const httpOptions = {
@@ -42,6 +42,7 @@ export class PostsService {
     }
 
     getComments(postId: number): Observable<Comment[]> {
-        return this.http.get<Comment[]>('http://localhost:8080/comments?postId=' + postId);
+        const params = new HttpParams().set('postId', String(postId));
+        return this.http.get<Comment[]>('http://localhost:8080/comments', {params});
     }
 }
