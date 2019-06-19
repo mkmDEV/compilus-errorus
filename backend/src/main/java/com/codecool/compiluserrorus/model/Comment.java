@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -24,7 +24,7 @@ public class Comment {
     private String message;
 
     @CreationTimestamp
-    private LocalDate postingDate;
+    private LocalDateTime postingDate;
 
     private Integer likes = 0;
 
