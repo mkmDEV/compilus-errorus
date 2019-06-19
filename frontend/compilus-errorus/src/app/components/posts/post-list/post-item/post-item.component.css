@@ -6,6 +6,9 @@
     border: 1px solid #aaa;
     box-shadow: 0 0 10px #aaa;
 }
+h3 span {
+    margin-left: 10px;
+}
 .post-item .user-image {
     display: inline-block;
     width: 50px;

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FlComment } from '../../../../../models/FlComment';
+import { Post } from '../../../../../models/Post';
+import { CommentsService} from '../../../../../services/comments.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -6,10 +9,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./comment-list.component.css']
 })
 export class CommentListComponent implements OnInit {
+  @Input() post: Post;
+  comments: FlComment[];
 
-  constructor() { }
+  constructor(private commentsService: CommentsService) { }
 
   ngOnInit() {
+    this.comments = [];
+    this.getComments();
+  }
+
+  getComments() {
+    const queryString = '?postId=' + this.post.id;
+    this.commentsService.getComments(queryString).subscribe(comments => this.comments.push(...comments));
   }
 
 }

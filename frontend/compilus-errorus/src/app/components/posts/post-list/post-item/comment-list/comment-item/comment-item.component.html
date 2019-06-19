@@ -1,3 +1,13 @@
-<p>
-  comment-item works!
-</p>
+<div class="comment-div">
+    <p>
+        <span class="img-span"><img src="http://localhost:8080/image-resource/profile-pic.jpg" alt="user-image" class="user-image"></span>
+        <span class="comment-content">
+            <span class="commenter-name">{{ comment.member.name }}</span>
+                {{ comment.message }}
+            <span class="comment-likes">
+                <i class="material-icons thumb-up">thumb_up</i> {{ comment.likes }}
+                <i class="material-icons thumb-down">thumb_down</i> {{ comment.dislikes }}
+            </span>
+        </span>
+    </p>
+</div>

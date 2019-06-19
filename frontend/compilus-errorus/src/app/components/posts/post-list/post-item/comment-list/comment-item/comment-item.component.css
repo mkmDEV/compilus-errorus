@@ -1,0 +1,31 @@
+.comment-div {
+    font-size: 16px;
+}
+.comment-div .img-span {
+    background: transparent;
+    margin: 5px 10px;
+}
+.comment-div .img-span img {
+    max-width: 30px;
+    height: auto;
+    border-radius: 50%;
+}
+.comment-content {
+    background-color: white;
+    padding: 8px;
+    border-radius: 10px;
+}
+.commenter-name {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.comment-likes {
+    float: right;
+}
+.comment-likes .thumb-up {
+    color: green;
+}
+.comment-likes .thumb-down {
+    color: red;
+    margin-left: 10px;
+}

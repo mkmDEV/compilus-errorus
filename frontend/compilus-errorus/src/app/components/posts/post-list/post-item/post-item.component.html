@@ -18,4 +18,6 @@
 		<i class="material-icons trash" (click)="onDelete(post)">delete</i>
 		<i class="material-icons edit" (click)="onEdit()">edit</i>
 	  </p>
+    <hr>
+    <app-comment-list [post]="post"></app-comment-list>
 </div>
