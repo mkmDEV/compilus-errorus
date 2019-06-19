@@ -1,9 +1,11 @@
 package com.codecool.compiluserrorus.model;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -25,7 +27,10 @@ public class Event {
     private String description;
 
     @Column(nullable = false)
-    private LocalDate eventDate;
+    private LocalDateTime eventDate;
+
+    @Transient
+    private String romanDate;
 
     @Singular
     @ElementCollection
