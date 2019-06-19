@@ -2,6 +2,7 @@ package com.codecool.compiluserrorus.controller;
 
 import com.codecool.compiluserrorus.model.Event;
 import com.codecool.compiluserrorus.service.EventService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ public class EventController {
 
     private final EventService eventService;
 
+    @Autowired
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
