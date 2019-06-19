@@ -1,6 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {PostsService} from '../../../services/posts.service';
-import {PostsComponent} from '../posts.component';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'app-add-post',
@@ -8,32 +6,41 @@ import {PostsComponent} from '../posts.component';
     styleUrls: ['./add-post.component.css']
 })
 export class AddPostComponent implements OnInit {
-
+    @Output() postAdded = new EventEmitter<{message: string, postType: string, image: File, imageName: string}>();
+    newPost = {message: '', postType: '', image: null, imageName: ''};
     selectedFile: File;
     message: string;
-    username: string;
-    image: string;
+    hidden: boolean;
 
-    constructor(private postsService: PostsService) {
+    constructor() {
     }
 
     ngOnInit() {
+        this.hidden = true;
     }
 
     toggleVisibility() {
-        const uploadDiv = document.querySelector('#add-photo-div');
-        uploadDiv.classList.toggle('toggle');
-    }
+        this.hidden = !this.hidden;
 
-    onImageChoice(event: any) {
-        this.toggleVisibility();
     }
 
     onFileChanged(event: any) {
         this.selectedFile = event.target.files[0];
+        this.toggleVisibility();
     }
 
-    onUpload() {
+    onSubmit() {
+        this.newPost.message = this.message;
+        this.newPost.postType = 'USER';
+        if (this.selectedFile != null) {
+            this.newPost.image = this.selectedFile;
+            this.newPost.imageName = this.selectedFile.name;
+        }
+        this.postAdded.emit(this.newPost);
+    }
+
+
+    /*onUpload() {
         if (this.selectedFile != null) {
             this.toggleVisibility();
             this.postsService.uploadImage(this.selectedFile).subscribe({complete: () => location.reload()});
@@ -59,5 +66,5 @@ export class AddPostComponent implements OnInit {
             };
             this.postsService.savePost(post).subscribe({complete: () => location.reload()});
         }
-    }
+    }*/
 }

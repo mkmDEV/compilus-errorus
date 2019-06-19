@@ -9,7 +9,7 @@ import {PostsComponent} from './components/posts/posts.component';
 import {PostItemComponent} from './components/posts/post-list/post-item/post-item.component';
 import {SidebarComponent} from './components/sidebar/sidebar.component';
 import {HeaderComponent} from './components/header/header.component';
-import {AddPostComponent} from './components/posts/add-post/add-post.component';
+import {AddPostComponent} from './components/posts/post-list/add-post/add-post.component';
 import { EventsComponent } from './components/events/events.component';
 import { AdvertComponent } from './components/sidebar/advert/advert.component';
 import { GroupsComponent } from './components/groups/groups.component';
