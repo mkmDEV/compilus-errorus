@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-header',
@@ -11,13 +11,5 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-    }
-
-    onSaveData() {
-        console.log('save');
-    }
-
-    onFetchData() {
-        console.log('fetch');
     }
 }
