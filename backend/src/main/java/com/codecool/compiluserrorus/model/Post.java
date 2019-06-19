@@ -13,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Builder
+@Table(name = "post")
 public class Post {
 
     @Id
