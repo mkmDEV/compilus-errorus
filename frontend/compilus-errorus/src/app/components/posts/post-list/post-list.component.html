@@ -1,4 +1,6 @@
 <app-post-item class="posts"
                *ngFor="let post of posts" [post]=post
-                (votedUp)="onVotedUp(post)"
+               (voted)="onVoted(post)"
+               (deleted)="onDeleted(post)"
+               (edited)="onEdited(post)"
 ></app-post-item>

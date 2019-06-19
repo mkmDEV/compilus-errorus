@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Post } from '../../../../models/Post';
-import { PostsService } from '../../../../services/posts.service';
 
 @Component({
     selector: 'app-post-item',
@@ -9,9 +8,13 @@ import { PostsService } from '../../../../services/posts.service';
 })
 export class PostItemComponent implements OnInit {
     @Input() post: Post;
-    @Output() votedUp = new EventEmitter<Post>();
+    @Output() voted = new EventEmitter<Post>();
+    @Output() deleted = new EventEmitter<Post>();
+    @Output() edited = new EventEmitter<Post>();
+    @ViewChild('messageText', {static: false}) messageText;
+    editable = false;
 
-    constructor(private postService: PostsService) {
+    constructor() {
     }
 
     ngOnInit() {
@@ -19,30 +22,27 @@ export class PostItemComponent implements OnInit {
 
     onVoteUp() {
         this.post.likes += 1;
-        this.votedUp.emit(this.post);
+        this.voted.emit(this.post);
     }
 
     onVoteDown() {
         this.post.dislikes += 1;
-        this.postService.updatePost(this.post).subscribe(post => console.log(post));
+        this.voted.emit(this.post);
     }
 
     onDelete(post: Post) {
         // delete photo
-        this.postService.deletePost(post).subscribe(() => location.reload());
+        this.deleted.emit(post);
     }
 
-    onEnter(post: Post) {
-        const message = document.getElementById('' + post.id);
-        message.setAttribute('contenteditable', 'false');
-        this.post.message = message.textContent;
-        this.postService.updatePost(this.post).subscribe(updatedPost => location.reload());
+    onEnter() {
+        this.editable = false;
+        this.post.message = this.messageText.nativeElement.textContent;
+        this.edited.emit(this.post);
     }
 
-    onEdit(post: Post) {
-        const message = document.getElementById('' + post.id);
-        message.setAttribute('contenteditable', 'true');
-        message.classList.add('amend-message');
+    onEdit() {
+        this.editable = true;
     }
 
 }

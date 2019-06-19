@@ -5,13 +5,17 @@
 <!--  	<p class="date"><span>Date:</span> {{ post.date | date : "MMM d, y h:mm a" }}</p>-->
   	<p class="date"><span>Date:</span> {{ post.romanDate }}</p>
   	<img *ngIf="post.image != null" src="http://localhost:8080/image-resource/{{ post.image }}" alt="img">
-  	<p id="{{ post.id }}" class="message" (keydown.enter)="onEnter(post)">{{ post.message }}</p>
+  	<p class="message" (keydown.enter)="onEnter()"
+       [contentEditable]="editable"
+       [ngClass]="{'amend-message': editable}"
+       #messageText
+    >{{ post.message }}</p>
   	<p class="thumbs">
     	<i class="material-icons thumb-up" (click)="onVoteUp()">thumb_up</i>
     	<span class="likes"> {{ post.likes }} </span>
     	<i class="material-icons thumb-down" (click)="onVoteDown()">thumb_down</i>
 		<span class="dislikes"> {{ post.dislikes }} </span>
 		<i class="material-icons trash" (click)="onDelete(post)">delete</i>
-		<i class="material-icons edit" (click)="onEdit(post)">edit</i>
+		<i class="material-icons edit" (click)="onEdit()">edit</i>
 	  </p>
 </div>

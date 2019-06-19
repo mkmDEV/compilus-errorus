@@ -10,7 +10,7 @@ import { PostsService } from '../../../services/posts.service';
 export class PostListComponent implements OnInit {
     posts: Post[];
 
-    constructor(private postsService: PostsService) {
+    constructor(private postService: PostsService) {
     }
 
     ngOnInit() {
@@ -18,14 +18,21 @@ export class PostListComponent implements OnInit {
     }
 
     getPosts() {
-        this.postsService.getPosts().subscribe(posts => {
+        this.postService.getPosts().subscribe(posts => {
             this.posts = posts;
         });
     }
 
-    onVotedUp(post: Post) {
-        console.log(post);
-        this.postsService.updatePost(post).subscribe(updatedPost => console.log(updatedPost));
+    onVoted(post: Post) {
+        this.postService.updatePost(post).subscribe(updatedPost => console.log(updatedPost));
     }
 
+    onDeleted(post: Post) {
+        this.postService.deletePost(post).subscribe();
+    }
+
+    onEdited(post: Post) {
+        this.postService.updatePost(post).subscribe();
+
+    }
 }
