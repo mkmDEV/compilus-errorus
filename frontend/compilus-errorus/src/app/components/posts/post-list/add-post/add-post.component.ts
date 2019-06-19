@@ -36,6 +36,7 @@ export class AddPostComponent implements OnInit {
             this.newPost.image = this.selectedFile;
             this.newPost.imageName = this.selectedFile.name;
         }
+        this.message = '';
         this.postAdded.emit(this.newPost);
     }
 

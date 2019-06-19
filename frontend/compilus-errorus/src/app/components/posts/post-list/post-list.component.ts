@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../../../models/Post';
 import { PostsService } from '../../../services/posts.service';
-import { Member } from '../../../models/Member';
 
 @Component({
     selector: 'app-post-list',
@@ -10,7 +9,6 @@ import { Member } from '../../../models/Member';
 })
 export class PostListComponent implements OnInit {
     posts: Post[];
-    loggedInMember: Member;
 
     constructor(private postService: PostsService) {
     }
@@ -22,8 +20,6 @@ export class PostListComponent implements OnInit {
     getPosts() {
         this.postService.getPosts().subscribe(posts => {
             this.posts = posts;
-            this.loggedInMember = this.posts[1].member;
-            console.log(this.loggedInMember);
         });
     }
 
@@ -32,6 +28,8 @@ export class PostListComponent implements OnInit {
     }
 
     onDeleted(post: Post) {
+        const index = this.posts.indexOf(post);
+        this.posts.splice(index, 1);
         this.postService.deletePost(post).subscribe();
     }
 
@@ -46,23 +44,21 @@ export class PostListComponent implements OnInit {
         post.postType = newPost.postType;
 
         if (newPost.image == null) {
-            this.posts.push(post);
-            this.postService.savePost(post).subscribe({
-                complete: () => {
-                    post.member = this.loggedInMember;
-                    this.posts.push(post);
-                }
-            });
+            this.postService.savePost(post).subscribe({complete: () => this.refreshPosts(post)});
         } else {
             this.postService.uploadImage(newPost.image).subscribe( { complete: () => {
                 post.image = newPost.imageName;
-                this.postService.savePost(post).subscribe({complete: () => {
-                        post.member = this.loggedInMember;
-                        this.posts.push(post);
-                    }
-                });
+                this.refreshPosts(post);
                 }
             });
         }
+    }
+
+    private refreshPosts(post) {
+        this.postService.savePost(post).subscribe({
+            complete: () => {
+                this.postService.getPosts().subscribe(posts => this.posts = posts);
+            }
+        });
     }
 }
