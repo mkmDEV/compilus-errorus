@@ -39,33 +39,4 @@ export class AddPostComponent implements OnInit {
         this.message = '';
         this.postAdded.emit(this.newPost);
     }
-
-
-    /*onUpload() {
-        if (this.selectedFile != null) {
-            this.toggleVisibility();
-            this.postsService.uploadImage(this.selectedFile).subscribe({complete: () => location.reload()});
-        }
-    }
-
-    onSubmit() {
-        let post;
-        if (this.selectedFile != null) {
-            post = {
-                message: this.message,
-                username: this.username,
-                image: this.selectedFile.name,
-                postType: 'USER'
-            };
-            this.postsService.savePost(post).subscribe(post => console.log(post));
-            this.onUpload();
-        } else {
-            post = {
-                message: this.message,
-                username: this.username,
-                postType: 'USER'
-            };
-            this.postsService.savePost(post).subscribe({complete: () => location.reload()});
-        }
-    }*/
 }
