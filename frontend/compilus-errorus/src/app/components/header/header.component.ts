@@ -13,4 +13,11 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
     }
 
+    onSaveData() {
+        console.log('save');
+    }
+
+    onFetchData() {
+        console.log('fetch');
+    }
 }

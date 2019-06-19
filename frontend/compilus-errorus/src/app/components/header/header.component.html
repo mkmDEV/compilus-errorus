@@ -6,7 +6,20 @@
                     <h1><a [routerLink]="['/']">Facies Liber</a></h1>
                 </div>
                 <div class="col-12 col-md-1">
-                    <span style="color: #ffffff;"><app-profile></app-profile></span>
+                    <ul class="nav nav-pills" >
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle my-menu"
+                               data-toggle="dropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false">Manage Profile</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" [routerLink]="['/profile']">My Profile</a>
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Log Out</a>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
