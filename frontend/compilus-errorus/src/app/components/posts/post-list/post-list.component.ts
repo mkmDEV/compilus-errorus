@@ -44,21 +44,17 @@ export class PostListComponent implements OnInit {
         post.postType = newPost.postType;
 
         if (newPost.image == null) {
-            this.postService.savePost(post).subscribe({complete: () => this.refreshPosts(post)});
+            this.postService.savePost(post).subscribe({complete: () => this.refreshPosts()});
         } else {
             this.postService.uploadImage(newPost.image).subscribe( { complete: () => {
                 post.image = newPost.imageName;
-                this.refreshPosts(post);
+                this.refreshPosts();
                 }
             });
         }
     }
 
-    private refreshPosts(post) {
-        this.postService.savePost(post).subscribe({
-            complete: () => {
-                this.postService.getPosts().subscribe(posts => this.posts = posts);
-            }
-        });
+    private refreshPosts() {
+        this.postService.getPosts().subscribe(posts => this.posts = posts);
     }
 }
