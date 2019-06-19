@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -23,7 +23,7 @@ public class Post {
     private String message;
 
     @CreationTimestamp
-    private LocalDate postingDate;
+    private LocalDateTime postingDate;
 
     @Transient
     private String romanDate;
