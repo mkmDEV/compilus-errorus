@@ -5,11 +5,11 @@ import { FlEvent } from './FlEvent';
 export class Member {
     id: string;
     name: string;
-    email: string;
     password: string;
+    email: string;
     regDate: Date;
     posts: Post[];
     comments: FlComment[];
     events: FlEvent[];
-
+    friends: Member[];
 }

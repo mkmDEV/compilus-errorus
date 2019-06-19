@@ -28,6 +28,7 @@ import { AddGroupComponent } from './components/groups/group-list/add-group/add-
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileDetailsComponent } from './components/profile/profile-details/profile-details.component';
+import { AboutMeComponent } from './components/profile/profile-details/about-me/about-me.component';
 
 @NgModule({
     declarations: [
@@ -54,7 +55,8 @@ import { ProfileDetailsComponent } from './components/profile/profile-details/pr
         AddGroupComponent,
         ProfileComponent,
         HomeComponent,
-        ProfileDetailsComponent
+        ProfileDetailsComponent,
+        AboutMeComponent
     ],
     imports: [
         BrowserModule,
