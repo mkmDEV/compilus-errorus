@@ -11,5 +11,19 @@ header {
 a {
     text-decoration: none;
     background-color: #464670;
-    color: ghostwhite;
+    color: #ffffff !important;
+}
+
+.dropdown-item:hover {
+    background-color: #007bff;
+}
+
+.dropdown-menu {
+    background-color: #464670;
+}
+
+.my-menu {
+    cursor: pointer;
+    background-color: #007bff;
+    color: #ffffff;
 }

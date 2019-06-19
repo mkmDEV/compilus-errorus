@@ -1,15 +1,15 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {PostsComponent} from './components/posts/posts.component';
-import {PostItemComponent} from './components/posts/post-list/post-item/post-item.component';
-import {SidebarComponent} from './components/sidebar/sidebar.component';
-import {HeaderComponent} from './components/header/header.component';
-import {AddPostComponent} from './components/posts/post-list/add-post/add-post.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { PostsComponent } from './components/posts/posts.component';
+import { PostItemComponent } from './components/posts/post-list/post-item/post-item.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HeaderComponent } from './components/header/header.component';
+import { AddPostComponent } from './components/posts/post-list/add-post/add-post.component';
 import { EventsComponent } from './components/events/events.component';
 import { AdvertComponent } from './components/sidebar/advert/advert.component';
 import { GroupsComponent } from './components/groups/groups.component';
@@ -28,6 +28,7 @@ import { AddGroupComponent } from './components/groups/group-list/add-group/add-
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileDetailsComponent } from './components/profile/profile-details/profile-details.component';
+import { AboutMeComponent } from './components/profile/profile-details/about-me/about-me.component';
 
 @NgModule({
     declarations: [
@@ -54,13 +55,15 @@ import { ProfileDetailsComponent } from './components/profile/profile-details/pr
         AddGroupComponent,
         ProfileComponent,
         HomeComponent,
-        ProfileDetailsComponent
+        ProfileDetailsComponent,
+        AboutMeComponent
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule,
+        AppRoutingModule
     ],
     providers: [],
     bootstrap: [AppComponent]
