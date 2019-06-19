@@ -16,8 +16,9 @@ import java.util.Set;
 @Table(name = "post")
 public class Post {
 
+    @TableGenerator(name = "Post_Gen", initialValue = 5)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "Post_Gen")
     private Long id;
 
     @Column(nullable = false)

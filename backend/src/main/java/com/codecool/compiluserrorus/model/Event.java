@@ -13,8 +13,9 @@ import java.util.Set;
 @Builder
 public class Event {
 
+    @TableGenerator(name = "Event_Gen", initialValue = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "Event_Gen")
     private Long id;
 
     @Column(nullable = false)

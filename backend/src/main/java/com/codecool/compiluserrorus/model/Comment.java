@@ -16,8 +16,9 @@ import java.time.LocalDateTime;
 @Builder
 public class Comment {
 
+    @TableGenerator(name = "Comment_Gen", initialValue = 4)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "Comment_Gen")
     private Long id;
 
     @Column(nullable = false)
