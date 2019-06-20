@@ -9,21 +9,13 @@ import { ProfileService } from '../../../../services/profile.service';
     providers: [ ProfileService ]
 })
 export class AboutMeComponent implements OnInit {
-    members: Member[];
     dummyMember: Member;
 
     constructor(private profileService: ProfileService) {
     }
 
     ngOnInit() {
-        // this.getMembers();
         this.getDummy();
-    }
-
-    getMembers() {
-        this.profileService.getMembers().subscribe(members => {
-            this.members = members;
-        });
     }
 
     getDummy() {

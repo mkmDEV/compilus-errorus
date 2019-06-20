@@ -17,8 +17,11 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public List<Member> getMembers() {
-        return this.memberRepository.findAll();
+    public List<Member> getFriends() {
+        List<Member> friends = this.memberRepository.findAll();
+        Member first = friends.get(0);
+        friends.remove(first);
+        return friends;
     }
 
     public Member getDummyMember() {

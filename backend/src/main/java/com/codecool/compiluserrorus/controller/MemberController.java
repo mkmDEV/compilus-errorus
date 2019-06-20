@@ -24,8 +24,8 @@ public class MemberController {
     }
 
     @GetMapping
-    public List<Member> getMembers() {
-        return memberService.getMembers();
+    public List<Member> getFriends() {
+        return memberService.getFriends();
     }
 
     @GetMapping("/dummy-member")

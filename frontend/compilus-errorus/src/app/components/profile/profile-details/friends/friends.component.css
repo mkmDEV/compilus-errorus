@@ -1,7 +1,19 @@
+img {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+#content {
+    text-align: center;
+}
+
 .row {
     top: 0;
     left: 0;
     margin: 0 auto;
+    text-align: left;
 }
 
 .to-center {
