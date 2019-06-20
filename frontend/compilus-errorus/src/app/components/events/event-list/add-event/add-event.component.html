@@ -1,5 +1,5 @@
 <div class="add-event">
-    <h3>Make a new event!</h3>
+    <h3>Create a new event!</h3>
     <hr>
     <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
         <label for="title">Title</label><br>
@@ -8,6 +8,6 @@
         <input type="datetime-local" [(ngModel)]="eventDate" id="date" name="date"><br>
         <label for="description">Description</label><br>
         <textarea [(ngModel)]="description" id="description" name="description"></textarea><br>
-        <input type="submit" value="Make it!" class="add-event-button">
+        <input type="submit" value="Create it!" class="add-event-button">
     </form>
 </div>
