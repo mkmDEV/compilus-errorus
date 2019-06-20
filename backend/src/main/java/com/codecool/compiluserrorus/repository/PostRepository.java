@@ -12,4 +12,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> getPostByOrderByPostingDateDesc();
 
+    List<Post> getPostsByMemberIdOrderByPostingDateDesc(@Param("userID") long userID);
+
 }

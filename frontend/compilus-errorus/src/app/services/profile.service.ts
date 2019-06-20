@@ -13,7 +13,7 @@ export class ProfileService {
     constructor(private http: HttpClient) {
     }
 
-    getMembers(): Observable<Member[]> {
+    getFriends(): Observable<Member[]> {
         return this.http.get<Member[]>(this.memberUrl);
     }
 

@@ -7,6 +7,7 @@
     box-shadow: 0 0 10px #aaa;
     border-radius: 10px;
 }
+
 textarea {
     background-color: #e6e6f4;
     border: none;
@@ -14,27 +15,33 @@ textarea {
     padding: 5px;
     border-radius: 10px;
 }
+
 ::placeholder {
     color: #464670;
     opacity: 1;
 }
+
 .add-post #message {
     display: block;
     width: 100%;
     border-radius: 5px;
 }
+
 .image-choice i {
     font-size: 45px;
     margin: 5px;
     color: green;
     cursor: pointer;
 }
+
 .show {
     display: inline;
 }
+
 .toggle {
     display: none;
 }
+
 .image-choice input[type="submit"] {
     background-color: #464670;
     color: #fff;
@@ -45,6 +52,7 @@ textarea {
     border: none;
     border-radius: 5px;
 }
+
 .image-choice input[type="submit"]:hover {
     background-color: #007bff;
 }
