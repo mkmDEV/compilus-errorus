@@ -6,7 +6,7 @@ import { ProfileService } from '../../../../services/profile.service';
     selector: 'app-about-me',
     templateUrl: './about-me.component.html',
     styleUrls: ['./about-me.component.css'],
-    providers: [ ProfileService ]
+    providers: [ProfileService]
 })
 export class AboutMeComponent implements OnInit {
     dummyMember: Member;

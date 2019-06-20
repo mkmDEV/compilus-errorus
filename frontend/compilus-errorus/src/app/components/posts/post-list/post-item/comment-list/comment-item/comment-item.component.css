@@ -2,51 +2,63 @@
     font-size: 16px;
     padding-top: 20px;
 }
+
 .comment-div p {
-    margin-bottom:  0;
+    margin-bottom: 0;
 }
+
 .comment-div .img-span {
     background: transparent;
     margin: 5px 10px;
 }
+
 .comment-div .img-span img {
     max-width: 30px;
     height: auto;
     border-radius: 50%;
 }
+
 .comment-content {
     background-color: #e6e6f4;
     padding: 8px;
     border-radius: 10px;
 }
+
 .commenter-name {
     font-weight: bold;
     margin-right: 10px;
 }
+
 .comment-likes {
     float: right;
 }
+
 .comment-likes .thumb-up {
     color: green;
     cursor: pointer;
 }
+
 .comment-likes .thumb-down {
     color: red;
     margin-left: 10px;
     cursor: pointer;
 }
+
 .modify {
     color: #464670;
     font-size: 14px;
     margin-left: 60px;
 }
+
 .modify span:hover {
     cursor: pointer;
     color: #007bff;
 }
+
 .modify span:first-child {
     margin-right: 25px;
 }
+
 .edit {
     background-color: rgba(168, 141, 217, 0.5);
 }

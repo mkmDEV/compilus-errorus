@@ -1,8 +1,7 @@
-.container-fluid {
-    padding-top: 100px;
-    margin-left: 5%;
-    margin-right: 5%;
-    max-width: -webkit-fill-available;
+.event-container {
+    margin-top: 75px;
+    padding-top: 25px;
+    padding-bottom: 50px;
 }
 
 .events {

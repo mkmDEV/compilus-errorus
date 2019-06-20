@@ -6,7 +6,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
     styleUrls: ['./add-post.component.css']
 })
 export class AddPostComponent implements OnInit {
-    @Output() postAdded = new EventEmitter<{message: string, postType: string, image: File, imageName: string}>();
+    @Output() postAdded = new EventEmitter<{ message: string, postType: string, image: File, imageName: string }>();
     newPost = {message: '', postType: '', image: null, imageName: ''};
     selectedFile: File;
     message: string;

@@ -13,6 +13,7 @@ li {
     border-radius: 5px;
     float: right;
 }
+
 .events-btn:hover {
     background-color: #007BFF;
 }
