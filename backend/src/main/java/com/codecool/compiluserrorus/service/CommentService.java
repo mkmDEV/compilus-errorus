@@ -13,7 +13,6 @@ import java.util.List;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-
     private final MemberRepository memberRepository;
 
     @Autowired
