@@ -1,6 +1,6 @@
 .comment-div {
     font-size: 16px;
-    padding-bottom: 15px;
+    padding-top: 20px;
 }
 .comment-div p {
     margin-bottom:  0;
@@ -15,7 +15,7 @@
     border-radius: 50%;
 }
 .comment-content {
-    background-color: white;
+    background-color: #e6e6f4;
     padding: 8px;
     border-radius: 10px;
 }
@@ -47,4 +47,5 @@
 .modify span:first-child {
     margin-right: 25px;
 }
+
 
