@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FlEvent } from '../../models/FlEvent';
-import { EventsService } from '../../services/events.service';
+import {Component, OnInit} from '@angular/core';
+import {FlEvent} from '../../models/FlEvent';
+import {EventsService} from '../../services/events.service';
+import {Member} from '../../models/Member';
 
 @Component({
     selector: 'app-events',
@@ -8,15 +9,18 @@ import { EventsService } from '../../services/events.service';
     styleUrls: ['./events.component.css']
 })
 export class EventsComponent implements OnInit {
-    flEvents: FlEvent[];
-
-    constructor() { }
+    constructor(private eventService: EventsService) {
+    }
 
     ngOnInit() {
-        this.getEvents();
     }
 
-    private getEvents() {
-
-    }
+    /*onAdded(newEvent: { description: string, eventTitle: string, eventDate: Date, creator: Member }) {
+        const event = new FlEvent();
+        event.description = newEvent.description;
+        event.eventTitle = newEvent.eventTitle;
+        event.eventDate = newEvent.eventDate;
+        event.creator = newEvent.creator;
+        this.eventService.saveEvent(event).subscribe({complete: () => this.eventListComponent.refreshEvents()});
+    }*/
 }

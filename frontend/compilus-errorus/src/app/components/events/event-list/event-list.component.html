@@ -1,4 +1,6 @@
 <div class="events-div">
+    <app-add-event (eventAdded) = onAddedEvent($event)>
+    </app-add-event>
     <ul class="events-list">
         <div class="events"
              *ngFor="let event of flEvents; let i=index"

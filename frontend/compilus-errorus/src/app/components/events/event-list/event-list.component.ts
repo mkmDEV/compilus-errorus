@@ -27,4 +27,11 @@ export class EventListComponent implements OnInit {
         });
     }
 
+    onAddedEvent(event: FlEvent) {
+        this.eventService.saveEvent(event).subscribe();
+    }
+
+    public refreshEvents() {
+        this.getEvents();
+    }
 }

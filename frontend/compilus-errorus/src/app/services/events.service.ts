@@ -13,16 +13,20 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class EventsService {
-    postsUrl = 'http://localhost:8080/events';
+    eventsUrl = 'http://localhost:8080/events';
     latestEventsUrl = 'http://localhost:8080/events/latest';
 
     constructor(private http: HttpClient) { }
 
     getFlEvents(): Observable<FlEvent[]> {
-        return this.http.get<FlEvent[]>(this.postsUrl);
+        return this.http.get<FlEvent[]>(this.eventsUrl);
     }
 
     getLatestEvents(): Observable<FlEvent[]> {
         return this.http.get<FlEvent[]>(this.latestEventsUrl);
+    }
+
+    saveEvent(event: FlEvent): Observable<FlEvent> {
+        return this.http.post<FlEvent>(this.eventsUrl, event, httpOptions);
     }
 }
