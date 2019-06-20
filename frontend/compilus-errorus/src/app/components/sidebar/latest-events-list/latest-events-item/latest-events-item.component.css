@@ -2,6 +2,7 @@
     list-style: none;
     padding: 1vh;
 }
+
 .events-btn {
     background-color: #464670;
     color: #fff;
@@ -12,6 +13,7 @@
     border-radius: 5px;
     float: right;
 }
+
 .events-btn:hover {
     background-color: #007BFF;
 }

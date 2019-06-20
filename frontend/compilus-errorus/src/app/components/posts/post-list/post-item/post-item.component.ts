@@ -25,14 +25,14 @@ export class PostItemComponent implements OnInit {
         this.post.likes += 1;
         this.shakingUp = true;
         this.updated.emit(this.post);
-        setTimeout( () => this.shakingUp = false, 1000);
+        setTimeout(() => this.shakingUp = false, 1000);
     }
 
     onVoteDown() {
         this.post.dislikes += 1;
         this.shakingDown = true;
         this.updated.emit(this.post);
-        setTimeout( () => this.shakingDown = false, 1000);
+        setTimeout(() => this.shakingDown = false, 1000);
     }
 
     onDelete(post: Post) {

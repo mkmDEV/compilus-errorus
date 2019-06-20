@@ -7,6 +7,7 @@
     border: none;
     border-radius: 5px;
 }
+
 .add-event-button:hover {
     background-color: #007BFF;
 }
@@ -27,7 +28,7 @@ textarea {
     box-shadow: 1px 0 0 #464670;
     padding: 5px;
     border-radius: 10px;
-    width: -webkit-fill-available;
+    width: 90%;
     margin-left: 5%;
     margin-right: 5%;
 }
