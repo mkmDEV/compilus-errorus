@@ -8,7 +8,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
-    {path: 'events', component: EventsComponent},
+    {path: 'latest-events', component: EventsComponent},
     {path: 'profile', component: ProfileComponent},
 ];
 
