@@ -5,11 +5,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { GroupsComponent } from './components/groups/groups.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'events', component: EventsComponent},
     {path: 'profile', component: ProfileComponent},
+    {path: 'groups', component: GroupsComponent},
 ];
 
 @NgModule({
