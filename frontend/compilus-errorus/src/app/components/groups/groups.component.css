@@ -16,7 +16,7 @@
 }
 
 .groups-div ul li:hover {
-    color: green;
+    color: #007bff;
 }
 
 .groups-div ul li:last-child:hover {
