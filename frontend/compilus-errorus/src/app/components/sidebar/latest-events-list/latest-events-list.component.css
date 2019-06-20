@@ -1,4 +1,4 @@
-.latest-events {
+.latest-events-container {
     margin-top: 20px;
 }
 
@@ -6,3 +6,15 @@
     /*margin: 10px;*/
 }
 
+.latest-events {
+    background: rgba(255, 255, 255, .6);
+    margin-top: 1em;
+}
+
+.alter {
+    background: rgba(168, 141, 217, 0.5);
+}
+
+.latest-events, .alter {
+    border-radius: 15px;
+}

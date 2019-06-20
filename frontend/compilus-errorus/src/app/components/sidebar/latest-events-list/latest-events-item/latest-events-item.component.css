@@ -1,5 +1,6 @@
 .latest-event-item li {
     list-style: none;
+    padding: 1em;
 }
 .latest.events-item li p {
     margin-top: 10px;

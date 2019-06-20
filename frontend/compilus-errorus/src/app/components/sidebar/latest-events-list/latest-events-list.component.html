@@ -1,7 +1,9 @@
-<div class="latest-events">
+<div class="latest-events-container">
     <ul class="latest-events-list">
-    <app-latest-events-item class="latest-events"
-                            *ngFor="let event of events" [event]="event"
-    ></app-latest-events-item>
+        <div class="latest-events"
+             *ngFor="let event of events; let i=index"
+             [ngClass]="{alter: i % 2 === 0}">
+            <app-latest-events-item [event]="event"></app-latest-events-item>
+        </div>
     </ul>
 </div>
