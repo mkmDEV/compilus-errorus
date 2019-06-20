@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FlComment } from '../../../../../models/FlComment';
 import { Post } from '../../../../../models/Post';
 import { CommentsService } from '../../../../../services/comments.service';
@@ -10,6 +10,7 @@ import { CommentsService } from '../../../../../services/comments.service';
 })
 export class CommentListComponent implements OnInit {
     @Input() post: Post;
+    @ViewChild('addCommentInput', {static: false}) inputField;
     comments: FlComment[];
 
     constructor(private commentsService: CommentsService) {
@@ -33,6 +34,22 @@ export class CommentListComponent implements OnInit {
         const index = this.comments.indexOf(comment);
         this.comments.splice(index, 1);
         this.commentsService.deleteComment(comment).subscribe();
+    }
+
+    addComment() {
+        const message = this.inputField.nativeElement.value;
+        const newComment = new FlComment();
+        newComment.message = message;
+        newComment.post = this.post;
+
+        this.inputField.nativeElement.value = '';
+
+        const queryString = '?postId=' + this.post.id;
+        this.commentsService.saveComment(newComment).subscribe({
+            complete: () => {
+                this.commentsService.getComments(queryString).subscribe(comments => this.comments = comments);
+            }
+        });
     }
 }
 

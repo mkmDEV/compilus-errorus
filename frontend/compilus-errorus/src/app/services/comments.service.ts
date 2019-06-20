@@ -29,4 +29,8 @@ export class CommentsService {
     deleteComment(comment: FlComment) {
         return this.http.delete(`${ this.commentsUrl }/${ comment.id }`);
     }
+
+    saveComment(comment: FlComment) {
+        return this.http.post<FlComment>(this.commentsUrl, comment, httpOptions);
+    }
 }
