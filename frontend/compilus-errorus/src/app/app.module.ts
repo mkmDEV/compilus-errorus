@@ -28,7 +28,6 @@ import { GroupItemComponent } from './components/groups/group-list/group-item/gr
 import { AddGroupComponent } from './components/groups/group-list/add-group/add-group.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
-import { ProfileDetailsComponent } from './components/profile/profile-details/profile-details.component';
 import { AboutMeComponent } from './components/profile/profile-details/about-me/about-me.component';
 import { WallComponent } from './components/profile/profile-details/wall/wall.component';
 
@@ -58,7 +57,6 @@ import { WallComponent } from './components/profile/profile-details/wall/wall.co
         AddGroupComponent,
         ProfileComponent,
         HomeComponent,
-        ProfileDetailsComponent,
         AboutMeComponent,
         WallComponent
     ],

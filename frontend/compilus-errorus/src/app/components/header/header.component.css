@@ -17,6 +17,7 @@ a {
 
 .dropdown-item:hover {
     background-color: #007bff;
+    border-radius: 2px;
 }
 
 .dropdown-menu {

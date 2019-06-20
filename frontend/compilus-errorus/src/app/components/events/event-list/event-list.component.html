@@ -1,3 +1,8 @@
-<p>
-  event-list works!
-</p>
+<div class="events-div">
+    <ul class="events-list">
+        <app-event-item class="events"
+                        *ngFor="let event of flEvents; let i=index" [event]=event
+                        [ngClass]="{'colored-event': i % 2 === 0}">
+        </app-event-item>
+    </ul>
+</div>
