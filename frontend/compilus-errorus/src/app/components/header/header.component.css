@@ -9,6 +9,10 @@ header {
     z-index: 1000;
 }
 
+.dropdown-div ul {
+    float: right;
+}
+
 a {
     text-decoration: none;
     background-color: #464670;
