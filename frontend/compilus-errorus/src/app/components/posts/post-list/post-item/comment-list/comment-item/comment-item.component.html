@@ -1,7 +1,7 @@
 <div class="comment-div">
     <p>
         <span class="img-span"><img src="http://localhost:8080/image-resource/blank-profile.png" alt="user-image" class="user-image"></span>
-        <span class="comment-content">
+        <span class="comment-content" [ngClass]="{'edit': currentlyEdited}">
             <span class="commenter-name">{{ comment.member.name }}</span>
             <span [contentEditable]="currentlyEdited"
                   #editableMessage
