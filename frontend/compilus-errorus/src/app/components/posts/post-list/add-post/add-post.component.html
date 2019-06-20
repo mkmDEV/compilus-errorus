@@ -1,8 +1,6 @@
 <div class="add-post">
     <h4>Add your post</h4>
     <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-        <!--<label for="username">Username:</label>
-        <input type="text" id="username" [(ngModel)]="username" name="username">-->
         <label for="message">Message:</label>
         <textarea [(ngModel)]="message" id="message" name="message" placeholder="What's on your mind?"></textarea>
         <div class="image-choice"><i class="material-icons" (click)="toggleVisibility()">add_photo_alternate</i>
@@ -11,6 +9,5 @@
             </div>
             <input type="submit" value="submit">
         </div>
-        
     </form>
 </div>

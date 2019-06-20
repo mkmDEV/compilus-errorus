@@ -25,6 +25,11 @@ public class PostController {
         return postService.getOrderedPosts();
     }
 
+    @GetMapping("/logged-in-member")
+    public List<Post> getLoggedInMemberPosts() {
+        return postService.getLoggedInMemberPosts();
+    }
+
     @PostMapping
     public Post addPost(@Valid @RequestBody Post post) {
         postService.addPost(post);

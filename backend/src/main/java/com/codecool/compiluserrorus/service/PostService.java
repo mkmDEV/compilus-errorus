@@ -27,6 +27,12 @@ public class PostService {
         return posts;
     }
 
+    public List<Post> getLoggedInMemberPosts() {
+        List<Post> posts = postRepository.getPostsByMemberIdOrderByPostingDateDesc(1);
+        posts.forEach(post -> post.setRomanDate(Util.setRomanDate(post.getPostingDate())));
+        return posts;
+    }
+
     public void addPost(Post post) {
         post.setMember(memberRepository.findAll().get(0));
         postRepository.save(post);

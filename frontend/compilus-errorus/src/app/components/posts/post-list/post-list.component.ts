@@ -33,7 +33,7 @@ export class PostListComponent implements OnInit {
         this.postService.deletePost(post).subscribe();
     }
 
-    onAdded(newPost: {message: string, postType: string, image: File, imageName: string}) {
+    onAdded(newPost: { message: string, postType: string, image: File, imageName: string }) {
         const post = new Post();
         post.message = newPost.message;
         post.postType = newPost.postType;
@@ -41,9 +41,10 @@ export class PostListComponent implements OnInit {
         if (newPost.image == null) {
             this.postService.savePost(post).subscribe({complete: () => this.refreshPosts()});
         } else {
-            this.postService.uploadImage(newPost.image).subscribe( { complete: () => {
-                post.image = newPost.imageName;
-                this.refreshPosts();
+            this.postService.uploadImage(newPost.image).subscribe({
+                complete: () => {
+                    post.image = newPost.imageName;
+                    this.refreshPosts();
                 }
             });
         }
