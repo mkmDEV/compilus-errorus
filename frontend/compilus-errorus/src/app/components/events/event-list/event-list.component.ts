@@ -5,7 +5,12 @@ import {EventsService} from '../../../services/events.service';
 @Component({
     selector: 'app-event-list',
     templateUrl: './event-list.component.html',
-    styleUrls: ['./event-list.component.css']
+    styleUrls: ['./event-list.component.css'],
+    styles: [`
+        .colored {
+            background-color: #a88dd9;
+        }
+    `]
 })
 export class EventListComponent implements OnInit {
     flEvents: FlEvent[];
