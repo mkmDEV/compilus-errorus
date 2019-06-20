@@ -5,8 +5,8 @@
             <span class="commenter-name">{{ comment.member.name }}</span>
                 {{ comment.message }}
             <span class="comment-likes">
-                <i class="material-icons thumb-up">thumb_up</i> {{ comment.likes }}
-                <i class="material-icons thumb-down">thumb_down</i> {{ comment.dislikes }}
+                <i class="material-icons thumb-up" (click)="onVoteUp()">thumb_up</i> {{ comment.likes }}
+                <i class="material-icons thumb-down" (click)="onVoteDown()">thumb_down</i> {{ comment.dislikes }}
             </span>
         </span>
     </p>

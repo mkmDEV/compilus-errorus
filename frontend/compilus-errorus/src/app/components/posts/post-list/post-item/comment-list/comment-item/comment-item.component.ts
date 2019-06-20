@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FlComment } from '../../../../../../models/FlComment';
 
 @Component({
@@ -8,10 +8,20 @@ import { FlComment } from '../../../../../../models/FlComment';
 })
 export class CommentItemComponent implements OnInit {
     @Input() comment: FlComment;
+    @Output() voted = new EventEmitter<FlComment>();
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  onVoteUp() {
+      this.comment.likes += 1;
+      this.voted.emit(this.comment);
+  }
+
+  onVoteDown() {
+      this.comment.dislikes += 1;
+      this.voted.emit(this.comment);
+  }
 }
