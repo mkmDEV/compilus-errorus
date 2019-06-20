@@ -11,9 +11,9 @@
        #messageText
     >{{ post.message }}</p>
   	<p class="thumbs">
-    	<i class="material-icons thumb-up animated" (click)="onVoteUp()">thumb_up</i>
+    	<i class="material-icons thumb-up" [ngClass]="{'animated': shakingUp}" (click)="onVoteUp()">thumb_up</i>
     	<span class="likes"> {{ post.likes }} </span>
-    	<i class="material-icons thumb-down" (click)="onVoteDown()">thumb_down</i>
+    	<i class="material-icons thumb-down" [ngClass]="{'animated': shakingDown}" (click)="onVoteDown()">thumb_down</i>
 		<span class="dislikes"> {{ post.dislikes }} </span>
 		<i class="material-icons trash" (click)="onDelete(post)">delete</i>
 		<i class="material-icons edit" (click)="onEdit()">edit</i>

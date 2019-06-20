@@ -12,6 +12,8 @@ export class CommentItemComponent implements OnInit {
     @Output() deleted = new EventEmitter<FlComment>();
     @ViewChild('editableMessage', {static: false}) messageSpan;
     currentlyEdited: boolean;
+    shakingUp = false;
+    shakingDown = false;
 
     constructor() {
     }
@@ -23,11 +25,15 @@ export class CommentItemComponent implements OnInit {
     onVoteUp() {
         this.comment.likes += 1;
         this.updated.emit(this.comment);
+        this.shakingUp = true;
+        setTimeout( () => this.shakingUp = false, 1000);
     }
 
     onVoteDown() {
         this.comment.dislikes += 1;
         this.updated.emit(this.comment);
+        this.shakingDown = true;
+        setTimeout( () => this.shakingDown = false, 1000);
     }
 
     onEdit() {

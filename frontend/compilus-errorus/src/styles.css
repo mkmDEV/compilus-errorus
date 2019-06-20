@@ -6,20 +6,31 @@ html, body {
     width: 100%;
     height: 100%;
     color: #464670;
-    /*overflow: hidden;*/
 }
 
 .animated {
     animation-name: shake;
     animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    -webkit-animation-name: shake;
+    -webkit-animation-duration: 0.4s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
 }
 
 @keyframes shake {
-    0%   {transform:rotate(0deg)}
-    25%  {transform: rotate(45deg)}
+    0%   {transform: rotate(0deg)}
+    25%  {transform: rotate(60deg)}
     50%  {transform: rotate(0deg)}
-    75%  {transform: rotate(-45deg)}
+    75%  {transform: rotate(-60deg)}
+    100% {transform: rotate(0deg)}
+}
+
+@-webkit-keyframes shake {
+    0%   {transform: rotate(0deg)}
+    25%  {transform: rotate(60deg)}
+    50%  {transform: rotate(0deg)}
+    75%  {transform: rotate(-60deg)}
     100% {transform: rotate(0deg)}
 }

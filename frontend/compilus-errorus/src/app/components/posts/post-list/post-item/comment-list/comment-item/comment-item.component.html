@@ -8,8 +8,10 @@
                   (keydown.enter)="onEnter()"
             >{{ comment.message }}</span>
             <span class="comment-likes">
-                <i class="material-icons thumb-up" (click)="onVoteUp()">thumb_up</i> {{ comment.likes }}
-                <i class="material-icons thumb-down" (click)="onVoteDown()">thumb_down</i> {{ comment.dislikes }}
+                <i class="material-icons thumb-up"
+                   [ngClass]="{'animated': shakingUp}" (click)="onVoteUp()">thumb_up</i> {{ comment.likes }}
+                <i class="material-icons thumb-down"
+                   [ngClass]="{'animated': shakingDown}" (click)="onVoteDown()">thumb_down</i> {{ comment.dislikes }}
             </span>
         </span>
     </p>
