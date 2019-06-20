@@ -2,9 +2,10 @@
     width: 70%;
     margin: 20px auto;
     padding: 10px;
-    background-color: #e6e6f4;
+    background-color: #e9ebee;
     border: 1px solid #aaa;
     box-shadow: 0 0 10px #aaa;
+    border-radius: 4px;
 }
 
 .add-post #message, .add-post #username {
