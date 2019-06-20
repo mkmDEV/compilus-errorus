@@ -3,12 +3,6 @@
 }
 
 .latest-events-list {
-    margin: 20px;
+    /*margin: 10px;*/
 }
 
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}

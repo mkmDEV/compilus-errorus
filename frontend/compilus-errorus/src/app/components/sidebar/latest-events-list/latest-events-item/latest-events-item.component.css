@@ -7,7 +7,7 @@
 .events-btn {
     background-color: #464670;
     color: #fff;
-    padding: 5px;
+    padding: 10px;
     font-size: 18px;
     margin: 0 5px;
     border: none;
@@ -15,5 +15,5 @@
     float: right;
 }
 .events-btn:hover {
-    background-color: green;
+    background-color: #007BFF;
 }
