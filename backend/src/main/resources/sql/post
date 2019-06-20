@@ -11,3 +11,7 @@ INSERT INTO post (id, message, posting_date, likes, dislikes, image, member_id, 
 INSERT INTO comment(id, message, posting_date, likes, dislikes, member_id, post_id) VALUES (1, 'How pretty!', '2019-06-17 18:10:00.000000', 10, 0, 2, 3);
 INSERT INTO comment(id, message, posting_date, likes, dislikes, member_id, post_id) VALUES (2, 'What about male fashion?', '2019-06-17 18:20:00.000000', 1, 3, 1, 3);
 INSERT INTO comment(id, message, posting_date, likes, dislikes, member_id, post_id) VALUES (3, 'My condolences, Brutus!', '2019-06-17 18:30:00.000000', 50, 20, 3, 4);
+
+INSERT INTO event (id, description, event_date, event_title, creator_id) VALUES (1, 'Gallic slaves for half price only tomorrow!', '2019-06-20', 'Foro Servum', 1);
+INSERT INTO event (id, description, event_date, event_title, creator_id) VALUES (2, 'Carthago Delenda Est!', '2019-06-19', 'Carthagian campaign', 2);
+INSERT INTO event (id, description, event_date, event_title, creator_id) VALUES (3, 'Watch the fights in the Amphitheatrum Flavium', '2019-06-14', 'Gladiator combats', 4);
