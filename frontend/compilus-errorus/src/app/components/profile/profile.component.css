@@ -48,6 +48,7 @@
     padding: 10px;
     float: left;
     width: 100%;
+    height: 100%;
 }
 
 #forum-romanum {
@@ -60,4 +61,5 @@
 
 #friends {
     float: right;
+    height: 100%;
 }
