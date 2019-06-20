@@ -1,16 +1,13 @@
 .latest-event-item li {
     list-style: none;
-    padding: 1em;
-}
-.latest.events-item li p {
-    margin-top: 10px;
+    padding: 1vh;
 }
 .events-btn {
     background-color: #464670;
     color: #fff;
     padding: 10px;
     font-size: 18px;
-    margin: 0 5px;
+    margin: 1vh;
     border: none;
     border-radius: 5px;
     float: right;
