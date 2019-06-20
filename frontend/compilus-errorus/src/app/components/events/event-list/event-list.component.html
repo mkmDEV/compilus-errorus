@@ -1,11 +1,17 @@
-<div class="events-div">
-    <app-add-event (eventAdded) = onAddedEvent($event)>
-    </app-add-event>
-    <ul class="events-list">
-        <div class="events"
-             *ngFor="let event of flEvents; let i=index"
-             [ngClass]="{colored: i % 2 === 0}">
-            <app-event-item [event]=event></app-event-item>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-5">
+            <app-add-event (eventAdded) = onAddedEvent($event)>
+            </app-add-event>
         </div>
-    </ul>
+        <div class="col-7">
+            <ul class="events-list">
+                <div class="events"
+                     *ngFor="let event of flEvents; let i=index"
+                     [ngClass]="{colored: i % 2 === 0}">
+                    <app-event-item [event]=event></app-event-item>
+                </div>
+            </ul>
+        </div>
+    </div>
 </div>

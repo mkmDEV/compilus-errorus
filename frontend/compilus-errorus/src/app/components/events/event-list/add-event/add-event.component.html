@@ -1,14 +1,13 @@
 <div class="add-event">
-    <h4>Make a new event</h4>
+    <h3>Make a new event!</h3>
+    <hr>
     <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-        <!--<label for="username">Username:</label>
-        <input type="text" id="username" [(ngModel)]="username" name="username">-->
-        <label for="title">Title:</label><br>
-        <textarea [(ngModel)]="eventTitle" id="title" name="title" placeholder="What is the name of your event?"></textarea><br>
-        <label for="date">Pick a date:</label><br>
+        <label for="title">Title</label><br>
+        <textarea [(ngModel)]="eventTitle" id="title" name="title"></textarea><br>
+        <label for="date">Pick a date</label><br>
         <input type="datetime-local" [(ngModel)]="eventDate" id="date" name="date"><br>
-        <label for="description">Description:</label><br>
-        <textarea [(ngModel)]="description" id="description" name="description" placeholder="What will your event be about?"></textarea><br>
-        <input type="submit" value="Make it!">
+        <label for="description">Description</label><br>
+        <textarea [(ngModel)]="description" id="description" name="description"></textarea><br>
+        <input type="submit" value="Make it!" class="add-event-button">
     </form>
 </div>

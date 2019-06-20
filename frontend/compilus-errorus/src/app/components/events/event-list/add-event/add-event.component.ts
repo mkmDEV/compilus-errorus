@@ -16,7 +16,6 @@ export class AddEventComponent implements OnInit {
     eventTitle: string;
     eventDate: Date;
     creator: Member;
-    // newEvent = {description: '', eventTitle: '', eventDate: null, creator: null};
 
     // tslint:disable-next-line:max-line-length
     constructor(private profileService: ProfileService, private eventService: EventsService, private eventListComponent: EventListComponent) { }
