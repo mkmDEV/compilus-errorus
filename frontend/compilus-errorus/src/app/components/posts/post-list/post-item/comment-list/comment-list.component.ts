@@ -25,7 +25,7 @@ export class CommentListComponent implements OnInit {
         this.commentsService.getComments(queryString).subscribe(comments => this.comments.push(...comments));
     }
 
-    onVoted(comment: FlComment) {
+    onUpdated(comment: FlComment) {
         this.commentsService.updateComment(comment).subscribe();
     }
 
