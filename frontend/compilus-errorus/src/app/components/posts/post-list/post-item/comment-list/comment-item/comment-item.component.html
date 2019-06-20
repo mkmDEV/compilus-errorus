@@ -1,15 +1,17 @@
 <div class="comment-div">
     <p>
         <span class="img-span"><img src="http://localhost:8080/image-resource/blank-profile.png" alt="user-image" class="user-image"></span>
-        <span class="comment-content">
+        <span class="comment-content" [ngClass]="{'edit': currentlyEdited}">
             <span class="commenter-name">{{ comment.member.name }}</span>
             <span [contentEditable]="currentlyEdited"
                   #editableMessage
                   (keydown.enter)="onEnter()"
             >{{ comment.message }}</span>
             <span class="comment-likes">
-                <i class="material-icons thumb-up" (click)="onVoteUp()">thumb_up</i> {{ comment.likes }}
-                <i class="material-icons thumb-down" (click)="onVoteDown()">thumb_down</i> {{ comment.dislikes }}
+                <i class="material-icons thumb-up"
+                   [ngClass]="{'animated': shakingUp}" (click)="onVoteUp()">thumb_up</i> {{ comment.likes }}
+                <i class="material-icons thumb-down"
+                   [ngClass]="{'animated': shakingDown}" (click)="onVoteDown()">thumb_down</i> {{ comment.dislikes }}
             </span>
         </span>
     </p>

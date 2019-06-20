@@ -47,5 +47,7 @@
 .modify span:first-child {
     margin-right: 25px;
 }
-
+.edit {
+    background-color: rgba(168, 141, 217, 0.5);
+}
 

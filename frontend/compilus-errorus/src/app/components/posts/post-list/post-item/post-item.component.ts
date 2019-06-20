@@ -12,6 +12,8 @@ export class PostItemComponent implements OnInit {
     @Output() deleted = new EventEmitter<Post>();
     @ViewChild('messageText', {static: false}) messageText;
     editable = false;
+    shakingUp = false;
+    shakingDown = false;
 
     constructor() {
     }
@@ -21,12 +23,16 @@ export class PostItemComponent implements OnInit {
 
     onVoteUp() {
         this.post.likes += 1;
+        this.shakingUp = true;
         this.updated.emit(this.post);
+        setTimeout( () => this.shakingUp = false, 1000);
     }
 
     onVoteDown() {
         this.post.dislikes += 1;
+        this.shakingDown = true;
         this.updated.emit(this.post);
+        setTimeout( () => this.shakingDown = false, 1000);
     }
 
     onDelete(post: Post) {
@@ -38,7 +44,6 @@ export class PostItemComponent implements OnInit {
         this.editable = false;
         this.post.message = this.messageText.nativeElement.textContent;
         this.updated.emit(this.post);
-
     }
 
     onEdit() {
