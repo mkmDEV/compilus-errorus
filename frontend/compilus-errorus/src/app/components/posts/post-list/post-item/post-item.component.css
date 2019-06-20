@@ -42,9 +42,13 @@ h3 span {
     margin-right: 15px;
 }
 .trash, .edit {
+    color: #464670;
     float: right;
     margin-right: 15px;
     cursor: pointer;
+}
+.trash:hover, .edit:hover {
+    color: #007bff;
 }
 .amend-message {
     background-color: #fff;

@@ -1,5 +1,9 @@
 .comment-div {
     font-size: 16px;
+    padding-bottom: 15px;
+}
+.comment-div p {
+    margin-bottom:  0;
 }
 .comment-div .img-span {
     background: transparent;
@@ -24,8 +28,23 @@
 }
 .comment-likes .thumb-up {
     color: green;
+    cursor: pointer;
 }
 .comment-likes .thumb-down {
     color: red;
     margin-left: 10px;
+    cursor: pointer;
 }
+.modify {
+    color: #464670;
+    font-size: 14px;
+    margin-left: 60px;
+}
+.modify span:hover {
+    cursor: pointer;
+    color: #007bff;
+}
+.modify span:first-child {
+    margin-right: 25px;
+}
+
