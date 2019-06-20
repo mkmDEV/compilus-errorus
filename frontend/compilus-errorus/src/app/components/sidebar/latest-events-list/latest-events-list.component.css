@@ -1,11 +1,10 @@
 .latest-events {
-    margin: 20px 0;
+    margin-top: 20px;
 }
 
 .latest-events-list {
     margin: 20px;
 }
-.
 
 /* Clear floats after the columns */
 .row:after {
