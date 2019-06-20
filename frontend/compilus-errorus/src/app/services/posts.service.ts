@@ -14,12 +14,17 @@ const httpOptions = {
 })
 export class PostsService {
     postsUrl = 'http://localhost:8080/posts';
+    loggedInMemberPostsUrl = 'http://localhost:8080/posts/logged-in-member';
 
     constructor(private http: HttpClient) {
     }
 
     getPosts(): Observable<Post[]> {
         return this.http.get<Post[]>(this.postsUrl);
+    }
+
+    getLoggedInMemberPosts(): Observable<Post[]> {
+        return this.http.get<Post[]>(this.loggedInMemberPostsUrl);
     }
 
     uploadImage(file: File): Observable<HttpEvent<{}>> {

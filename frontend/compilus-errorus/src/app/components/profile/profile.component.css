@@ -2,7 +2,6 @@
     text-align: center;
     top: 0;
     left: 0;
-    padding-top: 10px;
 }
 
 .row {
@@ -20,19 +19,18 @@
     border: 1px solid #aaa;
     box-shadow: 0 0 0 #aaa;
     overflow: auto;
+    padding-top: 6%;
 }
 
 #content {
     width: 100%;
-    margin-top: 1%;
     display: flex;
     overflow: auto;
     text-align: center;
-    padding: 20px;
+    padding: 2%;
 }
 
 #about-me, #friends {
-    width: 22%;
     margin-right: 8px;
 }
 
@@ -49,6 +47,7 @@
     white-space: nowrap;
     padding: 10px;
     float: left;
+    width: 100%;
 }
 
 #forum-romanum {
@@ -56,6 +55,7 @@
     float: right;
     text-align: center;
     margin-right: 8px;
+    background-color: ghostwhite;
 }
 
 #friends {

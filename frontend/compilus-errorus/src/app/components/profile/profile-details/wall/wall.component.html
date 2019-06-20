@@ -9,6 +9,6 @@
     </div>
 </div>
 <hr>
-<div>
-    a csávó saját postjait szedjed ki ide
+<div *ngFor="let post of ownPosts" id="post-container">
+    <app-post-item [post]=post></app-post-item>
 </div>

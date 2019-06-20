@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from '../../../../services/profile.service';
+import { Post } from '../../../../models/Post';
+import { PostsService } from '../../../../services/posts.service';
 
 @Component({
     selector: 'app-wall',
@@ -7,11 +8,18 @@ import { ProfileService } from '../../../../services/profile.service';
     styleUrls: ['./wall.component.css']
 })
 export class WallComponent implements OnInit {
+    ownPosts: Post[];
 
-    constructor(private profileService: ProfileService) {
+    constructor(private postService: PostsService) {
     }
 
     ngOnInit() {
+        this.getPosts();
     }
 
+    getPosts() {
+        this.postService.getLoggedInMemberPosts().subscribe(posts => {
+            this.ownPosts = posts;
+        });
+    }
 }

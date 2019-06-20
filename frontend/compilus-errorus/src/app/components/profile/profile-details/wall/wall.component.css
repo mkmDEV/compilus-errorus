@@ -12,3 +12,7 @@
 h3 {
     margin-top: 3% !important;
 }
+
+#post-container {
+    text-align: left;
+}
