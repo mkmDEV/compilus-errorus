@@ -3,6 +3,6 @@
 }
 #store-advert {
     width: 100%;
-    height: auto;
+    max-height: 30vh;
     cursor: pointer;
 }
