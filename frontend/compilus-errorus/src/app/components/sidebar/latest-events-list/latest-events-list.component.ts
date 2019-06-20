@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FlEvent} from '../../../models/FlEvent';
-import {EventService} from '../../../services/event.service';
+import {EventsService} from '../../../services/events.service';
 
 @Component({
   selector: 'app-latest-events-list',
@@ -9,14 +9,14 @@ import {EventService} from '../../../services/event.service';
 })
 export class LatestEventsListComponent implements OnInit {
     events: FlEvent[];
-  constructor(private eventService: EventService) { }
+  constructor(private eventsService: EventsService) { }
 
   ngOnInit() {
       this.getLatestEvents();
   }
 
     private getLatestEvents() {
-      this.eventService.getLatestEvents().subscribe(events =>{
+      this.eventsService.getLatestEvents().subscribe(events => {
           this.events = events;
       });
     }

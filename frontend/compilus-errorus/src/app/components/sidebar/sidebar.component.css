@@ -1,4 +1,12 @@
+.sidebar {
+    width: 100%;
+    padding-top: 20px;
+}
 a {
     text-decoration: none;
     color: #464670;
+}
+
+.sidebar {
+    margin-top: 2vh;
 }

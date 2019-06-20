@@ -8,9 +8,8 @@ import { Post } from '../../../../models/Post';
 })
 export class PostItemComponent implements OnInit {
     @Input() post: Post;
-    @Output() voted = new EventEmitter<Post>();
+    @Output() updated = new EventEmitter<Post>();
     @Output() deleted = new EventEmitter<Post>();
-    @Output() edited = new EventEmitter<Post>();
     @ViewChild('messageText', {static: false}) messageText;
     editable = false;
 
@@ -22,12 +21,12 @@ export class PostItemComponent implements OnInit {
 
     onVoteUp() {
         this.post.likes += 1;
-        this.voted.emit(this.post);
+        this.updated.emit(this.post);
     }
 
     onVoteDown() {
         this.post.dislikes += 1;
-        this.voted.emit(this.post);
+        this.updated.emit(this.post);
     }
 
     onDelete(post: Post) {
@@ -38,7 +37,8 @@ export class PostItemComponent implements OnInit {
     onEnter() {
         this.editable = false;
         this.post.message = this.messageText.nativeElement.textContent;
-        this.edited.emit(this.post);
+        this.updated.emit(this.post);
+
     }
 
     onEdit() {

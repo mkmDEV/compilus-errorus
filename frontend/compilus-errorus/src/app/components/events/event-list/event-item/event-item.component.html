@@ -1,3 +1,6 @@
-<p>
-  event-item works!
-</p>
+<li><p class="date">{{ event.eventDate | date: 'yyyy.MM.dd HH'}} hora</p>
+    <h3>
+        <span>{{ event.eventTitle }}</span>
+    </h3>
+    <p class="description">{{ event.description }}</p>
+</li>

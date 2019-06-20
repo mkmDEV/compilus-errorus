@@ -23,19 +23,14 @@ export class PostListComponent implements OnInit {
         });
     }
 
-    onVoted(post: Post) {
-        this.postService.updatePost(post).subscribe(updatedPost => console.log(updatedPost));
+    onUpdated(post: Post) {
+        this.postService.updatePost(post).subscribe();
     }
 
     onDeleted(post: Post) {
         const index = this.posts.indexOf(post);
         this.posts.splice(index, 1);
         this.postService.deletePost(post).subscribe();
-    }
-
-    onEdited(post: Post) {
-        this.postService.updatePost(post).subscribe();
-
     }
 
     onAdded(newPost: {message: string, postType: string, image: File, imageName: string}) {
