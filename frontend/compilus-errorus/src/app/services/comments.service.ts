@@ -4,25 +4,29 @@ import { Observable } from 'rxjs';
 import { FlComment } from '../models/FlComment';
 
 const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
+    headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+    })
 };
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CommentsService {
-  commentsUrl = 'http://localhost:8080/comments';
+    commentsUrl = 'http://localhost:8080/comments';
 
-  constructor(private http: HttpClient) {
-  }
+    constructor(private http: HttpClient) {
+    }
 
-  getComments(queryString: string): Observable<FlComment[]> {
-    return this.http.get<FlComment[]>(this.commentsUrl + queryString);
-  }
+    getComments(queryString: string): Observable<FlComment[]> {
+        return this.http.get<FlComment[]>(this.commentsUrl + queryString);
+    }
 
-  updateComment(comment: FlComment): Observable<FlComment> {
-      return this.http.put<FlComment>(`${this.commentsUrl}/${comment.id}`, comment, httpOptions);
-  }
+    updateComment(comment: FlComment): Observable<FlComment> {
+        return this.http.put<FlComment>(`${ this.commentsUrl }/${ comment.id }`, comment, httpOptions);
+    }
+
+    deleteComment(comment: FlComment) {
+        return this.http.delete(`${ this.commentsUrl }/${ comment.id }`);
+    }
 }

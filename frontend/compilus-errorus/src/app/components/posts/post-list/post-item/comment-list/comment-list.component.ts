@@ -29,5 +29,10 @@ export class CommentListComponent implements OnInit {
         this.commentsService.updateComment(comment).subscribe();
     }
 
+    onDeleted(comment: FlComment) {
+        const index = this.comments.indexOf(comment);
+        this.comments.splice(index, 1);
+        this.commentsService.deleteComment(comment).subscribe();
+    }
 }
 

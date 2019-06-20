@@ -2,4 +2,5 @@
 <app-comment-item
     *ngFor="let comment of comments" [comment]="comment"
     (updated)="onUpdated(comment)"
+    (deleted)="onDeleted(comment)"
 ></app-comment-item>

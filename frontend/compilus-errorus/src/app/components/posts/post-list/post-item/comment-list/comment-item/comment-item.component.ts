@@ -9,6 +9,7 @@ import { FlComment } from '../../../../../../models/FlComment';
 export class CommentItemComponent implements OnInit {
     @Input() comment: FlComment;
     @Output() updated = new EventEmitter<FlComment>();
+    @Output() deleted = new EventEmitter<FlComment>();
     @ViewChild('editableMessage', {static: false}) messageSpan;
     currentlyEdited: boolean;
 
@@ -40,6 +41,6 @@ export class CommentItemComponent implements OnInit {
     }
 
     onDelete() {
-
+        this.deleted.emit(this.comment);
     }
 }
