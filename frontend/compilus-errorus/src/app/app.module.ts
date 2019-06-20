@@ -18,6 +18,7 @@ import { CommentItemComponent } from './components/posts/post-list/post-item/com
 import { PostListComponent } from './components/posts/post-list/post-list.component';
 import { AddCommentComponent } from './components/posts/post-list/post-item/comment-list/add-comment/add-comment.component';
 import { LatestEventsListComponent } from './components/sidebar/latest-events-list/latest-events-list.component';
+import { LatestEventsItemComponent } from './components/sidebar/latest-events-list/latest-events-item/latest-events-item.component';
 import { OwnGroupsListComponent } from './components/sidebar/own-groups-list/own-groups-list.component';
 import { EventListComponent } from './components/events/event-list/event-list.component';
 import { EventItemComponent } from './components/events/event-list/event-item/event-item.component';
@@ -47,6 +48,7 @@ import { WallComponent } from './components/profile/profile-details/wall/wall.co
         PostListComponent,
         AddCommentComponent,
         LatestEventsListComponent,
+        LatestEventsItemComponent,
         OwnGroupsListComponent,
         EventListComponent,
         EventItemComponent,
