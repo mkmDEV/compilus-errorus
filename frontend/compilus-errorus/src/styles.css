@@ -8,3 +8,18 @@ html, body {
     color: #464670;
     /*overflow: hidden;*/
 }
+
+.animated {
+    animation-name: shake;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes shake {
+    0%   {transform:rotate(0deg)}
+    25%  {transform: rotate(45deg)}
+    50%  {transform: rotate(0deg)}
+    75%  {transform: rotate(-45deg)}
+    100% {transform: rotate(0deg)}
+}
