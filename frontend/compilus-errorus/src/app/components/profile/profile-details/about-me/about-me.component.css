@@ -4,3 +4,34 @@ img {
     height: 200px;
     border-radius: 50%;
 }
+
+#content {
+    text-align: center;
+}
+
+#about-me-data {
+    text-align: justify;
+}
+
+#about-me-info {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.word-break {
+    width: 230%;
+    word-wrap: break-word;
+    display: block;
+    white-space: normal;
+    text-align: justify;
+}
+
+.visibility {
+    color: green;
+    margin-left: 6px;
+}
+
+.online {
+    display: inline-flex;
+    vertical-align: middle
+}
