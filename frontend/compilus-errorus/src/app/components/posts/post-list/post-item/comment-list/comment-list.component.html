@@ -1,2 +1,5 @@
-<app-comment-item *ngFor="let comment of comments" [comment]="comment"></app-comment-item>
 <input type="text" class="comment-input" placeholder="Write a comment!">
+<app-comment-item
+    *ngFor="let comment of comments" [comment]="comment"
+    (updated)="onUpdated(comment)"
+></app-comment-item>

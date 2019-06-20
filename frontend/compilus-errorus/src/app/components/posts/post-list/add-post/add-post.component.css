@@ -2,13 +2,23 @@
     width: 70%;
     margin: 20px auto;
     padding: 10px;
-    background-color: #e9ebee;
+    background-color: #ffffff;
     border: 1px solid #aaa;
     box-shadow: 0 0 10px #aaa;
-    border-radius: 4px;
+    border-radius: 10px;
 }
-
-.add-post #message, .add-post #username {
+textarea {
+    background-color: #e6e6f4;
+    border: none;
+    box-shadow: 1px 0 0 #464670;
+    padding: 5px;
+    border-radius: 10px;
+}
+::placeholder {
+    color: #464670;
+    opacity: 1;
+}
+.add-post #message {
     display: block;
     width: 100%;
     border-radius: 5px;
@@ -36,5 +46,5 @@
     border-radius: 5px;
 }
 .image-choice input[type="submit"]:hover {
-    background-color: green;
+    background-color: #007bff;
 }

@@ -21,4 +21,8 @@ export class CommentsService {
   getComments(queryString: string): Observable<FlComment[]> {
     return this.http.get<FlComment[]>(this.commentsUrl + queryString);
   }
+
+  updateComment(comment: FlComment): Observable<FlComment> {
+      return this.http.put<FlComment>(`${this.commentsUrl}/${comment.id}`, comment, httpOptions);
+  }
 }

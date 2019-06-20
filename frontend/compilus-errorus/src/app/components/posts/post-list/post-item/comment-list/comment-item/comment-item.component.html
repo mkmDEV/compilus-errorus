@@ -3,11 +3,18 @@
         <span class="img-span"><img src="http://localhost:8080/image-resource/profile-pic.jpg" alt="user-image" class="user-image"></span>
         <span class="comment-content">
             <span class="commenter-name">{{ comment.member.name }}</span>
-                {{ comment.message }}
+            <span [contentEditable]="currentlyEdited"
+                  #editableMessage
+                  (keydown.enter)="onEnter()"
+            >{{ comment.message }}</span>
             <span class="comment-likes">
-                <i class="material-icons thumb-up">thumb_up</i> {{ comment.likes }}
-                <i class="material-icons thumb-down">thumb_down</i> {{ comment.dislikes }}
+                <i class="material-icons thumb-up" (click)="onVoteUp()">thumb_up</i> {{ comment.likes }}
+                <i class="material-icons thumb-down" (click)="onVoteDown()">thumb_down</i> {{ comment.dislikes }}
             </span>
         </span>
+    </p>
+    <p class="modify">
+        <span (click)="onEdit()">Edit</span>
+        <span (click)="onDelete()">Delete</span>
     </p>
 </div>
