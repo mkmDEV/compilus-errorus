@@ -22,4 +22,14 @@ export class WallComponent implements OnInit {
             this.ownPosts = posts;
         });
     }
+
+    onUpdated(post: Post) {
+        this.postService.updatePost(post).subscribe();
+    }
+
+    onDeleted(post: Post) {
+        const index = this.ownPosts.indexOf(post);
+        this.ownPosts.splice(index, 1);
+        this.postService.deletePost(post).subscribe();
+    }
 }
