@@ -24,18 +24,10 @@ class UploadControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private String url;
-
-    @BeforeEach
-    public void init() {
-
-    }
-
     @Test
     @Order(1)
     void imATeapot() throws Exception {
-
-        url = "/teapot";
+        String url = "/teapot";
 
         this.mockMvc
                 .perform(get(url).accept(MediaType.APPLICATION_JSON))
@@ -44,11 +36,13 @@ class UploadControllerTest {
     }
 
     @Test
-    void saveImage() {
-    }
+    @Order(2)
+    void testImageUpload() {
 
-    @Test
-    void getFile() {
+        String imageUploadUrl = "/upload";
+        String imageGetUrl = "/image-resource/{image}";
+
+
     }
 
 }

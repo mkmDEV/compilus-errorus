@@ -28,14 +28,14 @@ public class UploadController {
         }
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/image-resource/{image}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/image-resource/{image}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public FileSystemResource getFile(@PathVariable("image") String fileName) {
         return new FileSystemResource(imagePath + fileName);
     }
 
     @GetMapping("/teapot")
     public ResponseEntity imATeapot() {
-        return new ResponseEntity<>("The server refused to brew coffee because it is a teapot.", HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity<>(
+                "The server refused to brew coffee because it is a teapot.", HttpStatus.I_AM_A_TEAPOT);
     }
 }
