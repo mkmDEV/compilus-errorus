@@ -6,6 +6,7 @@ import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.repository.PostRepository;
 import com.codecool.compiluserrorus.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +37,14 @@ public class PostService {
 
     public Post addPost(Post post, Member member) {
         post.setMember(member);
-        postRepository.save(post);
+
+        try {
+            postRepository.save(post);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            throw new DataIntegrityViolationException("Message cannot be null");
+        }
+
         return post;
     }
 
