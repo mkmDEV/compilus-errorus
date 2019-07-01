@@ -8,6 +8,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -58,6 +59,10 @@ public class Member {
     @EqualsAndHashCode.Exclude
     @Fetch(FetchMode.JOIN)
     private Set<Member> friends;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private Set<String> roles = new HashSet<>();
 
     @Override
     public String toString() {
