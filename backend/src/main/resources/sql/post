@@ -15,3 +15,9 @@ INSERT INTO comment(id, message, posting_date, likes, dislikes, member_id, post_
 INSERT INTO event (id, description, event_date, event_title, creator_id) VALUES (1, 'Gallic slaves for half price only tomorrow!', '2019-06-20', 'Foro Servum', 1);
 INSERT INTO event (id, description, event_date, event_title, creator_id) VALUES (2, 'Carthago Delenda Est!', '2019-06-19', 'Carthagian campaign', 2);
 INSERT INTO event (id, description, event_date, event_title, creator_id) VALUES (3, 'Watch the fights in the Amphitheatrum Flavium', '2019-06-14', 'Gladiator combats', 4);
+
+INSERT INTO member_roles(member_id, roles) VALUES (1, 'USER');
+INSERT INTO member_roles(member_id, roles) VALUES (1, 'ADMIN');
+INSERT INTO member_roles(member_id, roles) VALUES (2, 'USER');
+INSERT INTO member_roles(member_id, roles) VALUES (3, 'USER');
+INSERT INTO member_roles(member_id, roles) VALUES (4, 'USER');
