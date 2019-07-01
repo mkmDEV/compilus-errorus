@@ -89,7 +89,10 @@ class PostServiceTest {
     @Test
     @Order(3)
     public void addPost() {
-
+        when(this.postRepository.save(testPost)).thenReturn(testPost);
+        Post newPost = this.postService.addPost(testPost, testMember);
+        assertFalse(newPost.getMessage().isEmpty());
+        verify(this.postRepository).save(testPost);
     }
 
     @Test
