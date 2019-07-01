@@ -54,6 +54,7 @@ class PostServiceTest {
                 .postingDate(LocalDateTime.of(2019, 2, 3, 4, 5))
                 .likes(10)
                 .dislikes(10)
+                .member(testMember)
                 .build();
     }
 
@@ -78,14 +79,16 @@ class PostServiceTest {
     @Order(2)
     public void getLoggedInMemberPosts() {
         int posts = 5;
-
         this.postList = PostServiceUtil.getOrderedPosts(posts);
-        System.out.println(this.postList);
-        when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
 
+        when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getLoggedInMemberPosts();
 
         assertEquals(this.postList.size(), orderedPosts.size());
+
+        IntStream.range(0, posts - 1)
+                .forEach(i -> assertEquals(this.postList.get(i).getMember(), orderedPosts.get(i).getMember()));
+
         verify(this.postRepository).getPostsByMemberIdOrderByPostingDateDesc(STUB_ID);
     }
 
@@ -93,7 +96,7 @@ class PostServiceTest {
     @Order(3)
     public void addValidNewPost() {
         when(this.postRepository.save(testPost)).thenReturn(testPost);
-        Post newPost = this.postService.addPost(testPost, testMember);
+        Post newPost = this.postService.addPost(testPost, testPost.getMember());
         assertFalse(newPost.getMessage().isEmpty());
         verify(this.postRepository).save(testPost);
     }
