@@ -33,4 +33,15 @@ public class MemberService {
         List<Member> members = this.memberRepository.findAll();
         return members.get(0);
     }
+
+    public Member register(Member member) {
+        Member newMember = Member.builder()
+                .name(member.getName())
+                .email(member.getEmail())
+                .password(passwordEncoder.encode(member.getPassword()))
+                .roles(Set.of("USER"))
+                .build();
+        memberRepository.save(newMember);
+        return newMember;
+    }
 }
