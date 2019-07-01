@@ -6,9 +6,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { GroupsComponent } from './components/groups/groups.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 const routes: Routes = [
-    {path: '', component: HomeComponent},
+    {path: '', component: WelcomeComponent},
+    {path: 'home', component: HomeComponent},
     {path: 'events', component: EventsComponent},
     {path: 'profile', component: ProfileComponent},
     {path: 'groups', component: GroupsComponent},
