@@ -60,7 +60,7 @@ class PostServiceTest {
 
     @ParameterizedTest
     @Order(1)
-    @ValueSource(ints = {1, 5, 25, 100, 250, 500})
+    @ValueSource(ints = {1, 5, 25, 100, 250, 500, 1000})
     public void getOrderedPosts(int posts) {
         this.postList = PostServiceUtil.getOrderedPosts(posts);
         when(this.postRepository.getPostByOrderByPostingDateDesc()).thenReturn(this.postList);
@@ -128,9 +128,11 @@ class PostServiceTest {
 
         when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
         Post updatedPost = this.postService.updatePost(STUB_ID, updatedPostData);
+
         assertEquals(updatedPost.getMessage(), updatedMessage);
         assertEquals(updatedPost.getLikes(), likes);
         assertEquals(updatedPost.getDislikes(), dislikes);
+
         verify(this.postRepository).findById(STUB_ID);
     }
 
