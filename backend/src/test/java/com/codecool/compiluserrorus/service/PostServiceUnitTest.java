@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 @ComponentScan(basePackageClasses = {PostService.class})
 @DataJpaTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class PostServiceTest {
+class PostServiceUnitTest {
 
     private static final Long STUB_ID = 1L;
 
