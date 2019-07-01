@@ -61,7 +61,8 @@ public class PostService {
         return amendPost;
     }
 
-    public void deletePost(Long id) {
+    public boolean deletePost(Long id) {
         postRepository.findById(id).ifPresent(deletablePost -> postRepository.deleteById(id));
+        return true;
     }
 }

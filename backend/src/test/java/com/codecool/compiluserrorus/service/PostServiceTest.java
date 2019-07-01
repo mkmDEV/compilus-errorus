@@ -150,9 +150,11 @@ class PostServiceTest {
         verify(this.postRepository).findById(STUB_ID);
     }
 
-
     @Test
+    @Order(7)
     public void deletePost() {
-
+        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
+        assertTrue(() -> this.postService.deletePost(STUB_ID));
+        verify(this.postRepository).deleteById(STUB_ID);
     }
 }
