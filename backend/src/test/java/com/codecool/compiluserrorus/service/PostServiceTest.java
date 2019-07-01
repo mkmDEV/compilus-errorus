@@ -15,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.when;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PostServiceTest {
 
-    private static final int STUB_USER_ID = 1;
+    private static final Long STUB_ID = 1L;
 
     @MockBean
     private PostRepository postRepository;
@@ -50,8 +51,9 @@ class PostServiceTest {
         testPost = Post.builder()
                 .message("Test message")
                 .postingDate(LocalDateTime.of(2019, 2, 3, 4, 5))
+                .likes(10)
+                .dislikes(10)
                 .build();
-
     }
 
     @ParameterizedTest
@@ -65,7 +67,7 @@ class PostServiceTest {
         assertEquals(this.postList.size(), orderedPosts.size());
 
         IntStream.range(0, posts - 1)
-                .forEach(i -> assertTrue(orderedPosts.get(i).getPostingDate().isAfter( orderedPosts.get(i + 1).getPostingDate())
+                .forEach(i -> assertTrue(orderedPosts.get(i).getPostingDate().isAfter(orderedPosts.get(i + 1).getPostingDate())
                 ));
 
         verify(this.postRepository).getPostByOrderByPostingDateDesc();
@@ -78,12 +80,12 @@ class PostServiceTest {
 
         this.postList = PostServiceUtil.getOrderedPosts(posts);
         System.out.println(this.postList);
-        when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_USER_ID)).thenReturn(this.postList);
+        when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
 
         List<Post> orderedPosts = this.postService.getLoggedInMemberPosts();
 
         assertEquals(this.postList.size(), orderedPosts.size());
-        verify(this.postRepository).getPostsByMemberIdOrderByPostingDateDesc(STUB_USER_ID);
+        verify(this.postRepository).getPostsByMemberIdOrderByPostingDateDesc(STUB_ID);
     }
 
     @Test
@@ -96,8 +98,38 @@ class PostServiceTest {
     }
 
     @Test
-    public void updatePost() {
+    @Order(4)
+    public void updateExistingPost() {
+        String updatedMessage = "Updated test message";
+
+        Post updatedPostData = Post.builder()
+                .message(updatedMessage)
+                .likes(20)
+                .dislikes(20)
+                .build();
+
+        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
+        Post updatedPost = this.postService.updatePost(STUB_ID, updatedPostData);
+        assertEquals(updatedPost.getMessage(), updatedMessage);
+        verify(this.postRepository).findById(STUB_ID);
     }
+
+    @Test
+    @Order(5)
+    public void updateNonExistingPost() {
+        String updatedMessage = "Updated test message";
+
+        Post updatedPostData = Post.builder()
+                .message(updatedMessage)
+                .likes(20)
+                .dislikes(20)
+                .build();
+
+        when(this.postRepository.findById(STUB_ID)).thenReturn(null);
+        assertThrows(NullPointerException.class, () -> this.postService.updatePost(STUB_ID, updatedPostData));
+        verify(this.postRepository).findById(STUB_ID);
+    }
+
 
     @Test
     public void deletePost() {
