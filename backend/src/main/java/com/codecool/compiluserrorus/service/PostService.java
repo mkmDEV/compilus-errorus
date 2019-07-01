@@ -1,5 +1,6 @@
 package com.codecool.compiluserrorus.service;
 
+import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.repository.PostRepository;
@@ -33,9 +34,10 @@ public class PostService {
         return posts;
     }
 
-    public void addPost(Post post) {
-        post.setMember(memberRepository.findAll().get(0));
+    public Post addPost(Post post, Member member) {
+        post.setMember(member);
         postRepository.save(post);
+        return post;
     }
 
     public Post updatePost(Long id, Post post) {
