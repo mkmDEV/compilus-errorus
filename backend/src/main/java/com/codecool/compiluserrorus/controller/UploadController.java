@@ -1,8 +1,9 @@
 package com.codecool.compiluserrorus.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,8 +16,7 @@ import java.nio.file.Paths;
 @CrossOrigin
 public class UploadController {
 
-    @Value("${IMAGE_PATH}")
-    private String imagePath;
+    private String imagePath = System.getenv("IMAGE_PATH");
 
     @PostMapping("/upload")
     public void saveImage(@RequestPart("file") MultipartFile file) {
@@ -32,5 +32,10 @@ public class UploadController {
     @RequestMapping(value = "/image-resource/{image}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public FileSystemResource getFile(@PathVariable("image") String fileName) {
         return new FileSystemResource(imagePath + fileName);
+    }
+
+    @GetMapping("/teapot")
+    public ResponseEntity<Object> imATeapot() {
+        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(null);
     }
 }
