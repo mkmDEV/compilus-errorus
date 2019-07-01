@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
@@ -90,7 +91,7 @@ class PostServiceTest {
 
     @Test
     @Order(3)
-    public void addPost() {
+    public void addValidNewPost() {
         when(this.postRepository.save(testPost)).thenReturn(testPost);
         Post newPost = this.postService.addPost(testPost, testMember);
         assertFalse(newPost.getMessage().isEmpty());
@@ -99,23 +100,39 @@ class PostServiceTest {
 
     @Test
     @Order(4)
+    public void addNewPostWithoutMessage() {
+        Post wrongPost = Post.builder()
+                .message(null)
+                .build();
+
+        when(this.postRepository.save(wrongPost)).thenThrow(DataIntegrityViolationException.class);
+        assertThrows(DataIntegrityViolationException.class, () -> this.postService.addPost(wrongPost, testMember));
+        verify(this.postRepository).save(wrongPost);
+    }
+
+    @Test
+    @Order(5)
     public void updateExistingPost() {
         String updatedMessage = "Updated test message";
+        int likes = 30;
+        int dislikes = 20;
 
         Post updatedPostData = Post.builder()
                 .message(updatedMessage)
-                .likes(20)
-                .dislikes(20)
+                .likes(likes)
+                .dislikes(dislikes)
                 .build();
 
         when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
         Post updatedPost = this.postService.updatePost(STUB_ID, updatedPostData);
         assertEquals(updatedPost.getMessage(), updatedMessage);
+        assertEquals(updatedPost.getLikes(), likes);
+        assertEquals(updatedPost.getDislikes(), dislikes);
         verify(this.postRepository).findById(STUB_ID);
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     public void updateNonExistingPost() {
         String updatedMessage = "Updated test message";
 
@@ -125,7 +142,7 @@ class PostServiceTest {
                 .dislikes(20)
                 .build();
 
-        when(this.postRepository.findById(STUB_ID)).thenReturn(null);
+        when(this.postRepository.findById(STUB_ID)).thenThrow(NullPointerException.class);
         assertThrows(NullPointerException.class, () -> this.postService.updatePost(STUB_ID, updatedPostData));
         verify(this.postRepository).findById(STUB_ID);
     }
@@ -133,5 +150,6 @@ class PostServiceTest {
 
     @Test
     public void deletePost() {
+
     }
 }
