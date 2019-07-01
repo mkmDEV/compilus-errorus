@@ -1,13 +1,12 @@
 package com.codecool.compiluserrorus.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -17,28 +16,48 @@ import java.time.LocalDate;
 @Table(name = "post")
 public class Post {
 
+    @TableGenerator(name = "Post_Gen", initialValue = 5)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "Post_Gen")
     private Long id;
 
-    @Column(name = "message", nullable = false)
+    @Column(nullable = false)
     private String message;
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "posting_date")
-    private LocalDate date;
+    private LocalDateTime postingDate;
 
-    @Column(name = "likes")
+    @Transient
+    private String romanDate;
+
     private Integer likes = 0;
 
-    @Column(name = "dislikes")
     private Integer dislikes = 0;
 
-    @Column(name = "image")
     private String image;
 
-    @Column(name = "username")
-    private String username;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Member member;
 
+    @Singular
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonBackReference
+    @EqualsAndHashCode.Exclude
+    private Set<Comment> comments;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private PostType postType;
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", postingDate=" + postingDate +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

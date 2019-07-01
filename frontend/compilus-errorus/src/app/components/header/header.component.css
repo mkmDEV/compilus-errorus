@@ -1,10 +1,36 @@
 header {
+    width: 100%;
     text-align: center;
     background-color: #464670;
-    color: ghostwhite;
     padding: 10px;
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
+}
+
+.dropdown-div ul {
+    float: right;
+}
+
+a {
+    text-decoration: none;
+    background-color: #464670;
+    color: #ffffff !important;
+}
+
+.dropdown-item:hover {
+    background-color: #007bff;
+    border-radius: 2px;
+}
+
+.dropdown-menu {
+    background-color: #464670;
+}
+
+.my-menu {
+    cursor: pointer;
+    background-color: #007bff;
+    color: #ffffff;
+    margin-top: 8px;
 }

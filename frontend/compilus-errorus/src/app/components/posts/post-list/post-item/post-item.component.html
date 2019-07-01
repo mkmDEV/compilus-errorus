@@ -1,0 +1,22 @@
+<div class="post-item">
+    <h3><img src="http://localhost:8080/image-resource/blank-profile.png" alt="user-image" class="user-image">
+        <span>{{ post.member.name }}</span>
+    </h3>
+    <p class="date"><span>Date:</span> {{ post.romanDate }}</p>
+    <img *ngIf="post.image != null" src="http://localhost:8080/image-resource/{{ post.image }}" alt="img">
+    <p class="message" (keydown.enter)="onEnter()"
+       [contentEditable]="editable"
+       [ngClass]="{'amend-message': editable}"
+       #messageText
+    >{{ post.message }}</p>
+    <p class="thumbs">
+        <i class="material-icons thumb-up" [ngClass]="{'animated': shakingUp}" (click)="onVoteUp()">thumb_up</i>
+        <span class="likes"> {{ post.likes }} </span>
+        <i class="material-icons thumb-down" [ngClass]="{'animated': shakingDown}" (click)="onVoteDown()">thumb_down</i>
+        <span class="dislikes"> {{ post.dislikes }} </span>
+        <i class="material-icons trash" (click)="onDelete(post)">delete</i>
+        <i class="material-icons edit" (click)="onEdit()">edit</i>
+    </p>
+    <hr>
+    <app-comment-list [post]="post"></app-comment-list>
+</div>

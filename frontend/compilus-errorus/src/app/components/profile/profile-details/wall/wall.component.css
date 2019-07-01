@@ -1,0 +1,18 @@
+.row {
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+}
+
+.to-center {
+    margin-top: 10px;
+    text-align: center;
+}
+
+h3 {
+    margin-top: 3% !important;
+}
+
+#post-container {
+    text-align: left;
+}

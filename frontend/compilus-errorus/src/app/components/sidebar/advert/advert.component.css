@@ -1,0 +1,18 @@
+.advert-div {
+    margin: 40px 0;
+}
+
+.advert-div a {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+}
+
+#store-advert {
+    /*width: 100%;
+    max-height: 30vh;*/
+    height: 250px;
+    width: auto;
+    margin: 0 auto;
+    cursor: pointer;
+}

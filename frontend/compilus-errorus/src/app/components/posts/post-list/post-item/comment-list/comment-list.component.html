@@ -1,0 +1,7 @@
+<input type="text" class="comment-input" placeholder="Write a comment!"
+       (keydown.enter)="addComment()" #addCommentInput>
+<app-comment-item
+    *ngFor="let comment of comments" [comment]="comment"
+    (updated)="onUpdated(comment)"
+    (deleted)="onDeleted(comment)"
+></app-comment-item>

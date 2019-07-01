@@ -1,11 +1,24 @@
+.container-fluid {
+    padding-top: 5%;
+    background-color: #e6e6f4;
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+    width: 100%;
+    overflow: auto;
+    height: 100%;
+}
+
 .groups-div ul li {
     list-style: none;
     font-weight: bold;
     cursor: pointer;
 }
+
 .groups-div ul li:hover {
-    color: green;
+    color: #007bff;
 }
+
 .groups-div ul li:last-child:hover {
     color: #464670;
 }

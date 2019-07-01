@@ -1,0 +1,64 @@
+.add-event-button {
+    background-color: #464670;
+    color: #fff;
+    padding: 10px;
+    font-size: 18px;
+    margin: 1vh;
+    border: none;
+    border-radius: 5px;
+}
+
+.add-event-button:hover {
+    background-color: #007BFF;
+}
+
+.add-event {
+    width: 70%;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #aaa;
+    box-shadow: 0 0 10px #aaa;
+    border-radius: 10px;
+}
+
+textarea {
+    background-color: #e6e6f4;
+    border: none;
+    box-shadow: 1px 0 0 #464670;
+    padding: 5px;
+    border-radius: 10px;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+::placeholder {
+    color: #464670;
+    opacity: 1;
+}
+
+.add-event #message {
+    display: block;
+    width: 100%;
+    border-radius: 5px;
+}
+
+h3 {
+    text-align: center;
+    margin: 5px;
+}
+
+.form {
+    text-align: center;
+}
+
+#date {
+    padding: 3px;
+    margin: 3px;
+}
+
+label {
+    margin: 5%;
+    font-size: x-large;
+}
