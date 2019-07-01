@@ -50,6 +50,7 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonBackReference(value = "events")
     @EqualsAndHashCode.Exclude
+    @Fetch(FetchMode.JOIN)
     private Set<Comment> events;
 
     @Singular
