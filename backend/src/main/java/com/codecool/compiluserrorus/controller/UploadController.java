@@ -35,7 +35,7 @@ public class UploadController {
     }
 
     @GetMapping("/teapot")
-    public ResponseEntity<Object> imATeapot() {
-        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(null);
+    public ResponseEntity imATeapot() {
+        return new ResponseEntity<>("The server refused to brew coffee because it is a teapot.", HttpStatus.I_AM_A_TEAPOT);
     }
 }
