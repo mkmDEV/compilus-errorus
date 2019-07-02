@@ -28,7 +28,10 @@ export class LoginComponent implements OnInit {
             sessionStorage.setItem('roles', data.roles.toString());
             this.email = '';
             this.password = '';
-            this.router.navigateByUrl('/home').then(() => console.log('redirected'));
+            if (data.token) {
+                this.router.navigateByUrl('/home').then(() => console.log('redirected'));
+            }
         });
+
     }
 }
