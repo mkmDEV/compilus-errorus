@@ -1,6 +1,7 @@
 package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Event;
+import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.EventRepository;
 import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.util.Util;
@@ -14,7 +15,7 @@ import java.util.List;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     public List<Event> getOrderedEvents() {
         List<Event> events = eventRepository.getAllEvents();
@@ -28,8 +29,9 @@ public class EventService {
         return latestEvents;
     }
 
-    public void addEvent(Event event) {
-        event.setCreator(memberRepository.findAll().get(0));
+    public void addEvent(Event event, Member member) {
+        Member eventCreator = memberService.getLoggedInMember(member);
+        event.setCreator(eventCreator);
         eventRepository.save(event);
     }
 

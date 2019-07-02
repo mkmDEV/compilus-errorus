@@ -17,11 +17,15 @@ export class AuthService {
     constructor(private http: HttpClient) {
     }
 
-    loginUser(member: Member) {
-        return this.http.post<{ roles: [], email: string, token: string }>(this.url, member, httpOptions);
+    static isAuthenticated(): boolean {
+        return sessionStorage.getItem('token') !== null;
     }
 
-    isAuthenticated(): boolean {
-        return sessionStorage.getItem('token') !== null;
+    getLoggedInMember() {
+        return this.http.get()
+    }
+
+    loginUser(member: Member) {
+        return this.http.post<{ roles: [], email: string, token: string }>(this.url, member, httpOptions);
     }
 }
