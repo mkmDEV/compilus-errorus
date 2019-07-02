@@ -25,7 +25,7 @@ public class MemberController {
         return memberService.getFriends();
     }
 
-    @GetMapping("/logged-in-member")
+    @PostMapping("/logged-in-member")
     public Member getLoggedInMember(@RequestBody Member member) {
         return memberService.getLoggedInMember(member);
     }
