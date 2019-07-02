@@ -4,9 +4,6 @@ import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.MemberRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -18,9 +15,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @ComponentScan(basePackageClasses = {MemberService.class})
@@ -73,7 +70,9 @@ class MemberServiceTest {
     @Test
     @Order(2)
     public void TestRegistrationWithAlreadyRegisteredEmail() {
-
+        when(this.memberRepository.findByEmail(this.newMember.getEmail())).thenReturn(null);
+        assertThrows(NullPointerException.class, () -> this.memberService.register(this.newMember));
+        verify(this.memberRepository).findByEmail(this.newMember.getEmail());
     }
 
 }
