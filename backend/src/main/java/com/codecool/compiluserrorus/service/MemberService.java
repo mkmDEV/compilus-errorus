@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -37,8 +38,8 @@ public class MemberService {
     public Member register(Member member) {
         Member newMember = null;
 
-        Member optionalMember = this.memberRepository.findByEmail(member.getEmail()).orElse(null);
-        if (optionalMember == null) {
+        Optional<Member> optionalMember = this.memberRepository.findByEmail(member.getEmail());
+        if (optionalMember.isEmpty()) {
             newMember = Member.builder()
                     .name(member.getName())
                     .email(member.getEmail())
