@@ -100,26 +100,31 @@ class PostControllerUnitTest {
     @Order(3)
     @WithMockUser
     public void getLoggedInMemberPostsWhenLoggedIn() throws Exception {
-        when(this.postService.getLoggedInMemberPosts(STUB_ID)).thenReturn(this.posts);
+        when(this.postService.getLoggedInMemberPosts(this.testMember)).thenReturn(this.posts);
 
         this.url = MAIN_URL + "/logged-in-member";
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
 
-        MvcResult mvcResult = this.mockMvc.perform(get(url))
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        get(url)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
-
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
         assertEquals(objectMapper.writeValueAsString(this.posts), actualResponseBody);
 
-        verify(this.postService).getLoggedInMemberPosts(STUB_ID);
+        verify(this.postService).getLoggedInMemberPosts(this.testMember);
         verifyNoMoreInteractions(this.postService);
     }
 
     @Test
     @Order(4)
     public void getLoggedInMemberPostsWhenLoggedOut() throws Exception {
-        when(this.postService.getLoggedInMemberPosts(STUB_ID)).thenReturn(this.posts);
+        when(this.postService.getLoggedInMemberPosts(this.testMember)).thenReturn(this.posts);
 
         this.url = MAIN_URL + "/logged-in-member";
 
