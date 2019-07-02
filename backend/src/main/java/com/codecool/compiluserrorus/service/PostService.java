@@ -31,10 +31,14 @@ public class PostService {
         return posts;
     }
 
-    public List<Post> getLoggedInMemberPosts(Long memberId) {
-        List<Post> posts = postRepository.getPostsByMemberIdOrderByPostingDateDesc(memberId);
-        posts.forEach(post -> post.setRomanDate(Util.setRomanDate(post.getPostingDate())));
-        return posts;
+    public List<Post> getLoggedInMemberPosts(Member member) {
+        Member loggedInMember = memberRepository.findByEmail(member.getEmail()).orElse(null);
+        if (loggedInMember != null) {
+            List<Post> posts = postRepository.getPostsByMemberIdOrderByPostingDateDesc(loggedInMember.getId());
+            posts.forEach(post -> post.setRomanDate(Util.setRomanDate(post.getPostingDate())));
+            return posts;
+        }
+        return null;
     }
 
     public Post addPost(Post post, Member member) {

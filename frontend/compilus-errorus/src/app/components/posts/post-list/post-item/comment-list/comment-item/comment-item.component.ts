@@ -37,7 +37,9 @@ export class CommentItemComponent implements OnInit {
     }
 
     onEdit() {
-        this.currentlyEdited = true;
+        if (this.isUserTheSame()) {
+            this.currentlyEdited = true;
+        }
     }
 
     onEnter() {
@@ -47,6 +49,12 @@ export class CommentItemComponent implements OnInit {
     }
 
     onDelete() {
-        this.deleted.emit(this.comment);
+        if (this.isUserTheSame()) {
+            this.deleted.emit(this.comment);
+        }
+    }
+
+    isUserTheSame() {
+        return this.comment.member.email === sessionStorage.getItem('email');
     }
 }

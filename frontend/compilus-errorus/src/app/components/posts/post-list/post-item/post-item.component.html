@@ -14,8 +14,8 @@
         <span class="likes"> {{ post.likes }} </span>
         <i class="material-icons thumb-down" [ngClass]="{'animated': shakingDown}" (click)="onVoteDown()">thumb_down</i>
         <span class="dislikes"> {{ post.dislikes }} </span>
-        <i class="material-icons trash" (click)="onDelete(post)">delete</i>
-        <i class="material-icons edit" (click)="onEdit()">edit</i>
+        <i *ngIf="isUserSame()" class="material-icons trash" (click)="onDelete(post)">delete</i>
+        <i *ngIf="isUserSame()" class="material-icons edit" (click)="onEdit()">edit</i>
     </p>
     <hr>
     <app-comment-list [post]="post"></app-comment-list>
