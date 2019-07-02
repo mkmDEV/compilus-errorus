@@ -15,6 +15,7 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
     public List<Post> getOrderedPosts() {
         List<Post> posts = postRepository.getPostByOrderByPostingDateDesc();
@@ -29,7 +30,8 @@ public class PostService {
     }
 
     public Post addPost(Post post, Member member) {
-        post.setMember(member);
+        Member postMember = memberRepository.findByEmail(member.getEmail().toString()).orElse(null);
+        post.setMember(postMember);
         postRepository.save(post);
         return post;
     }
