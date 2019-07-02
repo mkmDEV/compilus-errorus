@@ -1,6 +1,7 @@
 package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Comment;
+import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.CommentRepository;
 import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.util.Util;
@@ -22,8 +23,8 @@ public class CommentService {
         return comments;
     }
 
-    public void addComment(Comment comment) {
-        comment.setMember(memberRepository.findAll().get(0));
+    public void addComment(Comment comment, Member member) {
+        comment.setMember(memberRepository.findByEmail(member.getEmail()).orElse(null));
         commentRepository.save(comment);
     }
 
