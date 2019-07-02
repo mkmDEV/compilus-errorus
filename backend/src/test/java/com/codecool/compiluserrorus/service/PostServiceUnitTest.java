@@ -82,7 +82,7 @@ class PostServiceUnitTest {
         this.postList = PostTestsUtil.getOrderedPosts(posts);
 
         when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
-        List<Post> orderedPosts = this.postService.getLoggedInMemberPosts();
+        List<Post> orderedPosts = this.postService.getLoggedInMemberPosts(STUB_ID);
 
         assertEquals(this.postList.size(), orderedPosts.size());
 

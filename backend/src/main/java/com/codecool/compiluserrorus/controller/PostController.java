@@ -30,7 +30,7 @@ public class PostController {
 
     @GetMapping("/logged-in-member")
     public List<Post> getLoggedInMemberPosts() {
-        return postService.getLoggedInMemberPosts();
+        return postService.getLoggedInMemberPosts(1L);
     }
 
     @PostMapping
