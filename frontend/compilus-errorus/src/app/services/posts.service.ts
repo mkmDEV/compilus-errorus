@@ -29,9 +29,14 @@ export class PostsService {
     }
 
     uploadImage(file: File): Observable<HttpEvent<{}>> {
+        const httpOptionsImage = {
+            headers: new HttpHeaders({
+                Authorization: 'Bearer ' + sessionStorage.getItem('token')
+            })
+        };
         const formData: FormData = new FormData();
         formData.append('file', file);
-        const req = new HttpRequest('POST', 'http://localhost:8080/upload', formData, httpOptions);
+        const req = new HttpRequest('POST', 'http://localhost:8080/upload', formData, httpOptionsImage);
         return this.http.request(req);
     }
 
