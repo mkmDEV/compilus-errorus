@@ -37,7 +37,9 @@ export class PostItemComponent implements OnInit {
 
     onDelete(post: Post) {
         // delete photo
-        this.deleted.emit(post);
+        if (this.isUserSame()) {
+            this.deleted.emit(post);
+        }
     }
 
     onEnter() {
@@ -47,7 +49,13 @@ export class PostItemComponent implements OnInit {
     }
 
     onEdit() {
-        this.editable = true;
+        if (this.isUserSame()) {
+            this.editable = true;
+        }
+    }
+
+    isUserSame() {
+        return this.post.member.email === sessionStorage.getItem('email');
     }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 import { Member } from '../../../models/Member';
 
 @Component({
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
     password = '';
     member = new Member();
 
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService, private router: Router) {
     }
 
     ngOnInit() {
@@ -21,13 +22,15 @@ export class LoginComponent implements OnInit {
     onLogin() {
         this.member.email = this.email;
         this.member.password = this.password;
-        this.authService.loginUser(this.member).subscribe((data) =>  {
-            sessionStorage.setItem('token', data.token);
-            sessionStorage.setItem('email', data.email);
-            sessionStorage.setItem('roles', data.roles.toString());
-            this.email = '';
-            this.password = '';
+        this.authService.loginUser(this.member).subscribe((data) => {
+            if (data.token) {
+                sessionStorage.setItem('token', data.token);
+                sessionStorage.setItem('email', data.email);
+                sessionStorage.setItem('roles', data.roles.toString());
+                this.email = '';
+                this.password = '';
+                location.assign('home');
+            }
         });
-
     }
 }

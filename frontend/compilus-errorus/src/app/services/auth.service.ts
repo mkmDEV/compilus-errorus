@@ -18,6 +18,10 @@ export class AuthService {
     }
 
     loginUser(member: Member) {
-        return this.http.post<{roles: [], email: string, token: string}>(this.url, member, httpOptions);
+        return this.http.post<{ roles: [], email: string, token: string }>(this.url, member, httpOptions);
+    }
+
+    isAuthenticated(): boolean {
+        return sessionStorage.getItem('token') !== null;
     }
 }

@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0 0 250px;
     background: linear-gradient(to bottom, #ffffff, #e6e6f4);
+    overflow: hidden;
 }
 
 .main-content {
