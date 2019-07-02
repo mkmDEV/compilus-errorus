@@ -3,6 +3,7 @@ package com.codecool.compiluserrorus.service;
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,14 @@ public class MemberService {
                 .password(passwordEncoder.encode(member.getPassword()))
                 .roles(Set.of("USER"))
                 .build();
-        memberRepository.save(newMember);
+
+        try {
+            memberRepository.save(newMember);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            throw new DataIntegrityViolationException("Email address is already registered!");
+        }
+
         return newMember;
     }
 }
