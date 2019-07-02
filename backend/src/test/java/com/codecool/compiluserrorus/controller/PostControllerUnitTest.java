@@ -83,7 +83,6 @@ class PostControllerUnitTest {
 
         verify(this.postService).getOrderedPosts();
         verifyNoMoreInteractions(this.postService);
-
     }
 
     @Test
@@ -170,7 +169,6 @@ class PostControllerUnitTest {
                 .andExpect(status().isForbidden());
 
         verifyNoMoreInteractions(this.postService);
-
     }
 
     @Test
@@ -215,20 +213,35 @@ class PostControllerUnitTest {
                 .andExpect(status().isForbidden());
 
         verifyNoMoreInteractions(this.postService);
-
     }
 
     @Test
     @Order(9)
     @WithMockUser
-    public void deletePostWhenLoggedIn() {
+    public void deletePostWhenLoggedIn() throws Exception {
+        when(this.postService.deletePost(STUB_ID)).thenReturn(true);
 
+        this.url = MAIN_URL + "/{id}";
+
+        this.mockMvc
+                .perform(delete(this.url, STUB_ID))
+                .andExpect(status().isOk());
+
+        verify(this.postService).deletePost(STUB_ID);
+        verifyNoMoreInteractions(this.postService);
     }
 
     @Test
     @Order(10)
-    public void deletePostWhenLoggedOut() {
+    public void deletePostWhenLoggedOut() throws Exception {
+        when(this.postService.deletePost(STUB_ID)).thenReturn(true);
 
+        this.url = MAIN_URL + "/{id}";
+
+        this.mockMvc
+                .perform(delete(this.url, STUB_ID))
+                .andExpect(status().isForbidden());
+
+        verifyNoMoreInteractions(this.postService);
     }
-
 }
