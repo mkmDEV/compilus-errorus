@@ -32,10 +32,15 @@ public class PostService {
         return posts;
     }
 
+    public Member findMemberByEmail(Member member) {
+        return this.memberRepository.findByEmail(member.getEmail()).orElse(null);
+    }
+
     public List<Post> getLoggedInMemberPosts(Member member) {
-        Member loggedInMember = memberRepository.findByEmail(member.getEmail()).orElse(null);
+        Member loggedInMember = findMemberByEmail(member);
+
         if (loggedInMember != null) {
-            List<Post> posts = postRepository.getPostsByMemberIdOrderByPostingDateDesc(loggedInMember.getId());
+            List<Post> posts = postRepository.getPostsByMember_EmailOrderByPostingDateDesc(loggedInMember.getEmail());
             posts.forEach(post -> post.setRomanDate(Util.setRomanDate(post.getPostingDate())));
             return posts;
         }
@@ -43,7 +48,7 @@ public class PostService {
     }
 
     public Post addPost(Post post, Member member) {
-        Member postMember = memberRepository.findByEmail(member.getEmail()).orElse(null);
+        Member postMember = findMemberByEmail(member);
         post.setMember(postMember);
         try {
             postRepository.save(post);
