@@ -10,10 +10,7 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    List<Post> getPostByMemberIdOrderByPostingDateDesc(@Param("userID") long userID);
-
     List<Post> getPostByOrderByPostingDateDesc();
 
-    List<Post> getPostsByMemberIdOrderByPostingDateDesc(@Param("userID") long userID);
-
+    List<Post> getPostsByMember_EmailOrderByPostingDateDesc(@Param("email") String email);
 }
