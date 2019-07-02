@@ -22,30 +22,26 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("test")
 @ComponentScan(basePackageClasses = {MemberService.class})
 @DataJpaTest
-@ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MemberServiceTest {
 
     @MockBean
     private MemberRepository memberRepository;
 
-    private PasswordEncoder passwordEncoder;
-
     @Autowired
     private MemberService memberService;
 
     private Member newMember;
-    private String rawPassword;
 
     @BeforeEach
     public void init() {
-        this.rawPassword = "password";
-        this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        String rawPassword = "password";
+        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
         this.newMember = Member.builder()
                 .name("name")
                 .email("email@email.com")
-                .password(this.passwordEncoder.encode(this.rawPassword))
+                .password(passwordEncoder.encode(rawPassword))
                 .roles(Set.of("USER"))
                 .build();
     }
