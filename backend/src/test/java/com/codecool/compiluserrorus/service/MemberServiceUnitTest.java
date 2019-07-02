@@ -3,8 +3,6 @@ package com.codecool.compiluserrorus.service;
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.MemberRepository;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,7 +21,7 @@ import static org.mockito.Mockito.when;
 @ComponentScan(basePackageClasses = {MemberService.class})
 @DataJpaTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class MemberServiceTest {
+class MemberServiceUnitTest {
 
     @MockBean
     private MemberRepository memberRepository;
