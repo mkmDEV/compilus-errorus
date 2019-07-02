@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot,
                 state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        if (this.authService.isAuthenticated()) {
+        if (AuthService.isAuthenticated()) {
             return true;
         } else {
             this.router.navigateByUrl('').then( () => console.log('redirected'));
