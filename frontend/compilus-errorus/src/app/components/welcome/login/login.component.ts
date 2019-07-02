@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 import { Member } from '../../../models/Member';
 
 @Component({
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
     password = '';
     member = new Member();
 
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService, private router: Router) {
     }
 
     ngOnInit() {
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
             sessionStorage.setItem('roles', data.roles.toString());
             this.email = '';
             this.password = '';
+            this.router.navigateByUrl('/home').then(() => console.log('redirected'));
         });
-
     }
 }
