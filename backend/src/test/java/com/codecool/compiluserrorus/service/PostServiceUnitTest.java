@@ -2,6 +2,7 @@ package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
+import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.repository.PostRepository;
 import com.codecool.compiluserrorus.util.PostTestsUtil;
 import org.junit.jupiter.api.*;
@@ -34,6 +35,9 @@ class PostServiceUnitTest {
     @MockBean
     private PostRepository postRepository;
 
+    @MockBean
+    private MemberRepository memberRepository;
+
     @Autowired
     private PostService postService;
 
@@ -56,6 +60,8 @@ class PostServiceUnitTest {
                 .dislikes(10)
                 .member(testMember)
                 .build();
+
+        when(this.memberRepository.findByEmail("test@email.com")).thenReturn(Optional.ofNullable(this.testMember));
     }
 
     @ParameterizedTest
@@ -81,15 +87,15 @@ class PostServiceUnitTest {
         int posts = 5;
         this.postList = PostTestsUtil.getOrderedPosts(posts);
 
-        when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
-        List<Post> orderedPosts = this.postService.getLoggedInMemberPosts(STUB_ID);
+        when(this.postRepository.getPostsByMember_EmailOrderByPostingDateDesc(this.testMember.getEmail())).thenReturn(this.postList);
+        List<Post> orderedPosts = this.postService.getLoggedInMemberPosts(this.testMember);
 
         assertEquals(this.postList.size(), orderedPosts.size());
 
         IntStream.range(0, posts - 1)
                 .forEach(i -> assertEquals(this.postList.get(i).getMember(), orderedPosts.get(i).getMember()));
 
-        verify(this.postRepository).getPostsByMemberIdOrderByPostingDateDesc(STUB_ID);
+        verify(this.postRepository).getPostsByMember_EmailOrderByPostingDateDesc(this.testMember.getEmail());
     }
 
     @Test
