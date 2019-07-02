@@ -22,16 +22,15 @@ export class LoginComponent implements OnInit {
     onLogin() {
         this.member.email = this.email;
         this.member.password = this.password;
-        this.authService.loginUser(this.member).subscribe((data) =>  {
-            sessionStorage.setItem('token', data.token);
-            sessionStorage.setItem('email', data.email);
-            sessionStorage.setItem('roles', data.roles.toString());
-            this.email = '';
-            this.password = '';
+        this.authService.loginUser(this.member).subscribe((data) => {
             if (data.token) {
-                this.router.navigateByUrl('/home').then(() => console.log('redirected'));
+                sessionStorage.setItem('token', data.token);
+                sessionStorage.setItem('email', data.email);
+                sessionStorage.setItem('roles', data.roles.toString());
+                this.email = '';
+                this.password = '';
+                location.assign('home');
             }
         });
-
     }
 }
