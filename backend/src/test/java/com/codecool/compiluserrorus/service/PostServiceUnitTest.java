@@ -139,16 +139,8 @@ class PostServiceUnitTest {
     @Test
     @Order(6)
     public void updateNonExistingPost() {
-        String updatedMessage = "Updated test message";
-
-        Post updatedPostData = Post.builder()
-                .message(updatedMessage)
-                .likes(20)
-                .dislikes(20)
-                .build();
-
         when(this.postRepository.findById(STUB_ID)).thenThrow(NullPointerException.class);
-        assertThrows(NullPointerException.class, () -> this.postService.updatePost(STUB_ID, updatedPostData));
+        assertThrows(NullPointerException.class, () -> this.postService.updatePost(STUB_ID, this.testPost));
         verify(this.postRepository).findById(STUB_ID);
     }
 
