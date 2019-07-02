@@ -23,18 +23,6 @@ public class MemberService {
         this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    public List<Member> getFriends() {
-        List<Member> friends = this.memberRepository.findAll();
-        Member first = friends.get(0);
-        friends.remove(first);
-        return friends;
-    }
-
-    public Member getDummyMember() {
-        List<Member> members = this.memberRepository.findAll();
-        return members.get(0);
-    }
-
     public Member register(Member member) {
         Member newMember = null;
 
@@ -51,5 +39,16 @@ public class MemberService {
         }
 
         return newMember;
+    }
+
+    public Member getLoggedInMember(Member member) {
+        return this.memberRepository.findByEmail(member.getEmail()).orElse(null);
+    }
+
+    public List<Member> getFriends() {
+        List<Member> friends = this.memberRepository.findAll();
+        Member first = friends.get(0);
+        friends.remove(first);
+        return friends;
     }
 }

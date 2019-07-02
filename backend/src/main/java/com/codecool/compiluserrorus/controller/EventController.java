@@ -1,6 +1,7 @@
 package com.codecool.compiluserrorus.controller;
 
 import com.codecool.compiluserrorus.model.Event;
+import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class EventController {
     }
 
     @PostMapping
-    public Event addEvent(@Valid @RequestBody Event event) {
-        eventService.addEvent(event);
+    public Event addEvent(@Valid @RequestBody Event event, Member member) {
+        eventService.addEvent(event, member);
         return event;
     }
 
