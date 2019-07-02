@@ -37,14 +37,4 @@ class UploadControllerTest {
 
     }
 
-    @Test
-    @Order(2)
-    void testImageUpload() {
-
-        String imageUploadUrl = "/upload";
-        String imageGetUrl = "/image-resource/{image}";
-
-
-    }
-
 }
