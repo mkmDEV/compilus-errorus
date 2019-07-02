@@ -2,7 +2,7 @@ package com.codecool.compiluserrorus.controller;
 
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/members")
 @CrossOrigin
+@RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
-
-    @Autowired
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
 
     @GetMapping
     public List<Member> getFriends() {
