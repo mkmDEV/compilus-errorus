@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Post } from '../../../../models/Post';
 import { PostsService } from '../../../../services/posts.service';
 
@@ -8,6 +8,7 @@ import { PostsService } from '../../../../services/posts.service';
     styleUrls: ['./wall.component.css']
 })
 export class WallComponent implements OnInit {
+    @Input() member;
     ownPosts: Post[];
 
     constructor(private postService: PostsService) {
