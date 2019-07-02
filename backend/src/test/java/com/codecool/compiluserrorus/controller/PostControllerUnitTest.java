@@ -29,6 +29,7 @@ class PostControllerUnitTest {
 
     private static final int NUMBER_OF_POSTS = 5;
     private static final Long STUB_ID = 1L;
+    private static final String MAIN_URL = "/posts";
 
     @MockBean
     private PostService postService;
@@ -53,9 +54,7 @@ class PostControllerUnitTest {
     public void getPostsWhenLoggedIn() throws Exception {
         when(this.postService.getOrderedPosts()).thenReturn(this.posts);
 
-        this.url = "/posts";
-
-        MvcResult mvcResult = this.mockMvc.perform(get(url))
+        MvcResult mvcResult = this.mockMvc.perform(get(MAIN_URL))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -72,9 +71,7 @@ class PostControllerUnitTest {
     public void getPostsWhenLoggedOut() throws Exception {
         when(this.postService.getOrderedPosts()).thenReturn(this.posts);
 
-        this.url = "/posts";
-
-        this.mockMvc.perform(get(url))
+        this.mockMvc.perform(get(MAIN_URL))
                 .andExpect(status().isForbidden());
 
         verifyNoMoreInteractions(this.postService);
@@ -86,7 +83,7 @@ class PostControllerUnitTest {
     public void getLoggedInMemberPostsWhenLoggedIn() throws Exception {
         when(this.postService.getLoggedInMemberPosts(STUB_ID)).thenReturn(this.posts);
 
-        this.url = "/posts/logged-in-member";
+        this.url = MAIN_URL + "/logged-in-member";
 
         MvcResult mvcResult = this.mockMvc.perform(get(url))
                 .andExpect(status().isOk())
@@ -105,7 +102,7 @@ class PostControllerUnitTest {
     public void getLoggedInMemberPostsWhenLoggedOut() throws Exception {
         when(this.postService.getLoggedInMemberPosts(STUB_ID)).thenReturn(this.posts);
 
-        this.url = "/posts/logged-in-member";
+        this.url = MAIN_URL + "/logged-in-member";
 
         this.mockMvc.perform(get(url))
                 .andExpect(status().isForbidden());
@@ -114,10 +111,20 @@ class PostControllerUnitTest {
     }
 
 
-//    @Test
-//    public void addPost() {
-//    }
-//
+    @Test
+    @Order(5)
+    @WithMockUser
+    public void addPostWhenLoggedIn() {
+
+    }
+
+    @Test
+    @Order(6)
+    public void addPostWhenLoggedOut() {
+
+    }
+
+
 //    @Test
 //    public void updatePost() {
 //    }
