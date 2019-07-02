@@ -7,7 +7,6 @@ import com.codecool.compiluserrorus.repository.PostRepository;
 import com.codecool.compiluserrorus.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,13 +14,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @Value("${IMAGE_PATH}")
     private String imagePath;
@@ -32,15 +32,10 @@ public class PostService {
         return posts;
     }
 
-    public Member findMemberByEmail(Member member) {
-        return this.memberRepository.findByEmail(member.getEmail()).orElse(null);
-    }
-
     public List<Post> getLoggedInMemberPosts(Member member) {
-        Member loggedInMember = findMemberByEmail(member);
-
+        Member loggedInMember = memberService.getLoggedInMember(member);
         if (loggedInMember != null) {
-            List<Post> posts = postRepository.getPostsByMember_EmailOrderByPostingDateDesc(loggedInMember.getEmail());
+            List<Post> posts = postRepository.getPostsByMemberIdOrderByPostingDateDesc(loggedInMember.getId());
             posts.forEach(post -> post.setRomanDate(Util.setRomanDate(post.getPostingDate())));
             return posts;
         }
@@ -48,14 +43,9 @@ public class PostService {
     }
 
     public Post addPost(Post post, Member member) {
-        Member postMember = findMemberByEmail(member);
+        Member postMember = memberService.getLoggedInMember(member);
         post.setMember(postMember);
-        try {
-            postRepository.save(post);
-        } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
-            throw new DataIntegrityViolationException("Message cannot be null");
-        }
+        postRepository.save(post);
         return post;
     }
 
@@ -72,7 +62,7 @@ public class PostService {
         return amendPost;
     }
 
-    public boolean deletePost(Long id) {
+    public void deletePost(Long id) {
         Post postToDelete = postRepository.findById(id).orElse(null);
         if (postToDelete != null) {
             Path path = Paths.get(imagePath + postToDelete.getImage());
@@ -84,6 +74,5 @@ public class PostService {
             }
         }
         postRepository.findById(id).ifPresent(deletablePost -> postRepository.deleteById(id));
-        return true;
     }
 }
