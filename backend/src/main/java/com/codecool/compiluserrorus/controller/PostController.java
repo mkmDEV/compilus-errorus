@@ -1,7 +1,6 @@
 package com.codecool.compiluserrorus.controller;
 
 import com.codecool.compiluserrorus.model.Post;
-import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +14,10 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    private final MemberRepository memberRepository;
 
     @Autowired
-    public PostController(PostService postService, MemberRepository memberRepository) {
+    public PostController(PostService postService) {
         this.postService = postService;
-        this.memberRepository = memberRepository;
     }
 
     @GetMapping
@@ -35,7 +32,7 @@ public class PostController {
 
     @PostMapping
     public Post addPost(@Valid @RequestBody Post post) {
-        postService.addPost(post, this.memberRepository.findAll().get(0));
+        postService.addPost(post, post.getMember());
         return post;
     }
 

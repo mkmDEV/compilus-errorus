@@ -4,21 +4,17 @@ import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.repository.PostRepository;
 import com.codecool.compiluserrorus.util.Util;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
-
-    @Autowired
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
 
     public List<Post> getOrderedPosts() {
         List<Post> posts = postRepository.getPostByOrderByPostingDateDesc();

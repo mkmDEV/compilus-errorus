@@ -1,5 +1,6 @@
 package com.codecool.compiluserrorus.controller;
 
+import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.service.PostService;
 import com.codecool.compiluserrorus.util.PostTestsUtil;
@@ -9,16 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -42,10 +46,26 @@ class PostControllerUnitTest {
 
     private String url;
     private List<Post> posts;
+    private Member testMember;
+    private Post testPost;
 
     @BeforeEach
     public void init() {
         this.posts = PostTestsUtil.getOrderedPosts(NUMBER_OF_POSTS);
+
+        testMember = Member.builder()
+                .name("Test Name")
+                .email("test@email.com")
+                .password("testpass")
+                .build();
+
+        testPost = Post.builder()
+                .message("Test message")
+                .postingDate(LocalDateTime.of(2019, 2, 3, 4, 5))
+                .likes(10)
+                .dislikes(10)
+                .member(testMember)
+                .build();
     }
 
     @Test
@@ -110,17 +130,46 @@ class PostControllerUnitTest {
         verifyNoMoreInteractions(this.postService);
     }
 
-
     @Test
     @Order(5)
     @WithMockUser
-    public void addPostWhenLoggedIn() {
+    public void addPostWhenLoggedIn() throws Exception {
+        when(this.postService.addPost(this.testPost, this.testMember)).thenReturn(this.testPost);
 
+        String requestBody = this.objectMapper.writeValueAsString(this.testPost);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        post(MAIN_URL)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertEquals(objectMapper.writeValueAsString(this.testPost), actualResponseBody);
+
+        verify(this.postService).addPost(this.testPost, this.testMember);
+        verifyNoMoreInteractions(this.postService);
     }
 
     @Test
     @Order(6)
-    public void addPostWhenLoggedOut() {
+    public void addPostWhenLoggedOut() throws Exception {
+        when(this.postService.addPost(this.testPost, this.testMember)).thenReturn(this.testPost);
+
+        String requestBody = this.objectMapper.writeValueAsString(this.testPost);
+
+        this.mockMvc
+                .perform(
+                        post(MAIN_URL)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isForbidden());
+
+        verifyNoMoreInteractions(this.postService);
 
     }
 
