@@ -6,8 +6,13 @@ import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.repository.PostRepository;
 import com.codecool.compiluserrorus.util.Util;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -16,6 +21,9 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
+
+    @Value("${IMAGE_PATH}")
+    private String imagePath;
 
     public List<Post> getOrderedPosts() {
         List<Post> posts = postRepository.getPostByOrderByPostingDateDesc();
@@ -50,6 +58,16 @@ public class PostService {
     }
 
     public void deletePost(Long id) {
+        Post postToDelete = postRepository.findById(id).orElse(null);
+        if (postToDelete != null) {
+            Path path = Paths.get(imagePath + postToDelete.getImage());
+            try {
+                Files.delete(path);
+            } catch (IOException e) {
+                System.err.println("Unable to delete image.");
+                e.printStackTrace();
+            }
+        }
         postRepository.findById(id).ifPresent(deletablePost -> postRepository.deleteById(id));
     }
 }
