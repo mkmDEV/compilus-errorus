@@ -4,6 +4,7 @@ import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.service.PostService;
 import com.codecool.compiluserrorus.util.PostTestsUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -173,12 +173,62 @@ class PostControllerUnitTest {
 
     }
 
+    @Test
+    @Order(7)
+    @WithMockUser
+    public void updatePostWhenLoggedIn() throws Exception {
+        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(this.testPost);
 
-//    @Test
-//    public void updatePost() {
-//    }
-//
-//    @Test
-//    public void deletePost() {
-//    }
+        this.url = MAIN_URL + "/{id}";
+        String requestBody = this.objectMapper.writeValueAsString(this.testPost);
+
+        MvcResult mvcResult = this.mockMvc.
+                perform(
+                        put(this.url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Post actualResponseBody = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Post.class);
+        assertEquals(this.testPost.getMessage(), actualResponseBody.getMessage());
+
+        verify(this.postService).updatePost(STUB_ID, this.testPost);
+        verifyNoMoreInteractions(this.postService);
+    }
+
+    @Test
+    @Order(8)
+    public void updatePostWhenLoggedOut() throws Exception {
+        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(this.testPost);
+
+        this.url = MAIN_URL + "/{id}";
+        String requestBody = this.objectMapper.writeValueAsString(this.testPost);
+
+        this.mockMvc.
+                perform(
+                        put(this.url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isForbidden());
+
+        verifyNoMoreInteractions(this.postService);
+
+    }
+
+    @Test
+    @Order(9)
+    @WithMockUser
+    public void deletePostWhenLoggedIn() {
+
+    }
+
+    @Test
+    @Order(10)
+    public void deletePostWhenLoggedOut() {
+
+    }
+
 }
