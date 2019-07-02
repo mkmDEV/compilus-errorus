@@ -28,8 +28,8 @@ public class PostService {
         return posts;
     }
 
-    public List<Post> getLoggedInMemberPosts() {
-        List<Post> posts = postRepository.getPostsByMemberIdOrderByPostingDateDesc(1);
+    public List<Post> getLoggedInMemberPosts(Long memberId) {
+        List<Post> posts = postRepository.getPostsByMemberIdOrderByPostingDateDesc(memberId);
         posts.forEach(post -> post.setRomanDate(Util.setRomanDate(post.getPostingDate())));
         return posts;
     }
