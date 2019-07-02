@@ -7,13 +7,15 @@ import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { AuthGuard } from './services/auth-guard';
 
 const routes: Routes = [
     {path: '', component: WelcomeComponent},
-    {path: 'home', component: HomeComponent},
-    {path: 'events', component: EventsComponent},
-    {path: 'profile', component: ProfileComponent},
-    {path: 'groups', component: GroupsComponent},
+    {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+    {path: 'events', component: EventsComponent, canActivate: [AuthGuard]},
+    {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+    {path: 'groups', component: GroupsComponent, canActivate: [AuthGuard]},
+    {path: '**', redirectTo: ''}
 ];
 
 @NgModule({
