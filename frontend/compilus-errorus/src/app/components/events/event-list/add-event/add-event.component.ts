@@ -22,7 +22,7 @@ export class AddEventComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.profileService.getDummyMember().subscribe(member => this.creator = member);
+        // this.profileService.getDummyMember().subscribe(member => this.creator = member);
     }
 
     onSubmit() {
@@ -33,6 +33,8 @@ export class AddEventComponent implements OnInit {
         newEvent.creator = this.creator;
         this.description = '';
         this.eventDate = null;
+        this.creator = new Member();
+        this.creator.email = sessionStorage.getItem('email');
         this.eventTitle = '';
         this.eventService.saveEvent(newEvent).subscribe({
             complete: () => {
