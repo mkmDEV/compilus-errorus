@@ -30,7 +30,7 @@ public class PostService {
     }
 
     public Post addPost(Post post, Member member) {
-        Member postMember = memberRepository.findByEmail(member.getEmail().toString()).orElse(null);
+        Member postMember = memberRepository.findByEmail(member.getEmail()).orElse(null);
         post.setMember(postMember);
         postRepository.save(post);
         return post;
