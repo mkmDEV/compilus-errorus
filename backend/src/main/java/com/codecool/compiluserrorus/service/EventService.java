@@ -1,6 +1,7 @@
 package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Event;
+import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.EventRepository;
 import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.util.Util;
@@ -28,8 +29,8 @@ public class EventService {
         return latestEvents;
     }
 
-    public void addEvent(Event event) {
-        event.setCreator(memberRepository.findAll().get(0));
+    public void addEvent(Event event, Member member) {
+        event.setCreator(memberRepository.findByEmail(member.getEmail()).orElse(null));
         eventRepository.save(event);
     }
 
