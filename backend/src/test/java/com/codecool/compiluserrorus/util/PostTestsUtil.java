@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class PostServiceUtil {
+public class PostTestsUtil {
 
     public static List<Post> getOrderedPosts(int posts) {
         List<Post> orderedPosts = new ArrayList<>();

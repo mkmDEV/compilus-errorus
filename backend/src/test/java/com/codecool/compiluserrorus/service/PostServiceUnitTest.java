@@ -3,7 +3,7 @@ package com.codecool.compiluserrorus.service;
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.repository.PostRepository;
-import com.codecool.compiluserrorus.util.PostServiceUtil;
+import com.codecool.compiluserrorus.util.PostTestsUtil;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -62,7 +62,7 @@ class PostServiceUnitTest {
     @Order(1)
     @ValueSource(ints = {1, 5, 25, 100, 250, 500, 1000})
     public void getOrderedPosts(int posts) {
-        this.postList = PostServiceUtil.getOrderedPosts(posts);
+        this.postList = PostTestsUtil.getOrderedPosts(posts);
         when(this.postRepository.getPostByOrderByPostingDateDesc()).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getOrderedPosts();
 
@@ -79,7 +79,7 @@ class PostServiceUnitTest {
     @Order(2)
     public void getLoggedInMemberPosts() {
         int posts = 5;
-        this.postList = PostServiceUtil.getOrderedPosts(posts);
+        this.postList = PostTestsUtil.getOrderedPosts(posts);
 
         when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getLoggedInMemberPosts();
