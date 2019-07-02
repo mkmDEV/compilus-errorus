@@ -13,11 +13,11 @@
         </div>
         <div class="row">
             <div class="col-6 col-lg-5 col-xl-4">
-                <input type="email" id="email" placeholder="Enter your email" required>
+                <input type="email" id="email" placeholder="Enter your email" [(ngModel)]="email">
             </div>
             <div class="col-6 col-lg-7 col-xl-8">
-                <input type="password" id="password" placeholder="Enter your password" required>
-                <button class="d-block d-lg-inline-block btn">Login</button>
+                <input type="password" id="password" placeholder="Enter your password" [(ngModel)]="password">
+                <button class="d-block d-lg-inline-block btn" (click)="onLogin()">Login</button>
             </div>
         </div>
     </div>

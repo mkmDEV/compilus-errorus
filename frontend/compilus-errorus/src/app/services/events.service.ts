@@ -5,7 +5,8 @@ import { FlEvent } from '../models/FlEvent';
 
 const httpOptions = {
     headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
     })
 };
 
@@ -20,11 +21,11 @@ export class EventsService {
     }
 
     getFlEvents(): Observable<FlEvent[]> {
-        return this.http.get<FlEvent[]>(this.eventsUrl);
+        return this.http.get<FlEvent[]>(this.eventsUrl, httpOptions);
     }
 
     getLatestEvents(): Observable<FlEvent[]> {
-        return this.http.get<FlEvent[]>(this.latestEventsUrl);
+        return this.http.get<FlEvent[]>(this.latestEventsUrl, httpOptions);
     }
 
     saveEvent(event: FlEvent): Observable<FlEvent> {

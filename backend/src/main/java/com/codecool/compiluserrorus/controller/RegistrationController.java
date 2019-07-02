@@ -3,8 +3,6 @@ package com.codecool.compiluserrorus.controller;
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +20,8 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody Member member) {
+    public Member register(@RequestBody Member member) {
         System.out.println("request received");
-        memberService.register(member);
-        return new ResponseEntity(HttpStatus.OK);
+        return memberService.register(member);
     }
 }

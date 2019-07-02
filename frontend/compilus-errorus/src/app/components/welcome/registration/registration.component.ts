@@ -23,6 +23,12 @@ export class RegistrationComponent implements OnInit {
         this.member.name = this.name;
         this.member.email = this.email;
         this.member.password = this.password;
-        this.registrationService.registerUser(this.member).subscribe();
+        this.registrationService.registerUser(this.member).subscribe({
+            complete: () => {
+                this.name = '';
+                this.email = '';
+                this.password = '';
+            }
+        });
     }
 }

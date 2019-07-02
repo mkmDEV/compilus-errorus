@@ -5,7 +5,8 @@ import { FlComment } from '../models/FlComment';
 
 const httpOptions = {
     headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
     })
 };
 
@@ -19,7 +20,7 @@ export class CommentsService {
     }
 
     getComments(queryString: string): Observable<FlComment[]> {
-        return this.http.get<FlComment[]>(this.commentsUrl + queryString);
+        return this.http.get<FlComment[]>(this.commentsUrl + queryString, httpOptions);
     }
 
     updateComment(comment: FlComment): Observable<FlComment> {
@@ -27,7 +28,7 @@ export class CommentsService {
     }
 
     deleteComment(comment: FlComment) {
-        return this.http.delete(`${ this.commentsUrl }/${ comment.id }`);
+        return this.http.delete(`${ this.commentsUrl }/${ comment.id }`, httpOptions);
     }
 
     saveComment(comment: FlComment) {
