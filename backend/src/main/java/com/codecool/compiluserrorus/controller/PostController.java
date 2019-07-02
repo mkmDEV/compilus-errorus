@@ -1,7 +1,6 @@
 package com.codecool.compiluserrorus.controller;
 
 import com.codecool.compiluserrorus.model.Post;
-import com.codecool.compiluserrorus.service.MemberService;
 import com.codecool.compiluserrorus.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
