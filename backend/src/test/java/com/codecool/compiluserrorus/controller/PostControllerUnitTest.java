@@ -80,6 +80,39 @@ class PostControllerUnitTest {
         verifyNoMoreInteractions(this.postService);
     }
 
+    @Test
+    @Order(3)
+    @WithMockUser
+    public void getLoggedInMemberPostsWhenLoggedIn() throws Exception {
+        when(this.postService.getLoggedInMemberPosts(STUB_ID)).thenReturn(this.posts);
+
+        this.url = "/posts/logged-in-member";
+
+        MvcResult mvcResult = this.mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andReturn();
+
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertEquals(objectMapper.writeValueAsString(this.posts), actualResponseBody);
+
+        verify(this.postService).getLoggedInMemberPosts(STUB_ID);
+        verifyNoMoreInteractions(this.postService);
+    }
+
+    @Test
+    @Order(4)
+    public void getLoggedInMemberPostsWhenLoggedOut() throws Exception {
+        when(this.postService.getLoggedInMemberPosts(STUB_ID)).thenReturn(this.posts);
+
+        this.url = "/posts/logged-in-member";
+
+        this.mockMvc.perform(get(url))
+                .andExpect(status().isForbidden());
+
+        verifyNoMoreInteractions(this.postService);
+    }
+
 
 //    @Test
 //    public void addPost() {
