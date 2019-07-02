@@ -5,7 +5,8 @@ import { Post } from '../models/Post';
 
 const httpOptions = {
     headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
     })
 };
 
@@ -20,17 +21,17 @@ export class PostsService {
     }
 
     getPosts(): Observable<Post[]> {
-        return this.http.get<Post[]>(this.postsUrl);
+        return this.http.get<Post[]>(this.postsUrl, httpOptions);
     }
 
     getLoggedInMemberPosts(): Observable<Post[]> {
-        return this.http.get<Post[]>(this.loggedInMemberPostsUrl);
+        return this.http.get<Post[]>(this.loggedInMemberPostsUrl, httpOptions);
     }
 
     uploadImage(file: File): Observable<HttpEvent<{}>> {
         const formData: FormData = new FormData();
         formData.append('file', file);
-        const req = new HttpRequest('POST', 'http://localhost:8080/upload', formData);
+        const req = new HttpRequest('POST', 'http://localhost:8080/upload', formData, httpOptions);
         return this.http.request(req);
     }
 
@@ -43,7 +44,7 @@ export class PostsService {
     }
 
     deletePost(post: Post) {
-        return this.http.delete(`${ this.postsUrl }/${ post.id }`);
+        return this.http.delete(`${ this.postsUrl }/${ post.id }`, httpOptions);
     }
 
     getComments(postId: number): Observable<Comment[]> {
