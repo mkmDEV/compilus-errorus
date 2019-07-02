@@ -2,12 +2,13 @@ package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
-import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.repository.PostRepository;
 import com.codecool.compiluserrorus.util.PostTestsUtil;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,6 +28,7 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("test")
 @ComponentScan(basePackageClasses = {PostService.class})
 @DataJpaTest
+@ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PostServiceUnitTest {
 
@@ -35,8 +37,11 @@ class PostServiceUnitTest {
     @MockBean
     private PostRepository postRepository;
 
-    @MockBean
-    private MemberRepository memberRepository;
+//    @MockBean
+//    private MemberRepository memberRepository;
+
+//    @MockBean
+//    private MemberService memberService;
 
     @Autowired
     private PostService postService;
@@ -60,8 +65,6 @@ class PostServiceUnitTest {
                 .dislikes(10)
                 .member(testMember)
                 .build();
-
-        when(this.memberRepository.findByEmail("test@email.com")).thenReturn(Optional.ofNullable(this.testMember));
     }
 
     @ParameterizedTest
@@ -87,7 +90,10 @@ class PostServiceUnitTest {
         int posts = 5;
         this.postList = PostTestsUtil.getOrderedPosts(posts);
 
-        when(this.postRepository.getPostsByMember_EmailOrderByPostingDateDesc(this.testMember.getEmail())).thenReturn(this.postList);
+        //TODO IF MEMBERSERV CANNOT BE MOCKED, USE MEMBER REPO
+//        when(this.memberRepository.findByEmail("asd")).thenReturn(this.testMember);
+//        when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(this.testMember);
+        when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getLoggedInMemberPosts(this.testMember);
 
         assertEquals(this.postList.size(), orderedPosts.size());
@@ -95,7 +101,7 @@ class PostServiceUnitTest {
         IntStream.range(0, posts - 1)
                 .forEach(i -> assertEquals(this.postList.get(i).getMember(), orderedPosts.get(i).getMember()));
 
-        verify(this.postRepository).getPostsByMember_EmailOrderByPostingDateDesc(this.testMember.getEmail());
+//        verify(this.postRepository).getPostsByMemberIdOrderByPostingDateDesc(STUB_ID);
     }
 
     @Test
