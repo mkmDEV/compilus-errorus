@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
@@ -45,10 +46,10 @@ public class MemberService {
         return this.memberRepository.findByEmail(member.getEmail()).orElse(null);
     }
 
-    public List<Member> getFriends() {
+    public List<Member> getFriends(Member member) {
+        Member loggedInMember = this.getLoggedInMember(member);
         List<Member> friends = this.memberRepository.findAll();
-        Member first = friends.get(0);
-        friends.remove(first);
+        friends = friends.stream().filter(friend -> !friend.equals(loggedInMember)).collect(Collectors.toList());
         return friends;
     }
 }

@@ -20,9 +20,9 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping
-    public List<Member> getFriends() {
-        return memberService.getFriends();
+    @PostMapping
+    public List<Member> getFriends( @RequestBody Member member) {
+        return memberService.getFriends(member);
     }
 
     @PostMapping("/logged-in-member")
