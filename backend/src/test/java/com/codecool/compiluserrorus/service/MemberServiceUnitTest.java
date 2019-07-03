@@ -2,6 +2,7 @@ package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.MemberRepository;
+import com.codecool.compiluserrorus.util.MemberTestsUtil;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -11,11 +12,13 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @ComponentScan(basePackageClasses = {MemberService.class})
@@ -102,5 +105,15 @@ class MemberServiceUnitTest {
         when(this.memberRepository.findByEmail(this.newMember.getEmail())).thenReturn(Optional.empty());
         assertNull(this.memberService.getLoggedInMember(this.newMember));
         verify(this.memberRepository).findByEmail(this.newMember.getEmail());
+    }
+
+    @Test
+    @Order(6)
+    public void gettingLoggedInMemberFriends() {
+        int friends = 5;
+        when(this.memberRepository.findAll()).thenReturn(MemberTestsUtil.getFriendList(friends));
+        List<Member> friendList = this.memberService.getFriends(this.newMember);
+        assertEquals(friendList.size(), friends);
+        verify(this.memberRepository).findAll();
     }
 }
