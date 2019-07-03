@@ -1,25 +1,21 @@
 package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Comment;
+import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.CommentRepository;
 import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.util.Util;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final MemberRepository memberRepository;
-
-    @Autowired
-    public CommentService(CommentRepository commentRepository, MemberRepository memberRepository) {
-        this.commentRepository = commentRepository;
-        this.memberRepository = memberRepository;
-    }
+    private final MemberService memberService;
 
     public List<Comment> getCommentsOrderedByDate(Long postId) {
         List<Comment> comments = commentRepository.getCommentsByPostIdOrderByDate(postId);
@@ -27,8 +23,9 @@ public class CommentService {
         return comments;
     }
 
-    public void addComment(Comment comment) {
-        comment.setMember(memberRepository.findAll().get(0));
+    public void addComment(Comment comment, Member member) {
+        Member commentingMember = memberService.getLoggedInMember(member);
+        comment.setMember(commentingMember);
         commentRepository.save(comment);
     }
 

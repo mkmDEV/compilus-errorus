@@ -1,0 +1,14 @@
+input, label, button {
+    display: block;
+    width: 300px;
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 50px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+

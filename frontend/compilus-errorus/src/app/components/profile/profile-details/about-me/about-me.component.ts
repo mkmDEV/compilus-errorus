@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Member } from '../../../../models/Member';
 import { ProfileService } from '../../../../services/profile.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
     selector: 'app-about-me',
@@ -9,19 +10,16 @@ import { ProfileService } from '../../../../services/profile.service';
     providers: [ProfileService]
 })
 export class AboutMeComponent implements OnInit {
-    dummyMember: Member;
+    member = new Member();
 
-    constructor(private profileService: ProfileService) {
+    constructor(private authService: AuthService) {
     }
 
     ngOnInit() {
-        this.getDummy();
-    }
-
-    getDummy() {
-        this.profileService.getDummyMember().subscribe(member => {
-            this.dummyMember = member;
+        this.authService.getLoggedInMember().subscribe( loggedInMember => {
+            this.member = loggedInMember;
         });
     }
+
 
 }

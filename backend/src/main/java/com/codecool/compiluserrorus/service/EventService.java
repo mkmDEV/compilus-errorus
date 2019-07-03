@@ -1,25 +1,20 @@
 package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Event;
+import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.EventRepository;
-import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.util.Util;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final MemberRepository memberRepository;
-
-    @Autowired
-    public EventService(EventRepository eventRepository, MemberRepository memberRepository) {
-        this.eventRepository = eventRepository;
-        this.memberRepository = memberRepository;
-    }
+    private final MemberService memberService;
 
     public List<Event> getOrderedEvents() {
         List<Event> events = eventRepository.getAllEvents();
@@ -33,8 +28,9 @@ public class EventService {
         return latestEvents;
     }
 
-    public void addEvent(Event event) {
-        event.setCreator(memberRepository.findAll().get(0));
+    public void addEvent(Event event, Member member) {
+        Member eventCreator = memberService.getLoggedInMember(member);
+        event.setCreator(eventCreator);
         eventRepository.save(event);
     }
 

@@ -17,7 +17,7 @@
         </span>
     </p>
     <p class="modify">
-        <span (click)="onEdit()">Edit</span>
-        <span (click)="onDelete()">Delete</span>
+        <span *ngIf="isUserTheSame()" (click)="onEdit()">Edit</span>
+        <span *ngIf="isUserTheSame()" (click)="onDelete()">Delete</span>
     </p>
 </div>
