@@ -31,8 +31,8 @@ public class EventController {
     }
 
     @PostMapping
-    public Event addEvent(@Valid @RequestBody Event event, Member member) {
-        eventService.addEvent(event, member);
+    public Event addEvent(@Valid @RequestBody Event event) {
+        eventService.addEvent(event, event.getCreator());
         return event;
     }
 
