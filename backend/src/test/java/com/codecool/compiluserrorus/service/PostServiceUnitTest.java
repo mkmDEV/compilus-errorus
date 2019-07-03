@@ -53,7 +53,6 @@ class PostServiceUnitTest {
                 .name("Test Name")
                 .email("test@email.com")
                 .password("testpass")
-                .id(STUB_ID)
                 .build();
 
         testPost = Post.builder()
@@ -85,10 +84,17 @@ class PostServiceUnitTest {
     @Test
     @Order(2)
     public void getLoggedInMemberPosts() {
+        Member loggedInMember = Member.builder()
+                .name("Test Name")
+                .email("test@email.com")
+                .password("testpass")
+                .id(STUB_ID)
+                .build();
+
         int posts = 5;
         this.postList = PostTestsUtil.getOrderedPosts(posts);
 
-        when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(this.testMember);
+        when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(loggedInMember);
         when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getLoggedInMemberPosts(this.testMember);
 
