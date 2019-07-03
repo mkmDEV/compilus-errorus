@@ -2,9 +2,9 @@ package com.codecool.compiluserrorus.controller;
 
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
+import com.codecool.compiluserrorus.service.MemberService;
 import com.codecool.compiluserrorus.service.PostService;
 import com.codecool.compiluserrorus.util.PostTestsUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,9 @@ class PostControllerUnitTest {
     @MockBean
     private PostService postService;
 
+    @MockBean
+    private MemberService memberService;
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -57,6 +60,7 @@ class PostControllerUnitTest {
                 .name("Test Name")
                 .email("test@email.com")
                 .password("testpass")
+                .id(STUB_ID)
                 .build();
 
         testPost = Post.builder()
@@ -100,6 +104,7 @@ class PostControllerUnitTest {
     @Order(3)
     @WithMockUser
     public void getLoggedInMemberPostsWhenLoggedIn() throws Exception {
+        when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(this.testMember);
         when(this.postService.getLoggedInMemberPosts(this.testMember)).thenReturn(this.posts);
 
         this.url = MAIN_URL + "/logged-in-member";
@@ -107,7 +112,7 @@ class PostControllerUnitTest {
 
         MvcResult mvcResult = this.mockMvc
                 .perform(
-                        get(url)
+                        post(url)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )

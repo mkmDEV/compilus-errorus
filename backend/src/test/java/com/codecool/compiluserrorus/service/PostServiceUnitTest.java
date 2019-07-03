@@ -37,11 +37,8 @@ class PostServiceUnitTest {
     @MockBean
     private PostRepository postRepository;
 
-//    @MockBean
-//    private MemberRepository memberRepository;
-
-//    @MockBean
-//    private MemberService memberService;
+    @MockBean
+    private MemberService memberService;
 
     @Autowired
     private PostService postService;
@@ -56,6 +53,7 @@ class PostServiceUnitTest {
                 .name("Test Name")
                 .email("test@email.com")
                 .password("testpass")
+                .id(STUB_ID)
                 .build();
 
         testPost = Post.builder()
@@ -90,9 +88,7 @@ class PostServiceUnitTest {
         int posts = 5;
         this.postList = PostTestsUtil.getOrderedPosts(posts);
 
-        //TODO IF MEMBERSERV CANNOT BE MOCKED, USE MEMBER REPO
-//        when(this.memberRepository.findByEmail("asd")).thenReturn(this.testMember);
-//        when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(this.testMember);
+        when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(this.testMember);
         when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getLoggedInMemberPosts(this.testMember);
 
@@ -101,7 +97,8 @@ class PostServiceUnitTest {
         IntStream.range(0, posts - 1)
                 .forEach(i -> assertEquals(this.postList.get(i).getMember(), orderedPosts.get(i).getMember()));
 
-//        verify(this.postRepository).getPostsByMemberIdOrderByPostingDateDesc(STUB_ID);
+        verify(this.memberService).getLoggedInMember(this.testMember);
+        verify(this.postRepository).getPostsByMemberIdOrderByPostingDateDesc(STUB_ID);
     }
 
     @Test
