@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,7 +57,7 @@ class RegistrationControllerTest {
 
     @Test
     @Order(1)
-    public void TestRegistrationWithNewEmail() throws Exception {
+    public void testRegistrationWithNewEmail() throws Exception {
         when(this.memberService.register(this.testMember)).thenReturn(this.registeredMember);
 
         String requestBody = this.objectMapper.writeValueAsString(this.testMember);
@@ -75,6 +76,27 @@ class RegistrationControllerTest {
 
         verify(this.memberService).register(this.testMember);
         verifyNoMoreInteractions(this.memberService);
+    }
+
+    @Test
+    @Order(2)
+    public void testRegistrationWithAlreadyRegisteredEmail() throws Exception {
+        when(this.memberService.register(this.testMember)).thenReturn(null);
+
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        MvcResult mvcResult = this.mockMvc.perform(
+                post(URL)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
+
+        verify(this.memberService).register(this.testMember);
     }
 
 }

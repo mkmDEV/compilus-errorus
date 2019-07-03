@@ -40,7 +40,6 @@ class MemberServiceUnitTest {
         this.newMember = Member.builder()
                 .name("name")
                 .email("email@email.com")
-                .id(1L)
                 .password(passwordEncoder.encode(rawPassword))
                 .roles(Set.of("USER"))
                 .build();
