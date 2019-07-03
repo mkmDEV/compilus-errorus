@@ -11,6 +11,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,6 +40,7 @@ class MemberServiceUnitTest {
         this.newMember = Member.builder()
                 .name("name")
                 .email("email@email.com")
+                .id(1L)
                 .password(passwordEncoder.encode(rawPassword))
                 .roles(Set.of("USER"))
                 .build();
@@ -47,7 +49,7 @@ class MemberServiceUnitTest {
 
     @Test
     @Order(1)
-    public void TestRegistrationWithNewEmail() {
+    public void testRegistrationWithNewEmail() {
         when(this.memberRepository.save(this.newMember)).thenReturn(this.newMember);
 
         Member newRegisteredMember = this.memberService.register(this.newMember);
@@ -63,6 +65,15 @@ class MemberServiceUnitTest {
 
     @Test
     @Order(2)
+    public void testNewMemberIsNotRegistered() {
+        when(this.memberRepository.findByEmail(this.newMember.getEmail())).thenReturn(Optional.empty());
+        Member newMember = this.memberService.register(this.newMember);
+        assertEquals(newMember.getEmail(), this.newMember.getEmail());
+        verify(this.memberRepository).findByEmail(this.newMember.getEmail());
+    }
+
+    @Test
+    @Order(3)
     public void TestRegistrationWithAlreadyRegisteredEmail() {
         when(this.memberRepository.findByEmail(this.newMember.getEmail())).thenReturn(null);
         assertThrows(NullPointerException.class, () -> this.memberService.register(this.newMember));
