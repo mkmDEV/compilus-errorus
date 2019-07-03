@@ -15,7 +15,7 @@ import java.util.List;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     public List<Event> getOrderedEvents() {
         List<Event> events = eventRepository.getAllEvents();
@@ -30,7 +30,8 @@ public class EventService {
     }
 
     public void addEvent(Event event, Member member) {
-        event.setCreator(memberRepository.findByEmail(member.getEmail()).orElse(null));
+        Member eventCreator = memberService.getLoggedInMember(member);
+        event.setCreator(eventCreator);
         eventRepository.save(event);
     }
 

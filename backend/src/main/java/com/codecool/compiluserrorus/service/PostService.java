@@ -14,13 +14,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @Value("${IMAGE_PATH}")
     private String imagePath;
@@ -32,7 +33,7 @@ public class PostService {
     }
 
     public List<Post> getLoggedInMemberPosts(Member member) {
-        Member loggedInMember = memberRepository.findByEmail(member.getEmail()).orElse(null);
+        Member loggedInMember = memberService.getLoggedInMember(member);
         if (loggedInMember != null) {
             List<Post> posts = postRepository.getPostsByMemberIdOrderByPostingDateDesc(loggedInMember.getId());
             posts.forEach(post -> post.setRomanDate(Util.setRomanDate(post.getPostingDate())));
@@ -42,7 +43,7 @@ public class PostService {
     }
 
     public Post addPost(Post post, Member member) {
-        Member postMember = memberRepository.findByEmail(member.getEmail()).orElse(null);
+        Member postMember = memberService.getLoggedInMember(member);
         post.setMember(postMember);
         postRepository.save(post);
         return post;

@@ -15,7 +15,7 @@ import java.util.List;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     public List<Comment> getCommentsOrderedByDate(Long postId) {
         List<Comment> comments = commentRepository.getCommentsByPostIdOrderByDate(postId);
@@ -24,7 +24,8 @@ public class CommentService {
     }
 
     public void addComment(Comment comment, Member member) {
-        comment.setMember(memberRepository.findByEmail(member.getEmail()).orElse(null));
+        Member commentingMember = memberService.getLoggedInMember(member);
+        comment.setMember(commentingMember);
         commentRepository.save(comment);
     }
 

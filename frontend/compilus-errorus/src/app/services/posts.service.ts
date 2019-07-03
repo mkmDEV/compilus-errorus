@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpEvent, HttpRequest, HttpParams } from '@angular/common/http';
 import { Post } from '../models/Post';
+import { Member } from '../models/Member';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -24,8 +25,8 @@ export class PostsService {
         return this.http.get<Post[]>(this.postsUrl, httpOptions);
     }
 
-    getLoggedInMemberPosts(): Observable<Post[]> {
-        return this.http.get<Post[]>(this.loggedInMemberPostsUrl, httpOptions);
+    getLoggedInMemberPosts(member: Member): Observable<Post[]> {
+        return this.http.post<Post[]>(this.loggedInMemberPostsUrl, member, httpOptions);
     }
 
     uploadImage(file: File): Observable<HttpEvent<{}>> {
@@ -50,10 +51,5 @@ export class PostsService {
 
     deletePost(post: Post) {
         return this.http.delete(`${ this.postsUrl }/${ post.id }`, httpOptions);
-    }
-
-    getComments(postId: number): Observable<Comment[]> {
-        const params = new HttpParams().set('postId', String(postId));
-        return this.http.get<Comment[]>('http://localhost:8080/comments', {params});
     }
 }

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Member } from '../../../../models/Member';
-import { ProfileService } from '../../../../services/profile.service';
 import { FlEvent } from '../../../../models/FlEvent';
 import { EventsService } from '../../../../services/events.service';
 import { EventListComponent } from '../event-list.component';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
     selector: 'app-add-event',
@@ -18,11 +18,13 @@ export class AddEventComponent implements OnInit {
     creator: Member;
 
     // tslint:disable-next-line:max-line-length
-    constructor(private profileService: ProfileService, private eventService: EventsService, private eventListComponent: EventListComponent) {
+    constructor(private authService: AuthService,
+                private eventService: EventsService,
+                private eventListComponent: EventListComponent) {
     }
 
     ngOnInit() {
-        // this.profileService.getDummyMember().subscribe(member => this.creator = member);
+        this.authService.getLoggedInMember().subscribe(member => this.creator = member);
     }
 
     onSubmit() {
@@ -33,8 +35,6 @@ export class AddEventComponent implements OnInit {
         newEvent.creator = this.creator;
         this.description = '';
         this.eventDate = null;
-        this.creator = new Member();
-        this.creator.email = sessionStorage.getItem('email');
         this.eventTitle = '';
         this.eventService.saveEvent(newEvent).subscribe({
             complete: () => {

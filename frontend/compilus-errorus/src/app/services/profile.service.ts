@@ -15,8 +15,7 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class ProfileService {
-    private memberUrl = 'http://localhost:8080/members';
-    dummyMemberUrl = 'http://localhost:8080/members/dummy-member';
+    memberUrl = 'http://localhost:8080/members';
 
     constructor(private http: HttpClient) {
     }
@@ -25,7 +24,5 @@ export class ProfileService {
         return this.http.get<Member[]>(this.memberUrl, httpOptions);
     }
 
-    getDummyMember(): Observable<Member> {
-        return this.http.get<Member>(this.dummyMemberUrl, httpOptions);
-    }
-};
+
+}
