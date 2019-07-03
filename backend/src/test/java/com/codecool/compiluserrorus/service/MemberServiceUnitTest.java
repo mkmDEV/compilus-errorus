@@ -15,8 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
 @ComponentScan(basePackageClasses = {MemberService.class})
@@ -31,6 +30,7 @@ class MemberServiceUnitTest {
     private MemberService memberService;
 
     private Member newMember;
+    private Member registeredMember;
 
     @BeforeEach
     public void init() {
@@ -43,13 +43,21 @@ class MemberServiceUnitTest {
                 .password(passwordEncoder.encode(rawPassword))
                 .roles(Set.of("USER"))
                 .build();
+
+        this.registeredMember = Member.builder()
+                .id(1L)
+                .name("name")
+                .email("email@email.com")
+                .password(passwordEncoder.encode(rawPassword))
+                .roles(Set.of("USER"))
+                .build();
     }
 
 
     @Test
     @Order(1)
     public void testRegistrationWithNewEmail() {
-        when(this.memberRepository.save(this.newMember)).thenReturn(this.newMember);
+        when(this.memberRepository.save(this.newMember)).thenReturn(this.registeredMember);
 
         Member newRegisteredMember = this.memberService.register(this.newMember);
 
@@ -73,10 +81,26 @@ class MemberServiceUnitTest {
 
     @Test
     @Order(3)
-    public void TestRegistrationWithAlreadyRegisteredEmail() {
+    public void testRegistrationWithAlreadyRegisteredEmail() {
         when(this.memberRepository.findByEmail(this.newMember.getEmail())).thenReturn(null);
         assertThrows(NullPointerException.class, () -> this.memberService.register(this.newMember));
         verify(this.memberRepository).findByEmail(this.newMember.getEmail());
     }
 
+    @Test
+    @Order(4)
+    public void getValidLoggedInMemberTest() {
+        when(this.memberRepository.findByEmail(this.newMember.getEmail())).thenReturn(Optional.ofNullable(this.registeredMember));
+        assertNotNull(this.memberService.getLoggedInMember(this.newMember));
+        assertEquals(this.newMember.getEmail(), this.registeredMember.getEmail());
+        verify(this.memberRepository).findByEmail(this.newMember.getEmail());
+    }
+
+    @Test
+    @Order(5)
+    public void getInvalidLoggedInMemberTest() {
+        when(this.memberRepository.findByEmail(this.newMember.getEmail())).thenReturn(Optional.empty());
+        assertNull(this.memberService.getLoggedInMember(this.newMember));
+        verify(this.memberRepository).findByEmail(this.newMember.getEmail());
+    }
 }
