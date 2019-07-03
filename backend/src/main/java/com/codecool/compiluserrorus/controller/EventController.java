@@ -32,7 +32,7 @@ public class EventController {
 
     @PostMapping
     public Event addEvent(@Valid @RequestBody Event event) {
-        eventService.addEvent(event);
+        eventService.addEvent(event, event.getCreator());
         return event;
     }
 

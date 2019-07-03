@@ -30,6 +30,9 @@ import { HomeComponent } from './components/home/home.component';
 import { AboutMeComponent } from './components/profile/profile-details/about-me/about-me.component';
 import { WallComponent } from './components/profile/profile-details/wall/wall.component';
 import { FriendsComponent } from './components/profile/profile-details/friends/friends.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { RegistrationComponent } from './components/welcome/registration/registration.component';
+import { LoginComponent } from './components/welcome/login/login.component';
 
 @NgModule({
     declarations: [
@@ -58,7 +61,10 @@ import { FriendsComponent } from './components/profile/profile-details/friends/f
         HomeComponent,
         AboutMeComponent,
         WallComponent,
-        FriendsComponent
+        FriendsComponent,
+        WelcomeComponent,
+        RegistrationComponent,
+        LoginComponent
     ],
     imports: [
         BrowserModule,

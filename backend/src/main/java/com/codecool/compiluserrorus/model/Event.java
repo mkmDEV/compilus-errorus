@@ -1,6 +1,8 @@
 package com.codecool.compiluserrorus.model;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -33,6 +35,7 @@ public class Event {
     @Singular
     @ElementCollection
     @EqualsAndHashCode.Exclude
+    @Fetch(FetchMode.JOIN)
     private Set<Member> participants;
 
     @ManyToOne

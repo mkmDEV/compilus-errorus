@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpEvent, HttpRequest, HttpParams } from '@angular/common/http';
 import { Post } from '../models/Post';
+import { Member } from '../models/Member';
 
 const httpOptions = {
     headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
     })
 };
 
@@ -20,17 +22,22 @@ export class PostsService {
     }
 
     getPosts(): Observable<Post[]> {
-        return this.http.get<Post[]>(this.postsUrl);
+        return this.http.get<Post[]>(this.postsUrl, httpOptions);
     }
 
-    getLoggedInMemberPosts(): Observable<Post[]> {
-        return this.http.get<Post[]>(this.loggedInMemberPostsUrl);
+    getLoggedInMemberPosts(member: Member): Observable<Post[]> {
+        return this.http.post<Post[]>(this.loggedInMemberPostsUrl, member, httpOptions);
     }
 
     uploadImage(file: File): Observable<HttpEvent<{}>> {
+        const httpOptionsImage = {
+            headers: new HttpHeaders({
+                Authorization: 'Bearer ' + sessionStorage.getItem('token')
+            })
+        };
         const formData: FormData = new FormData();
         formData.append('file', file);
-        const req = new HttpRequest('POST', 'http://localhost:8080/upload', formData);
+        const req = new HttpRequest('POST', 'http://localhost:8080/upload', formData, httpOptionsImage);
         return this.http.request(req);
     }
 
@@ -43,11 +50,6 @@ export class PostsService {
     }
 
     deletePost(post: Post) {
-        return this.http.delete(`${ this.postsUrl }/${ post.id }`);
-    }
-
-    getComments(postId: number): Observable<Comment[]> {
-        const params = new HttpParams().set('postId', String(postId));
-        return this.http.get<Comment[]>('http://localhost:8080/comments', {params});
+        return this.http.delete(`${ this.postsUrl }/${ post.id }`, httpOptions);
     }
 }

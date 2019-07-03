@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../../../models/Post';
 import { PostsService } from '../../../services/posts.service';
+import {Member} from '../../../models/Member';
 
 @Component({
     selector: 'app-post-list',
@@ -33,10 +34,11 @@ export class PostListComponent implements OnInit {
         this.postService.deletePost(post).subscribe();
     }
 
-    onAdded(newPost: { message: string, postType: string, image: File, imageName: string }) {
+    onAdded(newPost: { member: Member, message: string, postType: string, image: File, imageName: string }) {
         const post = new Post();
         post.message = newPost.message;
         post.postType = newPost.postType;
+        post.member = newPost.member;
 
         if (newPost.image == null) {
             this.postService.savePost(post).subscribe({complete: () => this.refreshPosts()});

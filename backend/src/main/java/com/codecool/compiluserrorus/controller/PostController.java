@@ -1,5 +1,6 @@
 package com.codecool.compiluserrorus.controller;
 
+import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +26,14 @@ public class PostController {
         return postService.getOrderedPosts();
     }
 
-    @GetMapping("/logged-in-member")
-    public List<Post> getLoggedInMemberPosts() {
-        return postService.getLoggedInMemberPosts();
+    @PostMapping("/logged-in-member")
+    public List<Post> getLoggedInMemberPosts(@RequestBody Member member) {
+        return postService.getLoggedInMemberPosts(member);
     }
 
     @PostMapping
     public Post addPost(@Valid @RequestBody Post post) {
-        postService.addPost(post);
-        return post;
+        return postService.addPost(post, post.getMember());
     }
 
     @PutMapping("/{id}")

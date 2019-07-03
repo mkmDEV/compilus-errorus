@@ -1,0 +1,24 @@
+<div class="row no-gutters header">
+    <div class="col-12 col-lg-5 col-xl-6">
+        <h1>Facies Liber</h1>
+    </div>
+    <div class="col-12 col-lg-7 col-xl-6 login-form">
+        <div class="row">
+            <div class="col-6 col-lg-5 col-xl-4">
+                <label for="login-email">Email:</label>
+            </div>
+            <div class="col-6 col-lg-7 col-xl-8">
+                <label for="login-password">Password:</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-lg-5 col-xl-4">
+                <input type="email" id="login-email" placeholder="Enter your email" [(ngModel)]="email">
+            </div>
+            <div class="col-6 col-lg-7 col-xl-8">
+                <input type="password" id="login-password" placeholder="Enter your password" [(ngModel)]="password">
+                <button class="d-block d-lg-inline-block btn" (click)="onLogin()">Login</button>
+            </div>
+        </div>
+    </div>
+</div>

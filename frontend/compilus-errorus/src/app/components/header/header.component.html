@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 col-md-11">
-                    <h1><a [routerLink]="['/']">Facies Liber</a></h1>
+                    <h1><a [routerLink]="['/home']">Facies Liber</a></h1>
                 </div>
                 <div class="col-12 col-md-1 dropdown-div">
                     <ul class="nav nav-pills">
@@ -17,7 +17,7 @@
                                 <a class="dropdown-item" [routerLink]="['/events']">Events</a>
                                 <a class="dropdown-item" [routerLink]="['/groups']">Groups</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Log Out</a>
+                                <a class="dropdown-item" (click)="onLogout()">Log Out</a>
                             </div>
                         </li>
                     </ul>
