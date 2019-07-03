@@ -16,14 +16,14 @@ export class FriendsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getFriends();
+        this.authService.getLoggedInMember().subscribe( loggedInMember => {
+            this.member = loggedInMember;
+            this.getFriends();
+        });
     }
 
     getFriends() {
-        this.authService.getLoggedInMember().subscribe( loggedInMember => {
-            this.member = loggedInMember;
-        });
-        this.profileService.getFriends().subscribe(friends => {
+        this.profileService.getFriends(this.member).subscribe(friends => {
             this.friends = friends;
         });
     }

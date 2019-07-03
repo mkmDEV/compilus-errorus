@@ -20,8 +20,8 @@ export class ProfileService {
     constructor(private http: HttpClient) {
     }
 
-    getFriends(): Observable<Member[]> {
-        return this.http.get<Member[]>(this.memberUrl, httpOptions);
+    getFriends(member: Member): Observable<Member[]> {
+        return this.http.post<Member[]>(this.memberUrl, member, httpOptions);
     }
 
 

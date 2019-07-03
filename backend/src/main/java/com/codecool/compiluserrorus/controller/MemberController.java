@@ -21,9 +21,14 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping
-    public List<Member> getFriends() {
-        return memberService.getFriends();
+    @Autowired
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @PostMapping
+    public List<Member> getFriends( @RequestBody Member member) {
+        return memberService.getFriends(member);
     }
 
     @PostMapping("/logged-in-member")
