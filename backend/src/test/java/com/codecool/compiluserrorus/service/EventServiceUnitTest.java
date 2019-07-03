@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class EventServiceUnitTest {
 
+    // TODO
+
     @MockBean
     private EventRepository eventRepository;
 
