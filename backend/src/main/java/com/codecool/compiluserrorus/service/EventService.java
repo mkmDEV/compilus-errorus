@@ -3,7 +3,6 @@ package com.codecool.compiluserrorus.service;
 import com.codecool.compiluserrorus.model.Event;
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.EventRepository;
-import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
