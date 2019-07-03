@@ -83,7 +83,7 @@ class PostServiceUnitTest {
 
     @Test
     @Order(2)
-    public void getLoggedInMemberPosts() {
+    public void getLoggedInMemberPostsWhenMemberExists() {
         Member loggedInMember = Member.builder()
                 .name("Test Name")
                 .email("test@email.com")
@@ -165,5 +165,13 @@ class PostServiceUnitTest {
         when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
         assertTrue(() -> this.postService.deletePost(STUB_ID));
         verify(this.postRepository).deleteById(STUB_ID);
+    }
+
+    @Test
+    @Order(8)
+    public void getLoggedInMemberPostsWithInvalidMember() {
+        when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(null);
+        assertNull(this.postService.getLoggedInMemberPosts(this.testMember));
+        verify(this.memberService).getLoggedInMember(this.testMember);
     }
 }
