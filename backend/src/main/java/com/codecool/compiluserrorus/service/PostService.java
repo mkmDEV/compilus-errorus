@@ -2,7 +2,6 @@ package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
-import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.repository.PostRepository;
 import com.codecool.compiluserrorus.util.Util;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

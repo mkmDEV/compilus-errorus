@@ -3,6 +3,7 @@ import { FlComment } from '../../../../../models/FlComment';
 import { Post } from '../../../../../models/Post';
 import { CommentsService } from '../../../../../services/comments.service';
 import {Member} from '../../../../../models/Member';
+import {AuthService} from '../../../../../services/auth.service';
 
 @Component({
     selector: 'app-comment-list',
@@ -15,12 +16,13 @@ export class CommentListComponent implements OnInit {
     comments: FlComment[];
     member: Member;
 
-    constructor(private commentsService: CommentsService) {
+    constructor(private commentsService: CommentsService, private authService: AuthService) {
     }
 
     ngOnInit() {
         this.comments = [];
         this.getComments();
+        this.authService.getLoggedInMember().subscribe((loggedInMember) => this.member = loggedInMember);
     }
 
     getComments() {
@@ -41,8 +43,6 @@ export class CommentListComponent implements OnInit {
     addComment() {
         const message = this.inputField.nativeElement.value;
         const newComment = new FlComment();
-        this.member = new Member();
-        this.member.email = sessionStorage.getItem('email');
         newComment.message = message;
         newComment.post = this.post;
         newComment.member = this.member;
