@@ -4,7 +4,8 @@ import { Member } from '../models/Member';
 
 const httpOptions = {
     headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
     })
 };
 
@@ -12,7 +13,8 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class AuthService {
-    url = 'http://localhost:8080/login';
+    loginUrl = 'http://localhost:8080/login';
+    loggedInMemberUrl = 'http://localhost:8080/members/logged-in-member';
 
     constructor(private http: HttpClient) {
     }
@@ -21,11 +23,13 @@ export class AuthService {
         return sessionStorage.getItem('token') !== null;
     }
 
-    getLoggedInMember() {
-        return this.http.get()
+    loginUser(member: Member) {
+        return this.http.post<{ roles: [], email: string, token: string }>(this.loginUrl, member, httpOptions);
     }
 
-    loginUser(member: Member) {
-        return this.http.post<{ roles: [], email: string, token: string }>(this.url, member, httpOptions);
+    getLoggedInMember() {
+        const member = new Member();
+        member.email = sessionStorage.getItem('email');
+        return this.http.post<Member>(this.loggedInMemberUrl, member, httpOptions);
     }
 }

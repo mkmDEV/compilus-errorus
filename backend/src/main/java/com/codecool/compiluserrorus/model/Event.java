@@ -36,6 +36,7 @@ public class Event {
     @ElementCollection
     @Fetch(FetchMode.JOIN)
     @EqualsAndHashCode.Exclude
+    @Fetch(FetchMode.JOIN)
     private Set<Member> participants;
 
     @ManyToOne

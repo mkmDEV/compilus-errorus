@@ -22,7 +22,7 @@ public class PostController {
         return postService.getOrderedPosts();
     }
 
-    @GetMapping("/logged-in-member")
+    @PostMapping("/logged-in-member")
     public List<Post> getLoggedInMemberPosts(@RequestBody Member member) {
         return postService.getLoggedInMemberPosts(member);
     }
