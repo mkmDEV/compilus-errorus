@@ -4,7 +4,6 @@ package com.codecool.compiluserrorus.controller;
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.service.MemberService;
 import com.codecool.compiluserrorus.util.MemberTestsUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -48,12 +48,11 @@ class MemberControllerUnitTest {
 
     @BeforeEach
     public void init() {
-
         this.testMember = Member.builder()
+                .id(STUB_ID)
                 .name("Test Name")
                 .email("test@email.com")
                 .password("testpass")
-                .id(STUB_ID)
                 .build();
     }
 
@@ -62,7 +61,7 @@ class MemberControllerUnitTest {
     @WithMockUser
     public void testGettingFriendsWithExistingMemberWhenLoggedIn() throws Exception {
         int numberOfFriends = 5;
-        Set<Member> friends = MemberTestsUtil.getFriendList(numberOfFriends);
+        Set<Member> friends = MemberTestsUtil.getFriends(numberOfFriends);
         when(this.memberService.getFriends(this.testMember)).thenReturn(friends);
 
         String requestBody = this.objectMapper.writeValueAsString(this.testMember);
@@ -249,4 +248,84 @@ class MemberControllerUnitTest {
         verifyZeroInteractions(this.memberService);
     }
 
+    @Test
+    @Order(10)
+    @WithMockUser
+    public void addNewFriendToLoggedInMember() throws Exception {
+        Set<Member> friends = MemberTestsUtil.getFriends(2);
+
+        Member updatedMember = Member.builder()
+                .id(STUB_ID)
+                .name("Test Name")
+                .email("test@email.com")
+                .password("testpass")
+                .friends(friends)
+                .build();
+
+        when(this.memberService.getMemberById(STUB_ID)).thenReturn(this.testMember);
+        when(this.memberService.addFriend(STUB_ID, this.testMember)).thenReturn(updatedMember);
+
+        this.url = MAIN_URL + "/member/{id}";
+
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        put(this.url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Member actualResponseBody = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Member.class);
+        assertEquals(actualResponseBody, updatedMember);
+
+        verify(this.memberService).addFriend(STUB_ID, this.testMember);
+        verifyZeroInteractions(this.memberService);
+    }
+
+    @Test
+    @Order(11)
+    @WithMockUser
+    public void addNotExistingFriendToLoggedInMember() throws Exception {
+        when(this.memberService.getMemberById(STUB_ID)).thenReturn(null);
+        when(this.memberService.addFriend(STUB_ID, this.testMember)).thenReturn(null);
+
+        this.url = MAIN_URL + "/member/{id}";
+
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        put(this.url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
+
+        verify(this.memberService).addFriend(STUB_ID, this.testMember);
+        verifyZeroInteractions(this.memberService);
+    }
+
+    @Test
+    @Order(12)
+    public void addFriendWhenUserIsLoggedOut() throws Exception {
+        this.url = MAIN_URL + "/member/{id}";
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        this.mockMvc
+                .perform(
+                        put(this.url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isForbidden());
+
+        verifyZeroInteractions(this.memberService);
+    }
 }

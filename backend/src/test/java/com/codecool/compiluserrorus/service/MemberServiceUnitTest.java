@@ -109,7 +109,7 @@ class MemberServiceUnitTest {
     @Order(6)
     public void gettingLoggedInMemberFriends() {
         int numberOfFriends = 3;
-        Set<Member> friends = MemberTestsUtil.getFriendList(numberOfFriends);
+        Set<Member> friends = MemberTestsUtil.getFriends(numberOfFriends);
         this.registeredMember.setFriends(friends);
 
         when(this.memberRepository.findByEmail(this.registeredMember.getEmail()))

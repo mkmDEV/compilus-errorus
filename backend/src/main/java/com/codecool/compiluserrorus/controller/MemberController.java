@@ -32,8 +32,8 @@ public class MemberController {
     }
 
     @PutMapping("/member/{id}")
-    public void updateMember(@PathVariable Long id, @RequestBody Member member) {
-        memberService.addFriend(id, member);
+    public Member updateMember(@PathVariable Long id, @RequestBody Member member) {
+        return memberService.addFriend(id, member);
     }
 
 }

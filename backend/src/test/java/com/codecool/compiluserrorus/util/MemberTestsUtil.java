@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 public class MemberTestsUtil {
     private static PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-    public static Set<Member> getFriendList(int friend) {
+    public static Set<Member> getFriends(int friend) {
         Set<Member> friends = new HashSet<>();
 
         IntStream.rangeClosed(1, friend).forEach($ -> {

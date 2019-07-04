@@ -56,7 +56,7 @@ public class MemberService {
         return null;
     }
 
-    public boolean addFriend(Long id, Member friend) {
+    public Member addFriend(Long id, Member friend) {
         Member member = getMemberById(id);
         Member friendToAdd = getMemberById(friend.getId());
 
@@ -71,8 +71,8 @@ public class MemberService {
 
             memberRepository.save(member);
             memberRepository.save(friendToAdd);
-            return true;
+            return member;
         }
-        return false;
+        return null;
     }
 }
