@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,6 +34,7 @@ import { FriendsComponent } from './components/profile/profile-details/friends/f
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { RegistrationComponent } from './components/welcome/registration/registration.component';
 import { LoginComponent } from './components/welcome/login/login.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
     declarations: [
@@ -64,15 +66,18 @@ import { LoginComponent } from './components/welcome/login/login.component';
         FriendsComponent,
         WelcomeComponent,
         RegistrationComponent,
-        LoginComponent
+        LoginComponent,
+        ModalComponent
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        AppRoutingModule
+        AppRoutingModule,
+        NgbModule
     ],
+    entryComponents: [ ModalComponent ],
     providers: [],
     bootstrap: [AppComponent]
 })

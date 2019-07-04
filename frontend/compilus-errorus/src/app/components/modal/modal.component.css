@@ -1,0 +1,18 @@
+#modal-container {
+    background-color: white;
+    color: #464670;
+}
+
+p {
+    font-size: 17px;
+}
+
+#close-button {
+    background-color: #464670;
+    color: white;
+    cursor: pointer;
+}
+
+#close-button:hover {
+    background-color: #007bff;
+}

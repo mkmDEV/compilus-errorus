@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Member } from '../../../models/Member';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../../modal/modal.component';
 
 @Component({
     selector: 'app-login',
@@ -13,7 +15,7 @@ export class LoginComponent implements OnInit {
     member = new Member();
     emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
 
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService, private modalService: NgbModal) {
     }
 
     ngOnInit() {
@@ -21,7 +23,7 @@ export class LoginComponent implements OnInit {
 
     onLogin() {
         if (!this.isEmailValid()) {
-            console.log('Invalid email!');
+            this.open();
             return;
         }
 
@@ -41,5 +43,11 @@ export class LoginComponent implements OnInit {
 
     isEmailValid() {
         return this.email.match(this.emailPattern);
+    }
+
+    open() {
+        const modalRef = this.modalService.open(ModalComponent);
+        modalRef.componentInstance.title = 'Invalid email';
+        modalRef.componentInstance.message = 'Please enter a valid email address.';
     }
 }
