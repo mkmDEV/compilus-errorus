@@ -28,10 +28,11 @@ public class EventService {
         return latestEvents;
     }
 
-    public void addEvent(Event event, Member member) {
+    public Event addEvent(Event event, Member member) {
         Member eventCreator = memberService.getLoggedInMember(member);
         event.setCreator(eventCreator);
         eventRepository.save(event);
+        return event;
     }
 
     public Event updateEvent(Long id, Event event) {
@@ -42,7 +43,7 @@ public class EventService {
             amendEvent.setEventTitle(event.getEventTitle());
             eventRepository.save(amendEvent);
         }
-        return event;
+        return amendEvent;
     }
 
     public void deleteEvent(Long id) {
