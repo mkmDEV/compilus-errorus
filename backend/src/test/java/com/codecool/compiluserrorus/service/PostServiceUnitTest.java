@@ -154,8 +154,9 @@ class PostServiceUnitTest {
     @Test
     @Order(6)
     public void updateNonExistingPost() {
-        when(this.postRepository.findById(STUB_ID)).thenThrow(NullPointerException.class);
-        assertThrows(NullPointerException.class, () -> this.postService.updatePost(STUB_ID, this.testPost));
+        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.empty());
+        Post updatedPost = this.postService.updatePost(STUB_ID, this.testPost);
+        assertNull(updatedPost);
         verify(this.postRepository).findById(STUB_ID);
     }
 
