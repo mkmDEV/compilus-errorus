@@ -28,8 +28,11 @@ public class PostController {
 
     @PostMapping("/logged-in-member")
     public List<Post> getLoggedInMemberPosts(@RequestBody Member member) {
-        return postService.getLoggedInMemberPosts(member);
+        return postService.getMemberPosts(member);
     }
+
+    @PostMapping("/member-posts")
+    public List<Post> getMemberPosts(@RequestBody Member member) { return postService.getMemberPosts(member); }
 
     @PostMapping
     public Post addPost(@Valid @RequestBody Post post) {

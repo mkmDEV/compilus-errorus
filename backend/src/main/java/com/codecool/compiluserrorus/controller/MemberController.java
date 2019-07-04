@@ -30,4 +30,7 @@ public class MemberController {
         return memberService.getLoggedInMember(member);
     }
 
+    @PostMapping("/member")
+    public Member getMember(@RequestBody Member member) { return  memberService.getMemberById(member.getId()); }
+
 }

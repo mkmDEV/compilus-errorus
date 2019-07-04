@@ -1,6 +1,6 @@
 <div class="post-item">
     <h3><img src="http://localhost:8080/image-resource/blank-profile.png" alt="user-image" class="user-image">
-        <span>{{ post.member.name }}</span>
+        <span><a [routerLink]="['/profile/', post.member.id]">{{ post.member.name }}</a></span>
     </h3>
     <p class="date"><span>Date:</span> {{ post.romanDate }}</p>
     <img *ngIf="post.image != null" src="http://localhost:8080/image-resource/{{ post.image }}" alt="img">

@@ -46,6 +46,10 @@ public class MemberService {
         return this.memberRepository.findByEmail(member.getEmail()).orElse(null);
     }
 
+    public Member getMemberById(Long id) {
+        return this.memberRepository.findById(id).orElse(null);
+    }
+
     public List<Member> getFriends(Member member) {
         Member loggedInMember = this.getLoggedInMember(member);
         List<Member> friends = this.memberRepository.findAll();

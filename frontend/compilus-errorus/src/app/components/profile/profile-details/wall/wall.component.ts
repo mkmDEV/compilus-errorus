@@ -3,6 +3,7 @@ import { Post } from '../../../../models/Post';
 import { PostsService } from '../../../../services/posts.service';
 import { Member } from '../../../../models/Member';
 import { AuthService } from '../../../../services/auth.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'app-wall',
@@ -10,21 +11,24 @@ import { AuthService } from '../../../../services/auth.service';
     styleUrls: ['./wall.component.css']
 })
 export class WallComponent implements OnInit {
-    member = new Member();
     ownPosts: Post[];
+    member = new Member;
+    id: string;
 
-    constructor(private authService: AuthService, private postService: PostsService) {
+    constructor(private authService: AuthService, private postService: PostsService, private route: ActivatedRoute) {
+        this.route.params.subscribe( params => this.id = params.id);
     }
 
     ngOnInit() {
-        this.authService.getLoggedInMember().subscribe( loggedInMember => {
-            this.member = loggedInMember;
-            this.getPosts();
+        this.member.id = this.id;
+        this.authService.getMember(this.member).subscribe( member => {
+            this.member = member;
+            this.getPosts(member);
         });
     }
 
-    getPosts() {
-        this.postService.getLoggedInMemberPosts(this.member).subscribe(posts => {
+    getPosts(member: Member) {
+        this.postService.getMemberPosts(member).subscribe(posts => {
             this.ownPosts = posts;
         });
     }
