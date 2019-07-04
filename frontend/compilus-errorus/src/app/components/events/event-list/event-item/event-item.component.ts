@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FlEvent } from '../../../../models/FlEvent';
+import {Component, Input, OnInit} from '@angular/core';
+import {FlEvent} from '../../../../models/FlEvent';
+import {Member} from '../../../../models/Member';
+import {EventsService} from '../../../../services/events.service';
+import {AuthService} from '../../../../services/auth.service';
 
 @Component({
     selector: 'app-event-item',
@@ -8,11 +11,18 @@ import { FlEvent } from '../../../../models/FlEvent';
 })
 export class EventItemComponent implements OnInit {
     @Input() event: FlEvent;
+    loggedInMember: Member;
 
-    constructor() {
+    constructor(private eventsService: EventsService,
+                private authService: AuthService) {
     }
 
     ngOnInit() {
+        this.authService.getLoggedInMember().subscribe((loggedInMember) => this.loggedInMember = loggedInMember);
     }
 
+    onJoin() {
+        this.event.participants.push(this.loggedInMember);
+        this.eventsService.updateEvent(this.event).subscribe();
+    }
 }

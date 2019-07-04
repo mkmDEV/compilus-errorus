@@ -6,9 +6,16 @@
             <div class="col-8 left">
                 <p class="date">{{ event.romanDate }} hora</p>
                 <p class="description">{{ event.description }}</p>
+                <div>
+                    <ul>
+                        <li class="participants" *ngFor="let participant of event.participants">
+                            {{ participant.name }}
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="col-4 right">
-                <button class="btn events-btn">Ego copulare!</button>
+                <button class="btn events-btn" (click)="onJoin()">Ego copulare!</button>
             </div>
         </div>
     </div>

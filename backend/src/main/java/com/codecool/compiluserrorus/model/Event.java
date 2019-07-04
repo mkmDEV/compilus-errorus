@@ -33,9 +33,9 @@ public class Event {
     private String romanDate;
 
     @Singular
-    @ElementCollection
     @EqualsAndHashCode.Exclude
     @Fetch(FetchMode.JOIN)
+    @ManyToMany
     private Set<Member> participants;
 
     @ManyToOne
@@ -48,6 +48,9 @@ public class Event {
                 ", eventTitle='" + eventTitle + '\'' +
                 ", description='" + description + '\'' +
                 ", eventDate=" + eventDate +
+                ", romanDate='" + romanDate + '\'' +
+                ", participants=" + participants +
+                ", creator=" + creator +
                 '}';
     }
 }
