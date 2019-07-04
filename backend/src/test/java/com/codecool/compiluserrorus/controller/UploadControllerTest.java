@@ -17,9 +17,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.io.File;
-import java.io.InputStream;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -28,7 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class UploadControllerTest {
 
-    private static final String MAIN_URL = "/upload";
+    private static final String UPLOAD_URL = "/upload";
+    private static final String RESOURCE_URL = "/image-resource/{image}";
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -51,7 +52,7 @@ class UploadControllerTest {
                 "text/plain", "test data".getBytes());
 
         MockHttpServletRequestBuilder builder =
-                MockMvcRequestBuilders.multipart(MAIN_URL)
+                MockMvcRequestBuilders.multipart(UPLOAD_URL)
                         .file(mockMultipartFile);
 
         this.mockMvc.perform(builder).andExpect(status().isOk())
@@ -70,7 +71,7 @@ class UploadControllerTest {
                 "text/plain", "test data".getBytes());
 
         MockHttpServletRequestBuilder builder =
-                MockMvcRequestBuilders.multipart(MAIN_URL)
+                MockMvcRequestBuilders.multipart(UPLOAD_URL)
                         .file(mockMultipartFile);
 
         this.mockMvc.perform(builder).andExpect(status().isForbidden())
@@ -78,8 +79,15 @@ class UploadControllerTest {
 
     }
 
+    @Test
+    @Order(3)
+    public void getImagesTest() throws Exception {
 
-//    @Test
-//    void getFile() {
-//    }
+        String fileName = "filename.jpg";
+
+        mockMvc.perform(get(RESOURCE_URL, fileName))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("image/jpeg"));
+
+    }
 }
