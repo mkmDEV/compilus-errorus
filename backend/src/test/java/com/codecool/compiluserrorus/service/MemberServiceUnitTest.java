@@ -78,7 +78,7 @@ class MemberServiceUnitTest {
     public void testNewMemberIsNotRegistered() {
         when(this.memberRepository.findByEmail(this.newMember.getEmail())).thenReturn(Optional.empty());
         Member newMember = this.memberService.register(this.newMember);
-        assertEquals(newMember.getEmail(), this.newMember.getEmail());
+        assertEquals(this.newMember.getEmail(), newMember.getEmail());
         verify(this.memberRepository).findByEmail(this.newMember.getEmail());
     }
 
@@ -110,10 +110,10 @@ class MemberServiceUnitTest {
     @Test
     @Order(6)
     public void gettingLoggedInMemberFriends() {
-        int friends = 5;
-        when(this.memberRepository.findAll()).thenReturn(MemberTestsUtil.getFriendList(friends));
+        int numberOfFriends = 5;
+        when(this.memberRepository.findAll()).thenReturn(MemberTestsUtil.getFriendList(numberOfFriends));
         List<Member> friendList = this.memberService.getFriends(this.newMember);
-        assertEquals(friendList.size(), friends);
+        assertEquals(numberOfFriends, friendList.size());
         verify(this.memberRepository).findAll();
     }
 }

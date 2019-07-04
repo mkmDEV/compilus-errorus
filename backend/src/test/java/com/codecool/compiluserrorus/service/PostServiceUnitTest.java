@@ -60,7 +60,7 @@ class PostServiceUnitTest {
                 .postingDate(LocalDateTime.of(2019, 2, 3, 4, 5))
                 .likes(10)
                 .dislikes(10)
-                .member(testMember)
+                .member(this.testMember)
                 .build();
     }
 
@@ -72,7 +72,7 @@ class PostServiceUnitTest {
         when(this.postRepository.getPostByOrderByPostingDateDesc()).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getOrderedPosts();
 
-        assertEquals(this.postList.size(), orderedPosts.size());
+        assertEquals(orderedPosts.size(), this.postList.size());
 
         IntStream.range(0, posts - 1)
                 .forEach(i -> assertTrue(orderedPosts.get(i).getPostingDate().isAfter(orderedPosts.get(i + 1).getPostingDate())
@@ -98,7 +98,7 @@ class PostServiceUnitTest {
         when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getLoggedInMemberPosts(this.testMember);
 
-        assertEquals(this.postList.size(), orderedPosts.size());
+        assertEquals(orderedPosts.size(), this.postList.size());
 
         IntStream.range(0, posts - 1)
                 .forEach(i -> assertEquals(this.postList.get(i).getMember(), orderedPosts.get(i).getMember()));
@@ -110,10 +110,10 @@ class PostServiceUnitTest {
     @Test
     @Order(3)
     public void addValidNewPost() {
-        when(this.postRepository.save(testPost)).thenReturn(testPost);
-        Post newPost = this.postService.addPost(testPost, testPost.getMember());
+        when(this.postRepository.save(this.testPost)).thenReturn(this.testPost);
+        Post newPost = this.postService.addPost(this.testPost, this.testPost.getMember());
         assertFalse(newPost.getMessage().isEmpty());
-        verify(this.postRepository).save(testPost);
+        verify(this.postRepository).save(this.testPost);
     }
 
     @Test
@@ -124,7 +124,7 @@ class PostServiceUnitTest {
                 .build();
 
         when(this.postRepository.save(wrongPost)).thenThrow(DataIntegrityViolationException.class);
-        assertThrows(DataIntegrityViolationException.class, () -> this.postService.addPost(wrongPost, testMember));
+        assertThrows(DataIntegrityViolationException.class, () -> this.postService.addPost(wrongPost, this.testMember));
         verify(this.postRepository).save(wrongPost);
     }
 
@@ -141,12 +141,12 @@ class PostServiceUnitTest {
                 .dislikes(dislikes)
                 .build();
 
-        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
+        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(this.testPost));
         Post updatedPost = this.postService.updatePost(STUB_ID, updatedPostData);
 
-        assertEquals(updatedPost.getMessage(), updatedMessage);
-        assertEquals(updatedPost.getLikes(), likes);
-        assertEquals(updatedPost.getDislikes(), dislikes);
+        assertEquals(updatedMessage, updatedPost.getMessage());
+        assertEquals(likes, updatedPost.getLikes());
+        assertEquals(dislikes, updatedPost.getDislikes());
 
         verify(this.postRepository).findById(STUB_ID);
     }
@@ -154,21 +154,30 @@ class PostServiceUnitTest {
     @Test
     @Order(6)
     public void updateNonExistingPost() {
-        when(this.postRepository.findById(STUB_ID)).thenThrow(NullPointerException.class);
-        assertThrows(NullPointerException.class, () -> this.postService.updatePost(STUB_ID, this.testPost));
+        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.empty());
+        Post updatedPost = this.postService.updatePost(STUB_ID, this.testPost);
+        assertNull(updatedPost);
         verify(this.postRepository).findById(STUB_ID);
     }
 
     @Test
     @Order(7)
-    public void deletePost() {
-        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
+    public void deleteExistingPost() {
+        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(this.testPost));
         assertTrue(() -> this.postService.deletePost(STUB_ID));
         verify(this.postRepository).deleteById(STUB_ID);
     }
 
     @Test
     @Order(8)
+    public void deleteNonExistingPost() {
+        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.empty());
+        assertFalse(() -> this.postService.deletePost(STUB_ID));
+        verify(this.postRepository).findById(STUB_ID);
+    }
+
+    @Test
+    @Order(9)
     public void getLoggedInMemberPostsWithInvalidMember() {
         when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(null);
         assertNull(this.postService.getLoggedInMemberPosts(this.testMember));

@@ -62,7 +62,11 @@ public class PostService {
 
     public boolean deletePost(Long id) {
         Post postToDelete = postRepository.findById(id).orElse(null);
-        if (postToDelete == null) return false;
+
+        if (postToDelete == null) {
+            return false;
+        }
+
         if (postToDelete.getImage()!= null) {
             Path path = Paths.get(imagePath + postToDelete.getImage());
             try {
@@ -72,7 +76,7 @@ public class PostService {
                 e.printStackTrace();
             }
         }
-        postRepository.findById(id).ifPresent(deletablePost -> postRepository.deleteById(id));
+        postRepository.findById(id).ifPresent($ -> postRepository.deleteById(id));
         return true;
     }
 }
