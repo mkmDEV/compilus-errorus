@@ -72,7 +72,7 @@ class PostServiceUnitTest {
         when(this.postRepository.getPostByOrderByPostingDateDesc()).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getOrderedPosts();
 
-        assertEquals(this.postList.size(), orderedPosts.size());
+        assertEquals(orderedPosts.size(), this.postList.size());
 
         IntStream.range(0, posts - 1)
                 .forEach(i -> assertTrue(orderedPosts.get(i).getPostingDate().isAfter(orderedPosts.get(i + 1).getPostingDate())
@@ -98,7 +98,7 @@ class PostServiceUnitTest {
         when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getLoggedInMemberPosts(this.testMember);
 
-        assertEquals(this.postList.size(), orderedPosts.size());
+        assertEquals(orderedPosts.size(),this.postList.size());
 
         IntStream.range(0, posts - 1)
                 .forEach(i -> assertEquals(this.postList.get(i).getMember(), orderedPosts.get(i).getMember()));
@@ -144,9 +144,9 @@ class PostServiceUnitTest {
         when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
         Post updatedPost = this.postService.updatePost(STUB_ID, updatedPostData);
 
-        assertEquals(updatedPost.getMessage(), updatedMessage);
-        assertEquals(updatedPost.getLikes(), likes);
-        assertEquals(updatedPost.getDislikes(), dislikes);
+        assertEquals(updatedMessage, updatedPost.getMessage());
+        assertEquals(likes, updatedPost.getLikes());
+        assertEquals(dislikes, updatedPost.getDislikes());
 
         verify(this.postRepository).findById(STUB_ID);
     }
