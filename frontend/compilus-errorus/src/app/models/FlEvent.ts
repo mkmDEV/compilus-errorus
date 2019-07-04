@@ -7,4 +7,5 @@ export class FlEvent {
     romanDate: string;
     eventDate: Date;
     creator: Member;
+    participants: Member[];
 }
