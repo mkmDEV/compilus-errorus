@@ -62,7 +62,8 @@ public class PostService {
 
     public boolean deletePost(Long id) {
         Post postToDelete = postRepository.findById(id).orElse(null);
-        if (postToDelete != null && postToDelete.getImage()!= null) {
+        if (postToDelete == null) return false;
+        if (postToDelete.getImage()!= null) {
             Path path = Paths.get(imagePath + postToDelete.getImage());
             try {
                 Files.delete(path);

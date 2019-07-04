@@ -38,10 +38,13 @@ public class CommentService {
             amendComment.setDislikes(comment.getDislikes());
             commentRepository.save(amendComment);
         }
-        return comment;
+        return amendComment;
     }
 
-    public void deleteComment(Long id) {
-        commentRepository.findById(id).ifPresent(deletableComment -> commentRepository.deleteById(id));
+    public boolean deleteComment(Long id) {
+        Comment toBeDeleted = commentRepository.findById(id).orElse(null);
+        if(toBeDeleted == null) return false;
+        commentRepository.deleteById(id);
+        return true;
     }
 }

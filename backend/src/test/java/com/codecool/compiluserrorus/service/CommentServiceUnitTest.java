@@ -20,6 +20,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -46,7 +47,7 @@ public class CommentServiceUnitTest {
     private Member testMember;
     private Post testPost;
     private Comment testComment;
-    private List<Comment> commentList;
+    private Comment updatedCommentData;
 
     @BeforeEach
     void init() {
@@ -71,13 +72,18 @@ public class CommentServiceUnitTest {
                 .post(testPost)
                 .member(testMember)
                 .build();
+        updatedCommentData = Comment.builder()
+                .message("Updated test comment message")
+                .likes(100)
+                .dislikes(100)
+                .build();
     }
 
     @ParameterizedTest
     @Order(1)
     @ValueSource(ints = {1, 5, 25, 100, 250, 500, 1000})
     void testGetCommentsOrderedByDate(int comments) {
-        this.commentList = CommentTestUtil.getOrderedComments(comments);
+        List<Comment> commentList = CommentTestUtil.getOrderedComments(comments);
         when(commentRepository.getCommentsByPostIdOrderByDate(STUB_ID)).thenReturn(commentList);
         List<Comment> orderedComments = this.commentService.getCommentsOrderedByDate(STUB_ID);
 
@@ -121,34 +127,44 @@ public class CommentServiceUnitTest {
         verify(this.commentRepository).save(commentWithoutMessage);
     }
 
+    @Order(4)
+    @Test
+    void testUpdateComment() {
+        when(this.commentRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testComment));
+
+        Comment updatedComment = this.commentService.updateComment(STUB_ID, updatedCommentData);
+
+        assertEquals(updatedCommentData.getMessage(), updatedComment.getMessage());
+        assertEquals(updatedCommentData.getLikes(), updatedComment.getLikes());
+        assertEquals(updatedCommentData.getDislikes(), updatedComment.getDislikes());
+        verify(this.commentRepository).findById(STUB_ID);
+    }
+
+    @Order(4)
+    @Test
+    void testUpdateNonExistingCommentReturnsNull() {
+        when(this.commentRepository.findById(STUB_ID)).thenReturn(Optional.empty());
+
+        Comment updatedComment = this.commentService.updateComment(STUB_ID, updatedCommentData);
+
+        assertNull(updatedComment);
+        verify(this.commentRepository).findById(STUB_ID);
+    }
+
+    @Order(6)
+    @Test
+    void testDeleteComment() {
+        when(this.commentRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testComment));
+        assertTrue( () -> this.commentService.deleteComment(STUB_ID));
+        verify(this.commentRepository).deleteById(STUB_ID);
+    }
+
+    @Order(7)
+    @Test
+    void testDeleteNonExistingComment() {
+        when(this.commentRepository.findById(STUB_ID)).thenReturn(Optional.empty());
+        assertFalse( () -> this.commentService.deleteComment(STUB_ID));
+    }
+
 }
 
-/*
-  public void addValidNewPost() {
-        when(this.postRepository.save(testPost)).thenReturn(testPost);
-        Post newPost = this.postService.addPost(testPost, testPost.getMember());
-        assertFalse(newPost.getMessage().isEmpty());
-        verify(this.postRepository).save(testPost);
-    }
-
-    public void addComment(Comment comment, Member member) {
-        Member commentingMember = memberService.getLoggedInMember(member);
-        comment.setMember(commentingMember);
-        commentRepository.save(comment);
-    }
-
-    public Comment updateComment(Long id, Comment comment) {
-        Comment amendComment = commentRepository.findById(id).orElse(null);
-        if (amendComment != null) {
-            amendComment.setMessage(comment.getMessage());
-            amendComment.setLikes(comment.getLikes());
-            amendComment.setDislikes(comment.getDislikes());
-            commentRepository.save(amendComment);
-        }
-        return comment;
-    }
-
-    public void deleteComment(Long id) {
-        commentRepository.findById(id).ifPresent(deletableComment -> commentRepository.deleteById(id));
-    }
-*/
