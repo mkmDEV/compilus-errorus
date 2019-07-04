@@ -267,8 +267,8 @@ class PostControllerUnitTest {
     @Order(10)
     @MethodSource("doesPostExist")
     @WithMockUser
-    public void deletePostWhenLoggedIn(boolean isPostExists) throws Exception {
-        when(this.postService.deletePost(STUB_ID)).thenReturn(isPostExists);
+    public void deletePostWhenLoggedIn(boolean doesPostExist) throws Exception {
+        when(this.postService.deletePost(STUB_ID)).thenReturn(doesPostExist);
 
         this.url = MAIN_URL + "/{id}";
 

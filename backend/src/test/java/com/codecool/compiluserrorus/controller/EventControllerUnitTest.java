@@ -7,6 +7,8 @@ import com.codecool.compiluserrorus.service.MemberService;
 import com.codecool.compiluserrorus.util.EventTestsUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,13 +22,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -54,6 +55,10 @@ class EventControllerUnitTest {
     private Event testEvent;
     private Member testMember;
     private String url;
+
+    private static Stream<Boolean> doesEventExist() {
+        return Stream.of(true, false);
+    }
 
     @BeforeEach
     public void init() {
@@ -174,7 +179,10 @@ class EventControllerUnitTest {
     @Test
     @Order(6)
     public void getLatestEventsWithLoggedOutUser() throws Exception {
-        this.mockMvc.perform(get(MAIN_URL))
+        this.mockMvc
+                .perform(
+                        get(MAIN_URL)
+                )
                 .andExpect(status().isForbidden());
 
         verifyNoMoreInteractions(this.eventService);
@@ -294,6 +302,41 @@ class EventControllerUnitTest {
         assertTrue(actualResponseBody.isEmpty());
 
         verify(this.eventService).updateEvent(STUB_ID, this.testEvent);
+        verifyNoMoreInteractions(this.eventService);
+    }
+
+    @ParameterizedTest
+    @Order(12)
+    @WithMockUser
+    @MethodSource("doesEventExist")
+    public void testEventDeleteWithLoggedInUser(boolean doesEventExist) throws Exception {
+        when(this.eventService.deleteEvent(STUB_ID)).thenReturn(doesEventExist);
+
+        this.url = MAIN_URL + "/{id}";
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        delete(this.url, STUB_ID)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
+
+        verify(this.eventService).deleteEvent(STUB_ID);
+        verifyNoMoreInteractions(this.eventService);
+    }
+
+    @Test
+    @Order(13)
+    public void deletePostWhenLoggedOut() throws Exception {
+        this.url = MAIN_URL + "/{id}";
+
+        this.mockMvc
+                .perform(delete(this.url, STUB_ID))
+                .andExpect(status().isForbidden());
+
         verifyNoMoreInteractions(this.eventService);
     }
 }
