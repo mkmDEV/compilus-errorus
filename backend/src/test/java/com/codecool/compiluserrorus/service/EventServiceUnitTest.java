@@ -2,7 +2,6 @@ package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Event;
 import com.codecool.compiluserrorus.model.Member;
-import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.repository.EventRepository;
 import com.codecool.compiluserrorus.util.EventTestsUtil;
 import org.junit.jupiter.api.*;
@@ -112,6 +111,22 @@ class EventServiceUnitTest {
         when(this.eventRepository.findById(STUB_ID)).thenReturn(Optional.empty());
         Event updatedEvent = this.eventService.updateEvent(STUB_ID, this.testEvent);
         assertNull(updatedEvent);
+        verify(this.eventRepository).findById(STUB_ID);
+    }
+
+    @Test
+    @Order(6)
+    public void deleteExistingPost() {
+        when(this.eventRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(this.testEvent));
+        assertTrue(() -> this.eventService.deleteEvent(STUB_ID));
+        verify(this.eventRepository).deleteById(STUB_ID);
+    }
+
+    @Test
+    @Order(7)
+    public void deleteNonExistingPost() {
+        when(this.eventRepository.findById(STUB_ID)).thenReturn(Optional.empty());
+        assertFalse(() -> this.eventService.deleteEvent(STUB_ID));
         verify(this.eventRepository).findById(STUB_ID);
     }
 }
