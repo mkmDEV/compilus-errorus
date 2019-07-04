@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RegistrationService } from '../../../services/registration.service';
 import { Member } from '../../../models/Member';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../../modal/modal.component';
 
 @Component({
     selector: 'app-registration',
@@ -14,7 +16,7 @@ export class RegistrationComponent implements OnInit {
     member = new Member();
     emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
 
-    constructor(private registrationService: RegistrationService) {
+    constructor(private registrationService: RegistrationService, private modalService: NgbModal) {
     }
 
     ngOnInit() {
@@ -22,7 +24,7 @@ export class RegistrationComponent implements OnInit {
 
     onSubmitRegistration() {
         if (!this.isEmailValid()) {
-            console.log('Invalid email!');
+            this.open();
             return;
         }
 
@@ -40,5 +42,11 @@ export class RegistrationComponent implements OnInit {
 
     isEmailValid() {
         return this.email.match(this.emailPattern);
+    }
+
+    open() {
+        const modalRef = this.modalService.open(ModalComponent);
+        modalRef.componentInstance.title = 'Invalid email';
+        modalRef.componentInstance.message = 'Please enter a valid email address.';
     }
 }
