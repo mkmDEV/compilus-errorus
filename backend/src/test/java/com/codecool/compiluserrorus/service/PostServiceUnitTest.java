@@ -96,7 +96,7 @@ class PostServiceUnitTest {
 
         when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(loggedInMember);
         when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
-        List<Post> orderedPosts = this.postService.getLoggedInMemberPosts(this.testMember);
+        List<Post> orderedPosts = this.postService.getMemberPosts(this.testMember);
 
         assertEquals(orderedPosts.size(), this.postList.size());
 
@@ -180,7 +180,7 @@ class PostServiceUnitTest {
     @Order(9)
     public void getLoggedInMemberPostsWithInvalidMember() {
         when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(null);
-        assertNull(this.postService.getLoggedInMemberPosts(this.testMember));
+        assertNull(this.postService.getMemberPosts(this.testMember));
         verify(this.memberService).getLoggedInMember(this.testMember);
     }
 }
