@@ -84,7 +84,7 @@ class PostControllerUnitTest {
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
-        assertEquals(objectMapper.writeValueAsString(this.posts), actualResponseBody);
+        assertEquals(actualResponseBody, objectMapper.writeValueAsString(this.posts));
 
         verify(this.postService).getOrderedPosts();
         verifyNoMoreInteractions(this.postService);
@@ -121,7 +121,7 @@ class PostControllerUnitTest {
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
-        assertEquals(objectMapper.writeValueAsString(this.posts), actualResponseBody);
+        assertEquals(actualResponseBody, objectMapper.writeValueAsString(this.posts));
 
         verify(this.postService).getLoggedInMemberPosts(this.testMember);
         verifyNoMoreInteractions(this.postService);
@@ -158,7 +158,7 @@ class PostControllerUnitTest {
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
-        assertEquals(objectMapper.writeValueAsString(this.testPost), actualResponseBody);
+        assertEquals(actualResponseBody, objectMapper.writeValueAsString(this.testPost));
 
         verify(this.postService).addPost(this.testPost, this.testMember);
         verifyNoMoreInteractions(this.postService);
@@ -201,7 +201,7 @@ class PostControllerUnitTest {
                 .andReturn();
 
         Post actualResponseBody = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Post.class);
-        assertEquals(this.testPost.getMessage(), actualResponseBody.getMessage());
+        assertEquals(actualResponseBody.getMessage(), this.testPost.getMessage());
 
         verify(this.postService).updatePost(STUB_ID, this.testPost);
         verifyNoMoreInteractions(this.postService);
