@@ -28,7 +28,9 @@ public class PostController {
     }
 
     @PostMapping("/member-posts")
-    public List<Post> getMemberPosts(@RequestBody Member member) { return postService.getMemberPosts(member); }
+    public List<Post> getMemberPosts(@RequestBody Member member) {
+        return postService.getMemberPosts(member);
+    }
 
     @PostMapping
     public Post addPost(@Valid @RequestBody Post post) {

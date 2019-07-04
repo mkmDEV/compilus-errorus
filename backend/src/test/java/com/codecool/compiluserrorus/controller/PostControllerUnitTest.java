@@ -305,4 +305,74 @@ class PostControllerUnitTest {
 
         verifyNoMoreInteractions(this.postService);
     }
+
+    @Test
+    @Order(12)
+    @WithMockUser
+    public void getExistingMemberPostsWhenLoggedIn() throws Exception {
+        when(this.memberService.getMemberById(this.testMember.getId())).thenReturn(this.testMember);
+        when(this.postService.getMemberPosts(this.testMember)).thenReturn(this.posts);
+
+        this.url = MAIN_URL + "/member-posts";
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        post(url)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertEquals(actualResponseBody, objectMapper.writeValueAsString(this.posts));
+
+        verify(this.postService).getMemberPosts(this.testMember);
+        verifyNoMoreInteractions(this.postService);
+    }
+
+    @Test
+    @Order(13)
+    @WithMockUser
+    public void getFakeMemberPostsWhenLoggedIn() throws Exception {
+        when(this.memberService.getMemberById(this.testMember.getId())).thenReturn(null);
+        when(this.postService.getMemberPosts(this.testMember)).thenReturn(null);
+
+        this.url = MAIN_URL + "/member-posts";
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        post(url)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
+
+        verify(this.postService).getMemberPosts(this.testMember);
+        verifyNoMoreInteractions(this.postService);
+    }
+
+    @Test
+    @Order(14)
+    public void getMemberPostsWhenLoggedOut() throws Exception {
+        this.url = MAIN_URL + "/member-posts";
+
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        this.mockMvc
+                .perform(
+                        post(url)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isForbidden());
+
+        verifyNoMoreInteractions(this.postService);
+    }
 }
