@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -184,7 +185,7 @@ class PostControllerUnitTest {
     @Test
     @Order(7)
     @WithMockUser
-    public void updatePostWhenLoggedIn() throws Exception {
+    public void updateExistingPostWhenLoggedIn() throws Exception {
         when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(this.testPost);
 
         this.url = MAIN_URL + "/{id}";
@@ -208,7 +209,7 @@ class PostControllerUnitTest {
 
     @Test
     @Order(8)
-    public void updatePostWhenLoggedOut() throws Exception {
+    public void updateExistingPostWhenLoggedOut() throws Exception {
         when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(this.testPost);
 
         this.url = MAIN_URL + "/{id}";
@@ -228,6 +229,51 @@ class PostControllerUnitTest {
     @Test
     @Order(9)
     @WithMockUser
+    public void updateNonExistingPostWhenLoggedIn() throws Exception {
+        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(null);
+
+        this.url = MAIN_URL + "/{id}";
+        String requestBody = this.objectMapper.writeValueAsString(this.testPost);
+
+        MvcResult mvcResult = this.mockMvc.
+                perform(
+                        put(this.url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
+
+        verify(this.postService).updatePost(STUB_ID, this.testPost);
+        verifyNoMoreInteractions(this.postService);
+    }
+
+    @Test
+    @Order(10)
+    public void updateNonExistingPostWhenLoggedOut() throws Exception {
+        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(null);
+
+        this.url = MAIN_URL + "/{id}";
+        String requestBody = this.objectMapper.writeValueAsString(this.testPost);
+
+        this.mockMvc.
+                perform(
+                        put(this.url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isForbidden());
+
+        verifyNoMoreInteractions(this.postService);
+    }
+
+
+    @Test
+    @Order(11)
+    @WithMockUser
     public void deletePostWhenLoggedIn() throws Exception {
         when(this.postService.deletePost(STUB_ID)).thenReturn(true);
 
@@ -242,7 +288,7 @@ class PostControllerUnitTest {
     }
 
     @Test
-    @Order(10)
+    @Order(12)
     public void deletePostWhenLoggedOut() throws Exception {
         when(this.postService.deletePost(STUB_ID)).thenReturn(true);
 
