@@ -57,4 +57,8 @@ export class CommentItemComponent implements OnInit {
     isUserTheSame() {
         return this.comment.member.email === sessionStorage.getItem('email');
     }
+
+    goToProfile(id: string) {
+        location.assign('/profile/' + id);
+    }
 }
