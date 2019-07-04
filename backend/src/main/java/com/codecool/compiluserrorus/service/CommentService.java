@@ -23,10 +23,11 @@ public class CommentService {
         return comments;
     }
 
-    public void addComment(Comment comment, Member member) {
+    public Comment addComment(Comment comment, Member member) {
         Member commentingMember = memberService.getLoggedInMember(member);
         comment.setMember(commentingMember);
         commentRepository.save(comment);
+        return comment;
     }
 
     public Comment updateComment(Long id, Comment comment) {
