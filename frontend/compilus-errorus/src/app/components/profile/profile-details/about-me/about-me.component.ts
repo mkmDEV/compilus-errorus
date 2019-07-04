@@ -30,6 +30,12 @@ export class AboutMeComponent implements OnInit {
     }
 
     onAddFriend() {
-        this.profileService.updateMember(this.loggedInMember, this.member).subscribe(() => console.log('update sent'));
+        if (!this.isUserSame()) {
+            this.profileService.updateMember(this.loggedInMember, this.member).subscribe();
+        }
+    }
+
+    isUserSame() {
+        return this.member.email === sessionStorage.getItem('email');
     }
 }
