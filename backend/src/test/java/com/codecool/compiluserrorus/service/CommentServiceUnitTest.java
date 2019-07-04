@@ -156,7 +156,7 @@ public class CommentServiceUnitTest {
     public void testDeleteComment() {
         when(this.commentRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(this.testComment));
         assertTrue( () -> this.commentService.deleteComment(STUB_ID));
-        verify(this.commentRepository).deleteById(STUB_ID);
+        verify(this.commentRepository).findById(STUB_ID);
     }
 
     @Order(7)
@@ -164,6 +164,7 @@ public class CommentServiceUnitTest {
     public void testDeleteNonExistingComment() {
         when(this.commentRepository.findById(STUB_ID)).thenReturn(Optional.empty());
         assertFalse( () -> this.commentService.deleteComment(STUB_ID));
+        verify(this.commentRepository).findById(STUB_ID);
     }
 
 }
