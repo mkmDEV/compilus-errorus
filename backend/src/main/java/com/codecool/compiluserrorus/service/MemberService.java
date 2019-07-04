@@ -70,8 +70,8 @@ public class MemberService {
             friends.add(member);
             friendToAdd.setFriends(friends);
 
-            memberRepository.save(member);
-            memberRepository.save(friendToAdd);
+            this.memberRepository.save(member);
+            this.memberRepository.save(friendToAdd);
             return member;
         }
         return null;

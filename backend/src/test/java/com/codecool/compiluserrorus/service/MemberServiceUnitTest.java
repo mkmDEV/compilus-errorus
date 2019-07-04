@@ -16,8 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
 @ComponentScan(basePackageClasses = {MemberService.class})
@@ -137,5 +136,14 @@ class MemberServiceUnitTest {
         when(this.memberRepository.findById(STUB_ID)).thenReturn(Optional.empty());
         assertNull(this.memberService.getMemberById(STUB_ID));
         verify(this.memberRepository).findById(STUB_ID);
+    }
+
+    @Test
+    @Order(9)
+    public void addFriendWithFakeIds() {
+        when(this.memberRepository.findById(STUB_ID)).thenReturn(Optional.empty());
+        Member member = this.memberService.addFriend(STUB_ID, this.registeredMember);
+        assertNull(member);
+        verify(this.memberRepository, times(2)).findById(STUB_ID);
     }
 }
