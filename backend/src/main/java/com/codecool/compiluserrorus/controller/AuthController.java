@@ -2,6 +2,7 @@ package com.codecool.compiluserrorus.controller;
 
 import com.codecool.compiluserrorus.model.UserCredentials;
 import com.codecool.compiluserrorus.security.JwtTokenServices;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,15 +22,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenServices jwtTokenServices;
-
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenServices jwtTokenServices) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenServices = jwtTokenServices;
-    }
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UserCredentials data) {

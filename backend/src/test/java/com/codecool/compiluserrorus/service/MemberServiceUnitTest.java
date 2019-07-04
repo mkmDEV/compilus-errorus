@@ -111,7 +111,9 @@ class MemberServiceUnitTest {
     @Order(6)
     public void gettingLoggedInMemberFriends() {
         int numberOfFriends = 5;
-        when(this.memberRepository.findAll()).thenReturn(MemberTestsUtil.getFriendList(numberOfFriends));
+        List<Member> friends = MemberTestsUtil.getFriendList(numberOfFriends);
+
+        when(this.memberRepository.findAll()).thenReturn(friends);
         List<Member> friendList = this.memberService.getFriends(this.newMember);
         assertEquals(numberOfFriends, friendList.size());
         verify(this.memberRepository).findAll();
