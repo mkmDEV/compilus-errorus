@@ -48,10 +48,10 @@ public class Member {
     private Set<Comment> comments;
 
     @Singular
-    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany(mappedBy = "participants", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonBackReference(value = "events")
     @EqualsAndHashCode.Exclude
-    private Set<Comment> events;
+    private Set<Event> events;
 
     @Singular
     @ElementCollection

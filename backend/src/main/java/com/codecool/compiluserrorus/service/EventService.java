@@ -41,6 +41,7 @@ public class EventService {
             amendEvent.setEventDate(event.getEventDate());
             amendEvent.setEventTitle(event.getEventTitle());
             amendEvent.setParticipants(event.getParticipants());
+            System.err.println(event.getParticipants());
             eventRepository.save(amendEvent);
         }
         return event;
