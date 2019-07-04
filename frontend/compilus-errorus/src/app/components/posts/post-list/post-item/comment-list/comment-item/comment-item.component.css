@@ -27,6 +27,7 @@
 .commenter-name {
     font-weight: bold;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 .comment-likes {

@@ -25,4 +25,8 @@ export class EventItemComponent implements OnInit {
         this.event.participants.push(this.loggedInMember);
         this.eventsService.updateEvent(this.event).subscribe();
     }
+
+    goToProfile(id: string) {
+        location.assign('/profile/' + id);
+    }
 }

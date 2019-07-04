@@ -58,4 +58,7 @@ export class PostItemComponent implements OnInit {
         return this.post.member.email === sessionStorage.getItem('email');
     }
 
+    goToProfile(id: string) {
+        location.assign('/profile/' + id);
+    }
 }

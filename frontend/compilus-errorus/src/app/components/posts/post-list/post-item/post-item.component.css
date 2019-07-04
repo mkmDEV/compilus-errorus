@@ -67,3 +67,7 @@ h3 span {
     background-color: #e6e6f4;
     padding: 5px;
 }
+
+.poster-name {
+    cursor: pointer;
+}

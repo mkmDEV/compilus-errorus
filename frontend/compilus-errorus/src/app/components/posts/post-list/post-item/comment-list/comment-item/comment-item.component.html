@@ -3,7 +3,7 @@
         <span class="img-span"><img src="http://localhost:8080/image-resource/blank-profile.png" alt="user-image"
                                     class="user-image"></span>
         <span class="comment-content" [ngClass]="{'edit': currentlyEdited}">
-            <span class="commenter-name">{{ comment.member.name }}</span>
+            <span class="commenter-name" (click)="goToProfile(comment.member.id)">{{ comment.member.name }}</span>
             <span [contentEditable]="currentlyEdited"
                   #editableMessage
                   (keydown.enter)="onEnter()"

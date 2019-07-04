@@ -24,3 +24,9 @@ img {
 h3 {
     margin-top: 3% !important;
 }
+
+.friend-name {
+    font-weight: bold;
+    cursor: pointer;
+    color: #464670;
+}

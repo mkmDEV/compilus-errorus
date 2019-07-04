@@ -31,4 +31,8 @@ export class FriendsComponent implements OnInit {
             this.friends = friends;
         });
     }
+
+    goToProfile(id: string) {
+        location.assign('/profile/' + id);
+    }
 }
