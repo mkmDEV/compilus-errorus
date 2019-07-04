@@ -68,7 +68,7 @@ public class CommentControllerUnitTest {
                 .likes(10)
                 .dislikes(10)
                 .postType(PostType.USER)
-                .member(testMember)
+                .member(this.testMember)
                 .build();
 
         this.testComment = Comment.builder()
@@ -76,13 +76,13 @@ public class CommentControllerUnitTest {
                 .postingDate(LocalDateTime.of(2019, 7, 3, 21, 18))
                 .likes(10)
                 .dislikes(10)
-                .post(testPost)
-                .member(testMember)
+                .post(this.testPost)
+                .member(this.testMember)
                 .build();
     }
 
-    @Order(1)
     @Test
+    @Order(1)
     @WithMockUser
     public void testGetCommentsOrderedByDateWhenLoggedIn() throws Exception {
         when(this.commentService.getCommentsOrderedByDate(STUB_ID)).thenReturn(this.commentList);
@@ -102,8 +102,8 @@ public class CommentControllerUnitTest {
         verifyNoMoreInteractions(this.commentService);
     }
 
-    @Order(2)
     @Test
+    @Order(2)
     public void testGetCommentsOrderedByDateWhenLoggedOut() throws Exception {
         this.mockMvc
                 .perform(
@@ -115,8 +115,8 @@ public class CommentControllerUnitTest {
         verifyNoMoreInteractions(this.commentService);
     }
 
-    @Order(3)
     @Test
+    @Order(3)
     @WithMockUser
     public void testAddCommentWhenLoggedIn() throws Exception {
         when(this.commentService.addComment(this.testComment, this.testMember)).thenReturn(this.testComment);
@@ -139,8 +139,8 @@ public class CommentControllerUnitTest {
         verifyNoMoreInteractions(this.commentService);
     }
 
-    @Order(4)
     @Test
+    @Order(4)
     public void testAddCommentWhenLoggedOut() throws Exception {
         String requestBody = this.objectMapper.writeValueAsString(this.testComment);
 
@@ -155,11 +155,20 @@ public class CommentControllerUnitTest {
         verifyNoMoreInteractions(this.commentService);
     }
 
-    @Order(5)
     @Test
+    @Order(5)
     @WithMockUser
     public void testUpdateCommentWhenLoggedIn() throws Exception {
-        when(this.commentService.updateComment(STUB_ID, this.testComment)).thenReturn(this.testComment);
+        Comment updatedComment = Comment.builder()
+                .message("Test Updated comment message")
+                .postingDate(LocalDateTime.of(2019, 7, 3, 21, 18))
+                .likes(20)
+                .dislikes(20)
+                .post(this.testPost)
+                .member(this.testMember)
+                .build();
+
+        when(this.commentService.updateComment(STUB_ID, this.testComment)).thenReturn(updatedComment);
 
         String requestBody = this.objectMapper.writeValueAsString(this.testComment);
 
@@ -173,14 +182,14 @@ public class CommentControllerUnitTest {
                 .andReturn();
 
         String responseBody = mvcResult.getResponse().getContentAsString();
-        assertEquals(objectMapper.writeValueAsString(this.testComment), responseBody);
+        assertEquals(objectMapper.writeValueAsString(updatedComment), responseBody);
 
-        verify(commentService).updateComment(STUB_ID, this.testComment);
+        verify(this.commentService).updateComment(STUB_ID, this.testComment);
         verifyNoMoreInteractions(this.commentService);
     }
 
-    @Order(6)
     @Test
+    @Order(6)
     public void testUpdateCommentWhenLoggedOut() throws Exception {
         String requestBody = this.objectMapper.writeValueAsString(this.testComment);
 
@@ -195,8 +204,8 @@ public class CommentControllerUnitTest {
         verifyNoMoreInteractions(this.commentService);
     }
 
-    @Order(7)
     @Test
+    @Order(7)
     @WithMockUser
     public void testDeleteCommentWhenLoggedIn() throws Exception {
         when(this.commentService.deleteComment(STUB_ID)).thenReturn(true);
@@ -211,8 +220,8 @@ public class CommentControllerUnitTest {
         verifyNoMoreInteractions(this.commentService);
     }
 
-    @Order(8)
     @Test
+    @Order(8)
     public void testDeleteCommentWhenLoggedOut() throws Exception {
         this.mockMvc
                 .perform(
