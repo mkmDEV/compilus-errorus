@@ -18,7 +18,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -98,5 +99,44 @@ class MemberControllerUnitTest {
         verifyZeroInteractions(this.memberService);
     }
 
+    @Test
+    @Order(3)
+    @WithMockUser
+    public void testGettingFriendsWithNonExistingMemberWhenLoggedIn() throws Exception {
+        when(this.memberService.getFriends(this.testMember)).thenReturn(null);
+
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        post(MAIN_URL)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
+
+        verify(this.memberService).getFriends(this.testMember);
+        verifyZeroInteractions(this.memberService);
+    }
+
+    @Test
+    @Order(4)
+    public void testGettingFriendsWithNonExistingMemberWhenLoggedOut() throws Exception {
+        when(this.memberService.getFriends(this.testMember)).thenReturn(null);
+
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        this.mockMvc
+                .perform(
+                        post(MAIN_URL)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isForbidden());
+
+        verifyZeroInteractions(this.memberService);
+    }
 
 }
