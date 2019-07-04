@@ -45,7 +45,8 @@ public class MemberService {
     }
 
     public Member getMemberById(Long id) {
-        return this.memberRepository.findById(id).orElse(null);
+        Member member = this.memberRepository.findById(id).orElse(null);
+        return member;
     }
 
     public Set<Member> getFriends(Member member) {

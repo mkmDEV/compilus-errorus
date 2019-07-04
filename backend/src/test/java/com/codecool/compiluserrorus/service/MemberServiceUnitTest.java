@@ -25,6 +25,8 @@ import static org.mockito.Mockito.when;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MemberServiceUnitTest {
 
+    private static final Long STUB_ID = 1L;
+
     @MockBean
     private MemberRepository memberRepository;
 
@@ -119,5 +121,21 @@ class MemberServiceUnitTest {
         assertEquals(numberOfFriends, friendList.size());
 
         verify(this.memberRepository).findByEmail(this.registeredMember.getEmail());
+    }
+
+    @Test
+    @Order(7)
+    public void getRealMemberById() {
+        when(this.memberRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(this.newMember));
+        assertNotNull(this.memberService.getMemberById(STUB_ID));
+        verify(this.memberRepository).findById(STUB_ID);
+    }
+
+    @Test
+    @Order(8)
+    public void getMemberByFakeId() {
+        when(this.memberRepository.findById(STUB_ID)).thenReturn(Optional.empty());
+        assertNull(this.memberService.getMemberById(STUB_ID));
+        verify(this.memberRepository).findById(STUB_ID);
     }
 }
