@@ -12,7 +12,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class WallComponent implements OnInit {
     ownPosts: Post[];
-    member = new Member;
+    member = new Member();
     id: string;
 
     constructor(private authService: AuthService, private postService: PostsService, private route: ActivatedRoute) {

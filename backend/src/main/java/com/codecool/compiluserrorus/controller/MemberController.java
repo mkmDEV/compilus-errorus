@@ -3,9 +3,10 @@ package com.codecool.compiluserrorus.controller;
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -21,7 +22,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public List<Member> getFriends( @RequestBody Member member) {
+    public Set<Member> getFriends(@RequestBody Member member) {
         return memberService.getFriends(member);
     }
 
@@ -32,5 +33,8 @@ public class MemberController {
 
     @PostMapping("/member")
     public Member getMember(@RequestBody Member member) { return  memberService.getMemberById(member.getId()); }
+
+    @PutMapping("/member/{id}")
+    public void updateMember(@PathVariable Long id, @RequestBody Member member) { memberService.addFriend(id, member); }
 
 }

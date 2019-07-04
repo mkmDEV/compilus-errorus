@@ -15,7 +15,7 @@ export class AboutMeComponent implements OnInit {
     member = new Member();
     id: string;
 
-    constructor(private authService: AuthService, private route: ActivatedRoute) {
+    constructor(private authService: AuthService, private route: ActivatedRoute, private profileService: ProfileService) {
         this.route.params.subscribe( params => this.id = params.id);
     }
 
@@ -29,5 +29,7 @@ export class AboutMeComponent implements OnInit {
         });
     }
 
-
+    onAddFriend() {
+        this.profileService.updateMember(this.loggedInMember, this.member).subscribe(() => console.log('update sent'));
+    }
 }
