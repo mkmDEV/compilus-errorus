@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -35,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class EventControllerUnitTest {
 
     private static final String MAIN_URL = "/events";
+    private static final Long STUB_ID = 1L;
 
     @MockBean
     private EventService eventService;
@@ -51,6 +53,7 @@ class EventControllerUnitTest {
     private List<Event> testEvents;
     private Event testEvent;
     private Member testMember;
+    private String url;
 
     @BeforeEach
     public void init() {
@@ -130,7 +133,7 @@ class EventControllerUnitTest {
 
         when(this.eventService.getLatestEvents()).thenReturn(this.testEvents);
 
-        String url = MAIN_URL + "/latest";
+        this.url = MAIN_URL + "/latest";
 
         MvcResult mvcResult = this.mockMvc
                 .perform(
@@ -152,7 +155,7 @@ class EventControllerUnitTest {
     public void testWithoutLatestEventsWithLoggedInUser() throws Exception {
         when(this.eventService.getLatestEvents()).thenReturn(null);
 
-        String url = MAIN_URL + "/latest";
+        this.url = MAIN_URL + "/latest";
 
         MvcResult mvcResult = this.mockMvc
                 .perform(
@@ -218,4 +221,79 @@ class EventControllerUnitTest {
         verifyNoMoreInteractions(this.eventService);
     }
 
+    @Test
+    @Order(9)
+    @WithMockUser
+    public void updateEventWithLoggedInUser() throws Exception {
+        Event updatedEvent = Event.builder()
+                .eventTitle("updated test title")
+                .description("updated test description")
+                .eventDate(LocalDateTime.of(2019, 2, 10, 2, 2))
+                .creator(this.testMember)
+                .build();
+
+        when(this.eventService.updateEvent(STUB_ID, this.testEvent)).thenReturn(updatedEvent);
+
+        this.url = MAIN_URL + "/{id}";
+        String requestBody = this.objectMapper.writeValueAsString(this.testEvent);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        put(url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Event actualResponseBody = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Event.class);
+        assertEquals(updatedEvent.getEventTitle(), actualResponseBody.getEventTitle());
+        assertEquals(updatedEvent.getDescription(), actualResponseBody.getDescription());
+
+        verify(this.eventService).updateEvent(STUB_ID, this.testEvent);
+        verifyNoMoreInteractions(this.eventService);
+    }
+
+
+    @Test
+    @Order(10)
+    public void updateExistingEventWhenLoggedOut() throws Exception {
+        this.url = MAIN_URL + "/{id}";
+        String requestBody = this.objectMapper.writeValueAsString(this.testEvent);
+
+        this.mockMvc.
+                perform(
+                        put(this.url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isForbidden());
+
+        verifyNoMoreInteractions(this.eventService);
+    }
+
+    @Test
+    @Order(11)
+    @WithMockUser
+    public void updateNonExistingPostWhenLoggedIn() throws Exception {
+        when(this.eventService.updateEvent(STUB_ID, this.testEvent)).thenReturn(null);
+
+        this.url = MAIN_URL + "/{id}";
+        String requestBody = this.objectMapper.writeValueAsString(this.testEvent);
+
+        MvcResult mvcResult = this.mockMvc.
+                perform(
+                        put(this.url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
+
+        verify(this.eventService).updateEvent(STUB_ID, this.testEvent);
+        verifyNoMoreInteractions(this.eventService);
+    }
 }
