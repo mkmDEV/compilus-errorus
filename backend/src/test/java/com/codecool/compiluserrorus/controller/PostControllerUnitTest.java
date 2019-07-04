@@ -64,14 +64,14 @@ class PostControllerUnitTest {
     public void init() {
         this.posts = PostTestsUtil.getOrderedPosts(NUMBER_OF_POSTS);
 
-        testMember = Member.builder()
+        this.testMember = Member.builder()
                 .name("Test Name")
                 .email("test@email.com")
                 .password("testpass")
                 .id(STUB_ID)
                 .build();
 
-        testPost = Post.builder()
+        this.testPost = Post.builder()
                 .message("Test message")
                 .postingDate(LocalDateTime.of(2019, 2, 3, 4, 5))
                 .likes(10)
@@ -189,7 +189,17 @@ class PostControllerUnitTest {
     @Order(7)
     @WithMockUser
     public void updateExistingPostWhenLoggedIn() throws Exception {
-        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(this.testPost);
+        String updatedMessage = "Updated test message";
+        int likes = 30;
+        int dislikes = 20;
+
+        Post updatedPost = Post.builder()
+                .message(updatedMessage)
+                .likes(likes)
+                .dislikes(dislikes)
+                .build();
+
+        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(updatedPost);
 
         this.url = MAIN_URL + "/{id}";
         String requestBody = this.objectMapper.writeValueAsString(this.testPost);
@@ -204,7 +214,7 @@ class PostControllerUnitTest {
                 .andReturn();
 
         Post actualResponseBody = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Post.class);
-        assertEquals(actualResponseBody.getMessage(), this.testPost.getMessage());
+        assertEquals(actualResponseBody.getMessage(), updatedPost.getMessage());
 
         verify(this.postService).updatePost(STUB_ID, this.testPost);
         verifyNoMoreInteractions(this.postService);
