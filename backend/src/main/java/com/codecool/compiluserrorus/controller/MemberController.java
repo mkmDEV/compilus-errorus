@@ -32,9 +32,13 @@ public class MemberController {
     }
 
     @PostMapping("/member")
-    public Member getMember(@RequestBody Member member) { return  memberService.getMemberById(member.getId()); }
+    public Member getMember(@RequestBody Member member) {
+        return  memberService.getMemberById(member.getId());
+    }
 
     @PutMapping("/member/{id}")
-    public void updateMember(@PathVariable Long id, @RequestBody Member member) { memberService.addFriend(id, member); }
+    public void updateMember(@PathVariable Long id, @RequestBody Member member) {
+        memberService.addFriend(id, member);
+    }
 
 }
