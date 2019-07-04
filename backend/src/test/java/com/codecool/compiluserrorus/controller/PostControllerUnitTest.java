@@ -86,7 +86,10 @@ class PostControllerUnitTest {
     public void getPostsWhenLoggedIn() throws Exception {
         when(this.postService.getOrderedPosts()).thenReturn(this.posts);
 
-        MvcResult mvcResult = this.mockMvc.perform(get(MAIN_URL))
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        get(MAIN_URL)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -100,7 +103,10 @@ class PostControllerUnitTest {
     @Test
     @Order(2)
     public void getPostsWhenLoggedOut() throws Exception {
-        this.mockMvc.perform(get(MAIN_URL))
+        this.mockMvc
+                .perform(
+                        get(MAIN_URL)
+                )
                 .andExpect(status().isForbidden());
 
         verifyNoMoreInteractions(this.postService);
@@ -204,8 +210,8 @@ class PostControllerUnitTest {
         this.url = MAIN_URL + "/{id}";
         String requestBody = this.objectMapper.writeValueAsString(this.testPost);
 
-        MvcResult mvcResult = this.mockMvc.
-                perform(
+        MvcResult mvcResult = this.mockMvc
+                .perform(
                         put(this.url, STUB_ID)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -226,8 +232,8 @@ class PostControllerUnitTest {
         this.url = MAIN_URL + "/{id}";
         String requestBody = this.objectMapper.writeValueAsString(this.testPost);
 
-        this.mockMvc.
-                perform(
+        this.mockMvc
+                .perform(
                         put(this.url, STUB_ID)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -246,8 +252,8 @@ class PostControllerUnitTest {
         this.url = MAIN_URL + "/{id}";
         String requestBody = this.objectMapper.writeValueAsString(this.testPost);
 
-        MvcResult mvcResult = this.mockMvc.
-                perform(
+        MvcResult mvcResult = this.mockMvc
+                .perform(
                         put(this.url, STUB_ID)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -292,7 +298,9 @@ class PostControllerUnitTest {
         this.url = MAIN_URL + "/{id}";
 
         this.mockMvc
-                .perform(delete(this.url, STUB_ID))
+                .perform(
+                        delete(this.url, STUB_ID)
+                )
                 .andExpect(status().isForbidden());
 
         verifyNoMoreInteractions(this.postService);

@@ -70,7 +70,8 @@ class MemberControllerUnitTest {
                         post(MAIN_URL)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
-                ).andExpect(status().isOk())
+                )
+                .andExpect(status().isOk())
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
@@ -90,7 +91,8 @@ class MemberControllerUnitTest {
                         post(MAIN_URL)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
-                ).andExpect(status().isForbidden());
+                )
+                .andExpect(status().isForbidden());
 
         verifyZeroInteractions(this.memberService);
     }
@@ -108,7 +110,8 @@ class MemberControllerUnitTest {
                         post(MAIN_URL)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
-                ).andExpect(status().isOk())
+                )
+                .andExpect(status().isOk())
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
@@ -148,7 +151,8 @@ class MemberControllerUnitTest {
                         post(url)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
-                ).andExpect(status().isOk())
+                )
+                .andExpect(status().isOk())
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
@@ -169,7 +173,8 @@ class MemberControllerUnitTest {
                         post(url)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
-                ).andExpect(status().isForbidden());
+                )
+                .andExpect(status().isForbidden());
 
         verifyZeroInteractions(this.memberService);
     }

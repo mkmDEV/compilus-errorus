@@ -36,6 +36,7 @@ class AuthControllerUnitTest {
     @Autowired
     AuthController authController;
 
+    // TODO test failed login
     @Test
     public void testLogin() {
         String email = "test@test.hu";

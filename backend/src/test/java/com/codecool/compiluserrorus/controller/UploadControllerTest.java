@@ -32,13 +32,7 @@ class UploadControllerTest {
     private static final String RESOURCE_URL = "/image-resource/{image}";
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private UploadController uploadController;
 
     @Test
     @Order(1)
@@ -55,9 +49,10 @@ class UploadControllerTest {
                 MockMvcRequestBuilders.multipart(UPLOAD_URL)
                         .file(mockMultipartFile);
 
-        this.mockMvc.perform(builder).andExpect(status().isOk())
+        this.mockMvc
+                .perform(builder)
+                .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
-
     }
 
     @Test
@@ -74,9 +69,10 @@ class UploadControllerTest {
                 MockMvcRequestBuilders.multipart(UPLOAD_URL)
                         .file(mockMultipartFile);
 
-        this.mockMvc.perform(builder).andExpect(status().isForbidden())
+        this.mockMvc
+                .perform(builder)
+                .andExpect(status().isForbidden())
                 .andDo(MockMvcResultHandlers.print());
-
     }
 
     @Test

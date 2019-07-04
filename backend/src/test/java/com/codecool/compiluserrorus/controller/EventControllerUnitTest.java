@@ -123,7 +123,10 @@ class EventControllerUnitTest {
     @Test
     @Order(3)
     public void getEventsWithLoggedOutUser() throws Exception {
-        this.mockMvc.perform(get(MAIN_URL))
+        this.mockMvc
+                .perform(
+                        get(MAIN_URL)
+                )
                 .andExpect(status().isForbidden());
 
         verifyNoMoreInteractions(this.eventService);
@@ -269,8 +272,8 @@ class EventControllerUnitTest {
         this.url = MAIN_URL + "/{id}";
         String requestBody = this.objectMapper.writeValueAsString(this.testEvent);
 
-        this.mockMvc.
-                perform(
+        this.mockMvc
+                .perform(
                         put(this.url, STUB_ID)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -289,8 +292,8 @@ class EventControllerUnitTest {
         this.url = MAIN_URL + "/{id}";
         String requestBody = this.objectMapper.writeValueAsString(this.testEvent);
 
-        MvcResult mvcResult = this.mockMvc.
-                perform(
+        MvcResult mvcResult = this.mockMvc
+                .perform(
                         put(this.url, STUB_ID)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -334,7 +337,9 @@ class EventControllerUnitTest {
         this.url = MAIN_URL + "/{id}";
 
         this.mockMvc
-                .perform(delete(this.url, STUB_ID))
+                .perform(
+                        delete(this.url, STUB_ID)
+                )
                 .andExpect(status().isForbidden());
 
         verifyNoMoreInteractions(this.eventService);
