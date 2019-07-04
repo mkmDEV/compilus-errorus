@@ -161,7 +161,7 @@ class PostServiceUnitTest {
 
     @Test
     @Order(7)
-    public void deletePost() {
+    public void deleteExistingPost() {
         when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
         assertTrue(() -> this.postService.deletePost(STUB_ID));
         verify(this.postRepository).deleteById(STUB_ID);
@@ -169,6 +169,14 @@ class PostServiceUnitTest {
 
     @Test
     @Order(8)
+    public void deleteNonExistingPost() {
+        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.empty());
+        assertFalse(() -> this.postService.deletePost(STUB_ID));
+        verify(this.postRepository).findById(STUB_ID);
+    }
+
+    @Test
+    @Order(9)
     public void getLoggedInMemberPostsWithInvalidMember() {
         when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(null);
         assertNull(this.postService.getLoggedInMemberPosts(this.testMember));
