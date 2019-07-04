@@ -124,6 +124,15 @@ class MemberServiceUnitTest {
 
     @Test
     @Order(7)
+    public void getNoneFriendsOfFakeMember() {
+        when(this.memberRepository.findByEmail(this.registeredMember.getEmail())).thenReturn(Optional.empty());
+        Set<Member> friendList = this.memberService.getFriends(this.registeredMember);
+        assertNull(friendList);
+        verify(this.memberRepository).findByEmail(this.registeredMember.getEmail());
+    }
+
+    @Test
+    @Order(8)
     public void getRealMemberById() {
         when(this.memberRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(this.newMember));
         assertNotNull(this.memberService.getMemberById(STUB_ID));
@@ -131,7 +140,7 @@ class MemberServiceUnitTest {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     public void getMemberByFakeId() {
         when(this.memberRepository.findById(STUB_ID)).thenReturn(Optional.empty());
         assertNull(this.memberService.getMemberById(STUB_ID));
@@ -139,11 +148,27 @@ class MemberServiceUnitTest {
     }
 
     @Test
-    @Order(9)
+    @Order(10)
     public void addFriendWithFakeIds() {
         when(this.memberRepository.findById(STUB_ID)).thenReturn(Optional.empty());
         Member member = this.memberService.addFriend(STUB_ID, this.registeredMember);
         assertNull(member);
         verify(this.memberRepository, times(2)).findById(STUB_ID);
+    }
+
+    @Test
+    @Order(11)
+    public void addFriendWithRealIds() {
+        when(this.memberRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(this.registeredMember));
+        this.registeredMember.setFriends(MemberTestsUtil.getFriends(3));
+
+        when(this.memberRepository.save(this.registeredMember)).thenReturn(this.registeredMember);
+        Member member = this.memberService.addFriend(STUB_ID, this.registeredMember);
+
+        assertNotNull(member);
+        assertEquals(member.getFriends().size(), this.registeredMember.getFriends().size());
+
+        verify(this.memberRepository, times(2)).findById(STUB_ID);
+        verify(this.memberRepository, times(2)).save(this.registeredMember);
     }
 }
