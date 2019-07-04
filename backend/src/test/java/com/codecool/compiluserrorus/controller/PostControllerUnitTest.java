@@ -56,7 +56,7 @@ class PostControllerUnitTest {
     private Member testMember;
     private Post testPost;
 
-    private static Stream<Boolean> isPostExists() {
+    private static Stream<Boolean> doesPostExist() {
         return Stream.of(true, false);
     }
 
@@ -280,7 +280,7 @@ class PostControllerUnitTest {
 
     @ParameterizedTest
     @Order(11)
-    @MethodSource("isPostExists")
+    @MethodSource("doesPostExist")
     @WithMockUser
     public void deletePostWhenLoggedIn(boolean isPostExists) throws Exception {
         when(this.postService.deletePost(STUB_ID)).thenReturn(isPostExists);
@@ -288,7 +288,9 @@ class PostControllerUnitTest {
         this.url = MAIN_URL + "/{id}";
 
         MvcResult mvcResult = this.mockMvc
-                .perform(delete(this.url, STUB_ID))
+                .perform(
+                        delete(this.url, STUB_ID)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -301,7 +303,7 @@ class PostControllerUnitTest {
 
     @ParameterizedTest
     @Order(12)
-    @MethodSource("isPostExists")
+    @MethodSource("doesPostExist")
     public void deletePostWhenLoggedOut(boolean isPostExists) throws Exception {
         when(this.postService.deletePost(STUB_ID)).thenReturn(isPostExists);
 
