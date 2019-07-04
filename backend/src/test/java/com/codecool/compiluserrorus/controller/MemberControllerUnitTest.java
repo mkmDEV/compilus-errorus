@@ -139,4 +139,46 @@ class MemberControllerUnitTest {
         verifyZeroInteractions(this.memberService);
     }
 
+
+    @Test
+    @Order(5)
+    @WithMockUser
+    public void getLoggedInMemberWhenLoggedIn() throws Exception {
+        when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(this.testMember);
+
+        String url = MAIN_URL + "/logged-in-member";
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        post(url)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertEquals(objectMapper.writeValueAsString(this.testMember), actualResponseBody);
+
+        verify(this.memberService).getLoggedInMember(this.testMember);
+        verifyZeroInteractions(this.memberService);
+    }
+
+    @Test
+    @Order(6)
+    public void getLoggedInMemberWhenLoggedOut() throws Exception {
+        when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(null);
+
+        String url = MAIN_URL + "/logged-in-member";
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        this.mockMvc
+                .perform(
+                        post(url)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isForbidden());
+
+        verifyZeroInteractions(this.memberService);
+    }
 }
