@@ -83,10 +83,6 @@ class MemberControllerUnitTest {
     @Test
     @Order(2)
     public void testGettingFriendsWithExistingMemberWhenLoggedOut() throws Exception {
-        int numberOfFriends = 5;
-        List<Member> friends = MemberTestsUtil.getFriendList(numberOfFriends);
-        when(this.memberService.getFriends(this.testMember)).thenReturn(friends);
-
         String requestBody = this.objectMapper.writeValueAsString(this.testMember);
 
         this.mockMvc
@@ -125,8 +121,6 @@ class MemberControllerUnitTest {
     @Test
     @Order(4)
     public void testGettingFriendsWithNonExistingMemberWhenLoggedOut() throws Exception {
-        when(this.memberService.getFriends(this.testMember)).thenReturn(null);
-
         String requestBody = this.objectMapper.writeValueAsString(this.testMember);
 
         this.mockMvc
@@ -167,8 +161,6 @@ class MemberControllerUnitTest {
     @Test
     @Order(6)
     public void getLoggedInMemberWhenLoggedOut() throws Exception {
-        when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(null);
-
         String url = MAIN_URL + "/logged-in-member";
         String requestBody = this.objectMapper.writeValueAsString(this.testMember);
 
