@@ -24,4 +24,8 @@ export class HeaderComponent implements OnInit {
         sessionStorage.clear();
         this.router.navigateByUrl('').then(() => console.log('logged out'));
     }
+
+    goToMyProfile(id: string) {
+        location.assign('/profile/' + id);
+    }
 }
