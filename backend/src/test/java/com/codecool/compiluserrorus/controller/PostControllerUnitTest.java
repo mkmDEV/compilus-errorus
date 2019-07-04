@@ -262,26 +262,9 @@ class PostControllerUnitTest {
         verifyNoMoreInteractions(this.postService);
     }
 
-    @Test
-    @Order(10)
-    public void updateNonExistingPostWhenLoggedOut() throws Exception {
-        this.url = MAIN_URL + "/{id}";
-        String requestBody = this.objectMapper.writeValueAsString(this.testPost);
-
-        this.mockMvc.
-                perform(
-                        put(this.url, STUB_ID)
-                                .content(requestBody)
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isForbidden());
-
-        verifyNoMoreInteractions(this.postService);
-    }
-
 
     @ParameterizedTest
-    @Order(11)
+    @Order(10)
     @MethodSource("doesPostExist")
     @WithMockUser
     public void deletePostWhenLoggedIn(boolean isPostExists) throws Exception {
@@ -304,7 +287,7 @@ class PostControllerUnitTest {
     }
 
     @Test
-    @Order(12)
+    @Order(11)
     public void deletePostWhenLoggedOut() throws Exception {
         this.url = MAIN_URL + "/{id}";
 
