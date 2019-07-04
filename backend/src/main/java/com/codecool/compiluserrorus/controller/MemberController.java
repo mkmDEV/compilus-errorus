@@ -21,7 +21,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public List<Member> getFriends( @RequestBody Member member) {
+    public List<Member> getFriends(@RequestBody Member member) {
         return memberService.getFriends(member);
     }
 
