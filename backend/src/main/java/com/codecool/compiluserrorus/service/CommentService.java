@@ -3,19 +3,23 @@ package com.codecool.compiluserrorus.service;
 import com.codecool.compiluserrorus.model.Comment;
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.repository.CommentRepository;
-import com.codecool.compiluserrorus.repository.MemberRepository;
 import com.codecool.compiluserrorus.util.Util;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CommentService {
 
     private final CommentRepository commentRepository;
     private final MemberService memberService;
+
+    @Autowired
+    public CommentService(CommentRepository commentRepository, MemberService memberService) {
+        this.commentRepository = commentRepository;
+        this.memberService = memberService;
+    }
 
     public List<Comment> getCommentsOrderedByDate(Long postId) {
         List<Comment> comments = commentRepository.getCommentsByPostIdOrderByDate(postId);
@@ -23,10 +27,11 @@ public class CommentService {
         return comments;
     }
 
-    public void addComment(Comment comment, Member member) {
+    public Comment addComment(Comment comment, Member member) {
         Member commentingMember = memberService.getLoggedInMember(member);
         comment.setMember(commentingMember);
         commentRepository.save(comment);
+        return comment;
     }
 
     public Comment updateComment(Long id, Comment comment) {
@@ -37,10 +42,13 @@ public class CommentService {
             amendComment.setDislikes(comment.getDislikes());
             commentRepository.save(amendComment);
         }
-        return comment;
+        return amendComment;
     }
 
-    public void deleteComment(Long id) {
-        commentRepository.findById(id).ifPresent(deletableComment -> commentRepository.deleteById(id));
+    public boolean deleteComment(Long id) {
+        Comment toBeDeleted = commentRepository.findById(id).orElse(null);
+        if(toBeDeleted == null) return false;
+        commentRepository.deleteById(id);
+        return true;
     }
 }

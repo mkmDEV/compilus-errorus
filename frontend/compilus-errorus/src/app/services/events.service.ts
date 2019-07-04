@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FlEvent } from '../models/FlEvent';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {FlEvent} from '../models/FlEvent';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -30,5 +30,9 @@ export class EventsService {
 
     saveEvent(event: FlEvent): Observable<FlEvent> {
         return this.http.post<FlEvent>(this.eventsUrl, event, httpOptions);
+    }
+
+    updateEvent(event: FlEvent) {
+        return this.http.put<FlEvent>(`${this.eventsUrl}/${event.id}`, event, httpOptions);
     }
 }

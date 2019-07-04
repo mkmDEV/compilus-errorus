@@ -7,6 +7,8 @@ import com.codecool.compiluserrorus.service.PostService;
 import com.codecool.compiluserrorus.util.PostTestsUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,8 +21,10 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,18 +56,22 @@ class PostControllerUnitTest {
     private Member testMember;
     private Post testPost;
 
+    private static Stream<Boolean> doesPostExist() {
+        return Stream.of(true, false);
+    }
+
     @BeforeEach
     public void init() {
         this.posts = PostTestsUtil.getOrderedPosts(NUMBER_OF_POSTS);
 
-        testMember = Member.builder()
+        this.testMember = Member.builder()
                 .name("Test Name")
                 .email("test@email.com")
                 .password("testpass")
                 .id(STUB_ID)
                 .build();
 
-        testPost = Post.builder()
+        this.testPost = Post.builder()
                 .message("Test message")
                 .postingDate(LocalDateTime.of(2019, 2, 3, 4, 5))
                 .likes(10)
@@ -78,12 +86,15 @@ class PostControllerUnitTest {
     public void getPostsWhenLoggedIn() throws Exception {
         when(this.postService.getOrderedPosts()).thenReturn(this.posts);
 
-        MvcResult mvcResult = this.mockMvc.perform(get(MAIN_URL))
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        get(MAIN_URL)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
-        assertEquals(objectMapper.writeValueAsString(this.posts), actualResponseBody);
+        assertEquals(actualResponseBody, objectMapper.writeValueAsString(this.posts));
 
         verify(this.postService).getOrderedPosts();
         verifyNoMoreInteractions(this.postService);
@@ -92,9 +103,10 @@ class PostControllerUnitTest {
     @Test
     @Order(2)
     public void getPostsWhenLoggedOut() throws Exception {
-        when(this.postService.getOrderedPosts()).thenReturn(this.posts);
-
-        this.mockMvc.perform(get(MAIN_URL))
+        this.mockMvc
+                .perform(
+                        get(MAIN_URL)
+                )
                 .andExpect(status().isForbidden());
 
         verifyNoMoreInteractions(this.postService);
@@ -120,7 +132,7 @@ class PostControllerUnitTest {
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
-        assertEquals(objectMapper.writeValueAsString(this.posts), actualResponseBody);
+        assertEquals(actualResponseBody, objectMapper.writeValueAsString(this.posts));
 
         verify(this.postService).getLoggedInMemberPosts(this.testMember);
         verifyNoMoreInteractions(this.postService);
@@ -129,8 +141,6 @@ class PostControllerUnitTest {
     @Test
     @Order(4)
     public void getLoggedInMemberPostsWhenLoggedOut() throws Exception {
-        when(this.postService.getLoggedInMemberPosts(this.testMember)).thenReturn(this.posts);
-
         this.url = MAIN_URL + "/logged-in-member";
 
         this.mockMvc.perform(get(url))
@@ -157,7 +167,7 @@ class PostControllerUnitTest {
                 .andReturn();
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
-        assertEquals(objectMapper.writeValueAsString(this.testPost), actualResponseBody);
+        assertEquals(actualResponseBody, objectMapper.writeValueAsString(this.testPost));
 
         verify(this.postService).addPost(this.testPost, this.testMember);
         verifyNoMoreInteractions(this.postService);
@@ -184,14 +194,24 @@ class PostControllerUnitTest {
     @Test
     @Order(7)
     @WithMockUser
-    public void updatePostWhenLoggedIn() throws Exception {
-        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(this.testPost);
+    public void updateExistingPostWhenLoggedIn() throws Exception {
+        String updatedMessage = "Updated test message";
+        int likes = 30;
+        int dislikes = 20;
+
+        Post updatedPost = Post.builder()
+                .message(updatedMessage)
+                .likes(likes)
+                .dislikes(dislikes)
+                .build();
+
+        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(updatedPost);
 
         this.url = MAIN_URL + "/{id}";
         String requestBody = this.objectMapper.writeValueAsString(this.testPost);
 
-        MvcResult mvcResult = this.mockMvc.
-                perform(
+        MvcResult mvcResult = this.mockMvc
+                .perform(
                         put(this.url, STUB_ID)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -200,7 +220,7 @@ class PostControllerUnitTest {
                 .andReturn();
 
         Post actualResponseBody = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Post.class);
-        assertEquals(this.testPost.getMessage(), actualResponseBody.getMessage());
+        assertEquals(actualResponseBody.getMessage(), updatedPost.getMessage());
 
         verify(this.postService).updatePost(STUB_ID, this.testPost);
         verifyNoMoreInteractions(this.postService);
@@ -208,14 +228,12 @@ class PostControllerUnitTest {
 
     @Test
     @Order(8)
-    public void updatePostWhenLoggedOut() throws Exception {
-        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(this.testPost);
-
+    public void updateExistingPostWhenLoggedOut() throws Exception {
         this.url = MAIN_URL + "/{id}";
         String requestBody = this.objectMapper.writeValueAsString(this.testPost);
 
-        this.mockMvc.
-                perform(
+        this.mockMvc
+                .perform(
                         put(this.url, STUB_ID)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -228,28 +246,61 @@ class PostControllerUnitTest {
     @Test
     @Order(9)
     @WithMockUser
-    public void deletePostWhenLoggedIn() throws Exception {
-        when(this.postService.deletePost(STUB_ID)).thenReturn(true);
+    public void updateNonExistingPostWhenLoggedIn() throws Exception {
+        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(null);
+
+        this.url = MAIN_URL + "/{id}";
+        String requestBody = this.objectMapper.writeValueAsString(this.testPost);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        put(this.url, STUB_ID)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
+
+        verify(this.postService).updatePost(STUB_ID, this.testPost);
+        verifyNoMoreInteractions(this.postService);
+    }
+
+
+    @ParameterizedTest
+    @Order(10)
+    @MethodSource("doesPostExist")
+    @WithMockUser
+    public void deletePostWhenLoggedIn(boolean doesPostExist) throws Exception {
+        when(this.postService.deletePost(STUB_ID)).thenReturn(doesPostExist);
 
         this.url = MAIN_URL + "/{id}";
 
-        this.mockMvc
-                .perform(delete(this.url, STUB_ID))
-                .andExpect(status().isOk());
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        delete(this.url, STUB_ID)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
 
         verify(this.postService).deletePost(STUB_ID);
         verifyNoMoreInteractions(this.postService);
     }
 
     @Test
-    @Order(10)
+    @Order(11)
     public void deletePostWhenLoggedOut() throws Exception {
-        when(this.postService.deletePost(STUB_ID)).thenReturn(true);
-
         this.url = MAIN_URL + "/{id}";
 
         this.mockMvc
-                .perform(delete(this.url, STUB_ID))
+                .perform(
+                        delete(this.url, STUB_ID)
+                )
                 .andExpect(status().isForbidden());
 
         verifyNoMoreInteractions(this.postService);

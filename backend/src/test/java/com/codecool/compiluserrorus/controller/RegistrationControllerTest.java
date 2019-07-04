@@ -40,13 +40,13 @@ class RegistrationControllerTest {
 
     @BeforeEach
     public void init() {
-        testMember = Member.builder()
+        this.testMember = Member.builder()
                 .name("Test Name")
                 .email("test@email.com")
                 .password("testpass")
                 .build();
 
-        registeredMember = Member.builder()
+        this.registeredMember = Member.builder()
                 .name("Test Name")
                 .email("test@email.com")
                 .password("testpass")
@@ -62,11 +62,12 @@ class RegistrationControllerTest {
 
         String requestBody = this.objectMapper.writeValueAsString(this.testMember);
 
-        MvcResult mvcResult = this.mockMvc.perform(
-                post(URL)
-                        .content(requestBody)
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        post(URL)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -85,11 +86,12 @@ class RegistrationControllerTest {
 
         String requestBody = this.objectMapper.writeValueAsString(this.testMember);
 
-        MvcResult mvcResult = this.mockMvc.perform(
-                post(URL)
-                        .content(requestBody)
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        post(URL)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
