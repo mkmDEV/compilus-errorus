@@ -4,6 +4,7 @@ package com.codecool.compiluserrorus.controller;
 import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.service.MemberService;
 import com.codecool.compiluserrorus.util.MemberTestsUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ class MemberControllerUnitTest {
     private MockMvc mockMvc;
 
     private Member testMember;
+    private String url;
 
     @BeforeEach
     public void init() {
@@ -143,12 +145,12 @@ class MemberControllerUnitTest {
     public void getLoggedInMemberWhenLoggedIn() throws Exception {
         when(this.memberService.getLoggedInMember(this.testMember)).thenReturn(this.testMember);
 
-        String url = MAIN_URL + "/logged-in-member";
+        this.url = MAIN_URL + "/logged-in-member";
         String requestBody = this.objectMapper.writeValueAsString(this.testMember);
 
         MvcResult mvcResult = this.mockMvc
                 .perform(
-                        post(url)
+                        post(this.url)
                                 .content(requestBody)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -178,4 +180,73 @@ class MemberControllerUnitTest {
 
         verifyZeroInteractions(this.memberService);
     }
+
+    @Test
+    @Order(7)
+    @WithMockUser
+    public void testGettingMemberByIdWhenLoggedIn() throws Exception {
+        when(this.memberService.getMemberById(this.testMember.getId())).thenReturn(this.testMember);
+
+        this.url = MAIN_URL + "/member";
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        post(this.url)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertEquals(objectMapper.writeValueAsString(this.testMember), actualResponseBody);
+
+        verify(this.memberService).getMemberById(this.testMember.getId());
+        verifyZeroInteractions(this.memberService);
+    }
+
+    @Test
+    @Order(8)
+    @WithMockUser
+    public void testGettingNullMemberByIdWhenLoggedIni() throws Exception {
+        when(this.memberService.getMemberById(this.testMember.getId())).thenReturn(null);
+
+        this.url = MAIN_URL + "/member";
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        post(this.url)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
+
+        verify(this.memberService).getMemberById(this.testMember.getId());
+        verifyZeroInteractions(this.memberService);
+    }
+
+
+    @Test
+    @Order(9)
+    public void testGettingMemberWhenLoggedOut() throws Exception {
+        String url = MAIN_URL + "/member";
+        String requestBody = this.objectMapper.writeValueAsString(this.testMember);
+
+        this.mockMvc
+                .perform(
+                        post(url)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isForbidden());
+
+        verifyZeroInteractions(this.memberService);
+    }
+
 }

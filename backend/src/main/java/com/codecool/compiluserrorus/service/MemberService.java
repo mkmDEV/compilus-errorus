@@ -56,19 +56,23 @@ public class MemberService {
         return null;
     }
 
-    public void addFriend(Long id, Member friend) {
+    public boolean addFriend(Long id, Member friend) {
         Member member = getMemberById(id);
         Member friendToAdd = getMemberById(friend.getId());
 
-        Set<Member> friends = member.getFriends();
-        friends.add(friendToAdd);
-        member.setFriends(friends);
+        if (member != null && friendToAdd != null) {
+            Set<Member> friends = member.getFriends();
+            friends.add(friendToAdd);
+            member.setFriends(friends);
 
-        friends = friendToAdd.getFriends();
-        friends.add(member);
-        friendToAdd.setFriends(friends);
+            friends = friendToAdd.getFriends();
+            friends.add(member);
+            friendToAdd.setFriends(friends);
 
-        memberRepository.save(member);
-        memberRepository.save(friendToAdd);
+            memberRepository.save(member);
+            memberRepository.save(friendToAdd);
+            return true;
+        }
+        return false;
     }
 }
