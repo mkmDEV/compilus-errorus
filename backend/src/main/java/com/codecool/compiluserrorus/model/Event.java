@@ -48,6 +48,9 @@ public class Event {
                 ", eventTitle='" + eventTitle + '\'' +
                 ", description='" + description + '\'' +
                 ", eventDate=" + eventDate +
+                ", romanDate='" + romanDate + '\'' +
+                ", participants=" + participants +
+                ", creator=" + creator +
                 '}';
     }
 }
