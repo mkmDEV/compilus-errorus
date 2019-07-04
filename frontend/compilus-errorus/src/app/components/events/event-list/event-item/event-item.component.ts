@@ -22,8 +22,11 @@ export class EventItemComponent implements OnInit {
     }
 
     onJoin() {
-        this.event.participants.push(this.loggedInMember);
-        this.eventsService.updateEvent(this.event).subscribe();
+        console.log(this.event.participants);
+        if (this.event.participants.filter(value => value.email === this.loggedInMember.email).length === 0) {
+            this.event.participants.push(this.loggedInMember);
+            this.eventsService.updateEvent(this.event).subscribe();
+        }
     }
 
     goToProfile(id: string) {
