@@ -93,11 +93,56 @@ class EventControllerUnitTest {
     @Test
     @Order(3)
     public void getEventsWithLoggedOutUser() throws Exception {
-        int numberOfEvents = 5;
+        this.mockMvc.perform(get(MAIN_URL))
+                .andExpect(status().isForbidden());
+
+        verifyNoMoreInteractions(this.eventService);
+    }
+
+    @Test
+    @Order(4)
+    @WithMockUser
+    public void getLatestEventsWithLoggedInUser() throws Exception {
+        int numberOfEvents = 3;
         this.testEvents = EventTestsUtil.getEvents(numberOfEvents);
 
-        when(this.eventService.getOrderedEvents()).thenReturn(this.testEvents);
+        when(this.eventService.getLatestEvents()).thenReturn(this.testEvents);
 
+        String url = MAIN_URL + "/latest";
+
+        MvcResult mvcResult = this.mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertEquals(actualResponseBody, objectMapper.writeValueAsString(this.testEvents));
+
+        verify(this.eventService).getLatestEvents();
+        verifyNoMoreInteractions(this.eventService);
+    }
+
+    @Test
+    @Order(5)
+    @WithMockUser
+    public void testWithoutLatestEventsWithLoggedInUser() throws Exception {
+        when(this.eventService.getLatestEvents()).thenReturn(null);
+
+        String url = MAIN_URL + "/latest";
+
+        MvcResult mvcResult = this.mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
+
+        verify(this.eventService).getLatestEvents();
+        verifyNoMoreInteractions(this.eventService);
+    }
+
+    @Test
+    @Order(6)
+    public void getLatestEventsWithLoggedOutUser() throws Exception {
         this.mockMvc.perform(get(MAIN_URL))
                 .andExpect(status().isForbidden());
 
