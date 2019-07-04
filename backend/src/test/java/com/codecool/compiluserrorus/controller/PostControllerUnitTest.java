@@ -100,8 +100,6 @@ class PostControllerUnitTest {
     @Test
     @Order(2)
     public void getPostsWhenLoggedOut() throws Exception {
-        when(this.postService.getOrderedPosts()).thenReturn(this.posts);
-
         this.mockMvc.perform(get(MAIN_URL))
                 .andExpect(status().isForbidden());
 
@@ -137,8 +135,6 @@ class PostControllerUnitTest {
     @Test
     @Order(4)
     public void getLoggedInMemberPostsWhenLoggedOut() throws Exception {
-        when(this.postService.getLoggedInMemberPosts(this.testMember)).thenReturn(this.posts);
-
         this.url = MAIN_URL + "/logged-in-member";
 
         this.mockMvc.perform(get(url))
@@ -217,8 +213,6 @@ class PostControllerUnitTest {
     @Test
     @Order(8)
     public void updateExistingPostWhenLoggedOut() throws Exception {
-        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(this.testPost);
-
         this.url = MAIN_URL + "/{id}";
         String requestBody = this.objectMapper.writeValueAsString(this.testPost);
 
@@ -261,8 +255,6 @@ class PostControllerUnitTest {
     @Test
     @Order(10)
     public void updateNonExistingPostWhenLoggedOut() throws Exception {
-        when(this.postService.updatePost(STUB_ID, this.testPost)).thenReturn(null);
-
         this.url = MAIN_URL + "/{id}";
         String requestBody = this.objectMapper.writeValueAsString(this.testPost);
 
@@ -301,12 +293,9 @@ class PostControllerUnitTest {
         verifyNoMoreInteractions(this.postService);
     }
 
-    @ParameterizedTest
+    @Test
     @Order(12)
-    @MethodSource("doesPostExist")
-    public void deletePostWhenLoggedOut(boolean isPostExists) throws Exception {
-        when(this.postService.deletePost(STUB_ID)).thenReturn(isPostExists);
-
+    public void deletePostWhenLoggedOut() throws Exception {
         this.url = MAIN_URL + "/{id}";
 
         this.mockMvc
