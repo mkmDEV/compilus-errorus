@@ -12,6 +12,7 @@ export class RegistrationComponent implements OnInit {
     email = '';
     password = '';
     member = new Member();
+    emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
 
     constructor(private registrationService: RegistrationService) {
     }
@@ -20,6 +21,11 @@ export class RegistrationComponent implements OnInit {
     }
 
     onSubmitRegistration() {
+        if (!this.isEmailValid()) {
+            console.log('Invalid email!');
+            return;
+        }
+
         this.member.name = this.name;
         this.member.email = this.email;
         this.member.password = this.password;
@@ -30,5 +36,9 @@ export class RegistrationComponent implements OnInit {
                 this.password = '';
             }
         });
+    }
+
+    isEmailValid() {
+        return this.email.match(this.emailPattern);
     }
 }
