@@ -13,7 +13,8 @@
                                aria-haspopup="true"
                                aria-expanded="false">Manage Profile</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" [routerLink]="['/profile']">My Profile</a>
+                                <a class="dropdown-item" (click)="goToMyProfile(loggedInMember.id)">My Profile</a>
+<!--                                <a class="dropdown-item" [routerLink]="['/profile/', loggedInMember.id]">My Profile</a>-->
                                 <a class="dropdown-item" [routerLink]="['/events']">Events</a>
                                 <a class="dropdown-item" [routerLink]="['/groups']">Groups</a>
                                 <div class="dropdown-divider"></div>

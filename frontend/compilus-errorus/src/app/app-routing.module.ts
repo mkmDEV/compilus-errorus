@@ -13,7 +13,7 @@ const routes: Routes = [
     {path: '', component: WelcomeComponent},
     {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
     {path: 'events', component: EventsComponent, canActivate: [AuthGuard]},
-    {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+    {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
     {path: 'groups', component: GroupsComponent, canActivate: [AuthGuard]},
     {path: '**', redirectTo: ''}
 ];

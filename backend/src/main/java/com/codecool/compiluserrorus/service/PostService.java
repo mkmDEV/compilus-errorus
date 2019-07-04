@@ -35,10 +35,10 @@ public class PostService {
         return posts;
     }
 
-    public List<Post> getLoggedInMemberPosts(Member member) {
-        Member loggedInMember = memberService.getLoggedInMember(member);
-        if (loggedInMember != null) {
-            List<Post> posts = postRepository.getPostsByMemberIdOrderByPostingDateDesc(loggedInMember.getId());
+    public List<Post> getMemberPosts(Member member) {
+        Member memberToCheck = memberService.getLoggedInMember(member);
+        if (memberToCheck != null) {
+            List<Post> posts = postRepository.getPostsByMemberIdOrderByPostingDateDesc(memberToCheck.getId());
             posts.forEach(post -> post.setRomanDate(Util.setRomanDate(post.getPostingDate())));
             return posts;
         }

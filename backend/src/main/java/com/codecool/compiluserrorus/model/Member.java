@@ -54,9 +54,10 @@ public class Member {
     private Set<Event> events;
 
     @Singular
-    @ElementCollection
     @EqualsAndHashCode.Exclude
     @Fetch(FetchMode.JOIN)
+    @JsonBackReference(value = "member")
+    @ManyToMany
     private Set<Member> friends;
 
     @ElementCollection(fetch = FetchType.EAGER)

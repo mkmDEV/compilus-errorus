@@ -7,10 +7,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
@@ -46,10 +44,28 @@ public class MemberService {
         return this.memberRepository.findByEmail(member.getEmail()).orElse(null);
     }
 
-    public List<Member> getFriends(Member member) {
-        Member loggedInMember = this.getLoggedInMember(member);
-        List<Member> friends = this.memberRepository.findAll();
-        friends = friends.stream().filter(friend -> !friend.equals(loggedInMember)).collect(Collectors.toList());
-        return friends;
+    public Member getMemberById(Long id) {
+        return this.memberRepository.findById(id).orElse(null);
+    }
+
+    public Set<Member> getFriends(Member member) {
+        Member searchedMember = this.getLoggedInMember(member);
+        return searchedMember.getFriends();
+    }
+
+    public void addFriend(Long id, Member friend) {
+        Member member = getMemberById(id);
+        Member friendToAdd = getMemberById(friend.getId());
+
+        Set<Member> friends = member.getFriends();
+        friends.add(friendToAdd);
+        member.setFriends(friends);
+
+        friends = friendToAdd.getFriends();
+        friends.add(member);
+        friendToAdd.setFriends(friends);
+
+        memberRepository.save(member);
+        memberRepository.save(friendToAdd);
     }
 }

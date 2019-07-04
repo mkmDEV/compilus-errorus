@@ -5,7 +5,7 @@ import com.codecool.compiluserrorus.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -17,7 +17,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public List<Member> getFriends(@RequestBody Member member) {
+    public Set<Member> getFriends(@RequestBody Member member) {
         return memberService.getFriends(member);
     }
 
@@ -25,5 +25,11 @@ public class MemberController {
     public Member getLoggedInMember(@RequestBody Member member) {
         return memberService.getLoggedInMember(member);
     }
+
+    @PostMapping("/member")
+    public Member getMember(@RequestBody Member member) { return  memberService.getMemberById(member.getId()); }
+
+    @PutMapping("/member/{id}")
+    public void updateMember(@PathVariable Long id, @RequestBody Member member) { memberService.addFriend(id, member); }
 
 }
