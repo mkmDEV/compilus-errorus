@@ -2,7 +2,7 @@ package com.codecool.compiluserrorus.controller;
 
 import com.codecool.compiluserrorus.model.Comment;
 import com.codecool.compiluserrorus.service.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -11,14 +11,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/comments")
 @CrossOrigin
+@RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
-
-    @Autowired
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
-    }
 
     @GetMapping
     public List<Comment> getCommentsOrderedByDate(Long postId) {
