@@ -7,6 +7,8 @@ import com.codecool.compiluserrorus.service.PostService;
 import com.codecool.compiluserrorus.util.PostTestsUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -52,6 +55,10 @@ class PostControllerUnitTest {
     private List<Post> posts;
     private Member testMember;
     private Post testPost;
+
+    private static Stream<Boolean> isPostExists() {
+        return Stream.of(true, false);
+    }
 
     @BeforeEach
     public void init() {
@@ -271,26 +278,32 @@ class PostControllerUnitTest {
     }
 
 
-    @Test
+    @ParameterizedTest
     @Order(11)
+    @MethodSource("isPostExists")
     @WithMockUser
-    public void deletePostWhenLoggedIn() throws Exception {
-        when(this.postService.deletePost(STUB_ID)).thenReturn(true);
+    public void deletePostWhenLoggedIn(boolean isPostExists) throws Exception {
+        when(this.postService.deletePost(STUB_ID)).thenReturn(isPostExists);
 
         this.url = MAIN_URL + "/{id}";
 
-        this.mockMvc
+        MvcResult mvcResult = this.mockMvc
                 .perform(delete(this.url, STUB_ID))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertTrue(actualResponseBody.isEmpty());
 
         verify(this.postService).deletePost(STUB_ID);
         verifyNoMoreInteractions(this.postService);
     }
 
-    @Test
+    @ParameterizedTest
     @Order(12)
-    public void deletePostWhenLoggedOut() throws Exception {
-        when(this.postService.deletePost(STUB_ID)).thenReturn(true);
+    @MethodSource("isPostExists")
+    public void deletePostWhenLoggedOut(boolean isPostExists) throws Exception {
+        when(this.postService.deletePost(STUB_ID)).thenReturn(isPostExists);
 
         this.url = MAIN_URL + "/{id}";
 
