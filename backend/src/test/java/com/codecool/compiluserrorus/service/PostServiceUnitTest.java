@@ -60,7 +60,7 @@ class PostServiceUnitTest {
                 .postingDate(LocalDateTime.of(2019, 2, 3, 4, 5))
                 .likes(10)
                 .dislikes(10)
-                .member(testMember)
+                .member(this.testMember)
                 .build();
     }
 
@@ -98,7 +98,7 @@ class PostServiceUnitTest {
         when(this.postRepository.getPostsByMemberIdOrderByPostingDateDesc(STUB_ID)).thenReturn(this.postList);
         List<Post> orderedPosts = this.postService.getLoggedInMemberPosts(this.testMember);
 
-        assertEquals(orderedPosts.size(),this.postList.size());
+        assertEquals(orderedPosts.size(), this.postList.size());
 
         IntStream.range(0, posts - 1)
                 .forEach(i -> assertEquals(this.postList.get(i).getMember(), orderedPosts.get(i).getMember()));
@@ -110,10 +110,10 @@ class PostServiceUnitTest {
     @Test
     @Order(3)
     public void addValidNewPost() {
-        when(this.postRepository.save(testPost)).thenReturn(testPost);
-        Post newPost = this.postService.addPost(testPost, testPost.getMember());
+        when(this.postRepository.save(this.testPost)).thenReturn(this.testPost);
+        Post newPost = this.postService.addPost(this.testPost, this.testPost.getMember());
         assertFalse(newPost.getMessage().isEmpty());
-        verify(this.postRepository).save(testPost);
+        verify(this.postRepository).save(this.testPost);
     }
 
     @Test
@@ -124,7 +124,7 @@ class PostServiceUnitTest {
                 .build();
 
         when(this.postRepository.save(wrongPost)).thenThrow(DataIntegrityViolationException.class);
-        assertThrows(DataIntegrityViolationException.class, () -> this.postService.addPost(wrongPost, testMember));
+        assertThrows(DataIntegrityViolationException.class, () -> this.postService.addPost(wrongPost, this.testMember));
         verify(this.postRepository).save(wrongPost);
     }
 
@@ -141,7 +141,7 @@ class PostServiceUnitTest {
                 .dislikes(dislikes)
                 .build();
 
-        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
+        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(this.testPost));
         Post updatedPost = this.postService.updatePost(STUB_ID, updatedPostData);
 
         assertEquals(updatedMessage, updatedPost.getMessage());
@@ -163,7 +163,7 @@ class PostServiceUnitTest {
     @Test
     @Order(7)
     public void deleteExistingPost() {
-        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(testPost));
+        when(this.postRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(this.testPost));
         assertTrue(() -> this.postService.deletePost(STUB_ID));
         verify(this.postRepository).deleteById(STUB_ID);
     }
