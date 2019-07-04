@@ -11,17 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -50,7 +54,19 @@ class EventControllerUnitTest {
 
     @BeforeEach
     public void init() {
+        this.testMember = Member.builder()
+                .id(1L)
+                .name("name")
+                .email("email@email.com")
+                .roles(Set.of("USER"))
+                .build();
 
+        this.testEvent = Event.builder()
+                .eventTitle("test title")
+                .description("test description")
+                .eventDate(LocalDateTime.of(2019, 2, 2, 2, 2))
+                .creator(this.testMember)
+                .build();
     }
 
     @Test
@@ -62,7 +78,10 @@ class EventControllerUnitTest {
 
         when(this.eventService.getOrderedEvents()).thenReturn(this.testEvents);
 
-        MvcResult mvcResult = this.mockMvc.perform(get(MAIN_URL))
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        get(MAIN_URL)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -79,7 +98,10 @@ class EventControllerUnitTest {
     public void testWithoutEventsWithLoggedInUser() throws Exception {
         when(this.eventService.getOrderedEvents()).thenReturn(null);
 
-        MvcResult mvcResult = this.mockMvc.perform(get(MAIN_URL))
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        get(MAIN_URL)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -110,7 +132,10 @@ class EventControllerUnitTest {
 
         String url = MAIN_URL + "/latest";
 
-        MvcResult mvcResult = this.mockMvc.perform(get(url))
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        get(url)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -129,7 +154,10 @@ class EventControllerUnitTest {
 
         String url = MAIN_URL + "/latest";
 
-        MvcResult mvcResult = this.mockMvc.perform(get(url))
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        get(url)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -148,4 +176,46 @@ class EventControllerUnitTest {
 
         verifyNoMoreInteractions(this.eventService);
     }
+
+    @Test
+    @Order(7)
+    @WithMockUser
+    public void testingAddEventWithLoggedInUser() throws Exception {
+        when(this.eventService.addEvent(this.testEvent, this.testMember)).thenReturn(this.testEvent);
+
+        String requestBody = this.objectMapper.writeValueAsString(this.testEvent);
+
+        MvcResult mvcResult = this.mockMvc
+                .perform(
+                        post(MAIN_URL)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Event actualResponseBody = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Event.class);
+        assertEquals(actualResponseBody.getEventTitle(), this.testEvent.getEventTitle());
+        assertEquals(actualResponseBody.getDescription(), this.testEvent.getDescription());
+
+        verify(this.eventService).addEvent(this.testEvent, this.testMember);
+        verifyNoMoreInteractions(this.eventService);
+    }
+
+    @Test
+    @Order(8)
+    public void testingAddEventWithLoggedOutUser() throws Exception {
+        String requestBody = this.objectMapper.writeValueAsString(this.testEvent);
+
+        this.mockMvc
+                .perform(
+                        post(MAIN_URL)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isForbidden());
+
+        verifyNoMoreInteractions(this.eventService);
+    }
+
 }
