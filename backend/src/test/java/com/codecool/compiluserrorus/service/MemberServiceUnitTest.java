@@ -12,7 +12,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -55,7 +54,6 @@ class MemberServiceUnitTest {
                 .roles(Set.of("USER"))
                 .build();
     }
-
 
     @Test
     @Order(1)
@@ -110,12 +108,16 @@ class MemberServiceUnitTest {
     @Test
     @Order(6)
     public void gettingLoggedInMemberFriends() {
-        int numberOfFriends = 5;
-        List<Member> friends = MemberTestsUtil.getFriendList(numberOfFriends);
+        int numberOfFriends = 3;
+        Set<Member> friends = MemberTestsUtil.getFriendList(numberOfFriends);
+        this.registeredMember.setFriends(friends);
 
-        when(this.memberRepository.findAll()).thenReturn(friends);
-        List<Member> friendList = this.memberService.getFriends(this.newMember);
+        when(this.memberRepository.findByEmail(this.registeredMember.getEmail()))
+                .thenReturn(Optional.ofNullable(this.registeredMember));
+
+        Set<Member> friendList = this.memberService.getFriends(this.registeredMember);
         assertEquals(numberOfFriends, friendList.size());
-        verify(this.memberRepository).findAll();
+
+        verify(this.memberRepository).findByEmail(this.registeredMember.getEmail());
     }
 }

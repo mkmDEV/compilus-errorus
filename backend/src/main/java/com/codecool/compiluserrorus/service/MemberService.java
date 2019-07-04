@@ -49,7 +49,7 @@ public class MemberService {
     }
 
     public Set<Member> getFriends(Member member) {
-        Member searchedMember = this.memberRepository.findByEmail(member.getEmail()).orElse(null);
+        Member searchedMember = getLoggedInMember(member);
         if (searchedMember != null) {
             return searchedMember.getFriends();
         }

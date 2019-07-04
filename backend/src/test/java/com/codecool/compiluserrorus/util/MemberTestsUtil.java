@@ -4,16 +4,15 @@ import com.codecool.compiluserrorus.model.Member;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.IntStream;
 
 public class MemberTestsUtil {
     private static PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-    public static List<Member> getFriendList(int friend) {
-        List<Member> friends = new ArrayList<>();
+    public static Set<Member> getFriendList(int friend) {
+        Set<Member> friends = new HashSet<>();
 
         IntStream.rangeClosed(1, friend).forEach($ -> {
 

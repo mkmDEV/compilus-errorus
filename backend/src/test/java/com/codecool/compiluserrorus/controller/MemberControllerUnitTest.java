@@ -16,7 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -60,7 +60,7 @@ class MemberControllerUnitTest {
     @WithMockUser
     public void testGettingFriendsWithExistingMemberWhenLoggedIn() throws Exception {
         int numberOfFriends = 5;
-        List<Member> friends = MemberTestsUtil.getFriendList(numberOfFriends);
+        Set<Member> friends = MemberTestsUtil.getFriendList(numberOfFriends);
         when(this.memberService.getFriends(this.testMember)).thenReturn(friends);
 
         String requestBody = this.objectMapper.writeValueAsString(this.testMember);
