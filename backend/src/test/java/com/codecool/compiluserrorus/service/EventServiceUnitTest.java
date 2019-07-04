@@ -2,6 +2,7 @@ package com.codecool.compiluserrorus.service;
 
 import com.codecool.compiluserrorus.model.Event;
 import com.codecool.compiluserrorus.model.Member;
+import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.repository.EventRepository;
 import com.codecool.compiluserrorus.util.EventTestsUtil;
 import org.junit.jupiter.api.*;
@@ -13,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -23,6 +25,8 @@ import static org.mockito.Mockito.when;
 @DataJpaTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class EventServiceUnitTest {
+
+    private static final Long STUB_ID = 1L;
 
     @MockBean
     private EventRepository eventRepository;
@@ -80,5 +84,34 @@ class EventServiceUnitTest {
         Event newEvent = this.eventService.addEvent(this.testEvent, this.testMember);
         assertEquals(this.testEvent, newEvent);
         verify(this.eventRepository).save(this.testEvent);
+    }
+
+    @Test
+    @Order(4)
+    public void updateExistingEvent() {
+        String updatedTitle = "Updated event title";
+        String updatedDescription = "Updated event description";
+
+        Event eventToUpdate = Event.builder()
+                .eventTitle(updatedTitle)
+                .description(updatedDescription)
+                .eventDate(LocalDateTime.of(2019, 2, 2, 2, 2))
+                .build();
+
+        when(this.eventRepository.findById(STUB_ID)).thenReturn(Optional.ofNullable(this.testEvent));
+        Event updatedEvent = this.eventService.updateEvent(STUB_ID, eventToUpdate);
+
+        assertEquals(eventToUpdate.getEventTitle(), updatedEvent.getEventTitle());
+
+        verify(this.eventRepository).findById(STUB_ID);
+    }
+
+    @Test
+    @Order(5)
+    public void updateNonExistingEvent() {
+        when(this.eventRepository.findById(STUB_ID)).thenReturn(Optional.empty());
+        Event updatedEvent = this.eventService.updateEvent(STUB_ID, this.testEvent);
+        assertNull(updatedEvent);
+        verify(this.eventRepository).findById(STUB_ID);
     }
 }
