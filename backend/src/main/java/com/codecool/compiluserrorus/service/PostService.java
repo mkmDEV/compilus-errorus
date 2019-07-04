@@ -4,7 +4,7 @@ import com.codecool.compiluserrorus.model.Member;
 import com.codecool.compiluserrorus.model.Post;
 import com.codecool.compiluserrorus.repository.PostRepository;
 import com.codecool.compiluserrorus.util.Util;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,16 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
     private final MemberService memberService;
+
+    @Autowired
+    public PostService(PostRepository postRepository, MemberService memberService) {
+        this.postRepository = postRepository;
+        this.memberService = memberService;
+    }
 
     @Value("${IMAGE_PATH}")
     private String imagePath;
