@@ -76,7 +76,7 @@ public class PostService {
                 e.printStackTrace();
             }
         }
-        postRepository.findById(id).ifPresent(deletablePost -> postRepository.deleteById(id));
+        postRepository.findById(id).ifPresent($ -> postRepository.deleteById(id));
         return true;
     }
 }
