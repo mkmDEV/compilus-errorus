@@ -12,6 +12,8 @@ Java web application with Angular frontend. This project is our first team work 
   * Spring Boot
   * REST API template
   * PostgreSQL
+  * JPA
+  * Hibernate
   * Lombok
   * Mockito
   * Junit5
